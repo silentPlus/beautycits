@@ -1,0 +1,13 @@
+<ehcache>
+	<!-- 其他详解请见 http://zzy603.iteye.com/blog/1153100 -->
+	<diskStore path="java.io.tmpdir/beautycits"/>
+    
+    <defaultCache 
+		overflowToDisk="false"
+		maxElementsInMemory="2000"  
+		eternal="false" 
+		timeToIdleSeconds="120" 
+		timeToLiveSeconds="0"> 
+    </defaultCache> 
+
+</ehcache>

@@ -11,6 +11,8 @@ public class User {
 	private String idno;
 	private String remark;
 	private Integer usertype;  // 用户类型  0：游客；1：合作单位
+	private String createtime;
+	private String updatetime;
 	public Integer getId() {
 		return id;
 	}
@@ -71,10 +73,22 @@ public class User {
 	public void setUsertype(Integer usertype) {
 		this.usertype = usertype;
 	}
+	public String getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
+	public String getUpdatetime() {
+		return updatetime;
+	}
+	public void setUpdatetime(String updatetime) {
+		this.updatetime = updatetime;
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", passwrod=" + passwrod + ", realname=" + realname
 				+ ", telephone=" + telephone + ", qq=" + qq + ", email=" + email + ", idno=" + idno + ", remark="
-				+ remark + ", usertype=" + usertype + "]";
+				+ remark + ", usertype=" + usertype + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
 	}
 }

@@ -1,4 +1,4 @@
-package com.zyh.beautycits.vo;
+package com.zyh.beautycits.vo.bus;
 
 public class Bus {
 	private Integer id;

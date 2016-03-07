@@ -1,4 +1,4 @@
-package com.zyh.beautycits.vo;
+package com.zyh.beautycits.vo.guide;
 
 public class Guide {
 	private Integer id;

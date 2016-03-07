@@ -1,4 +1,4 @@
-package com.zyh.beautycits.vo;
+package com.zyh.beautycits.vo.hotel;
 
 public class Hotel {
 	private Integer id;

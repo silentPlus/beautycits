@@ -60,5 +60,9 @@ public class BaseClass {
         map.put("errorMsg", errorMsg);
         return new ModelAndView("errorpage", map);
     }
+    
+    protected String getUrl_BizFunc(String sBiz, String sFunc) {
+        return getProjectDir() + sBiz.trim() + "/" + sFunc.trim();
+    }
 
 }

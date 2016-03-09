@@ -13,6 +13,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wuuxiang.i5xwxplus.constants.SessionKey;
+import com.wuuxiang.i5xwxplus.vo.session.CurrMpApiSessionObject;
+import com.zyh.beautycits.vo.SessionObject;
+
 public class BaseClass {
 	
     protected final Logger logger = LoggerFactory . getLogger (getClass());
@@ -64,5 +68,18 @@ public class BaseClass {
     protected String getUrl_BizFunc(String sBiz, String sFunc) {
         return getProjectDir() + sBiz.trim() + "/" + sFunc.trim();
     }
+    
+    protected SessionObject getSessionAttribute(){
+		Object object = getSession().getAttribute("Session_User_Info");
+		return (object == null) ? new SessionObject() : (SessionObject) object;
+	}
+
+
+	protected void setSessionAttribute(SessionObject sessionObject){
+		if (sessionObject == null) {
+			throw new IllegalArgumentException("SessionObject is null");
+		}
+		getSession().setAttribute("Session_User_Info", sessionObject);
+	}
 
 }

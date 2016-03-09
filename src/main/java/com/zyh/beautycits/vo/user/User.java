@@ -10,7 +10,8 @@ public class User {
 	private String email;
 	private String idno;
 	private String remark;
-	private Integer usertype;  // 用户类型  0：游客；1：合作单位
+	private Integer usertype;  // 用户类型  0：游客；1：合作单位；2：管理员
+	private Integer ischecked;  // 是否通过校验，0：未通过；1：通过；2：锁定
 	private String createtime;
 	private String updatetime;
 	public Integer getId() {
@@ -85,10 +86,17 @@ public class User {
 	public void setUpdatetime(String updatetime) {
 		this.updatetime = updatetime;
 	}
+	public Integer getIschecked() {
+		return ischecked;
+	}
+	public void setIschecked(Integer ischecked) {
+		this.ischecked = ischecked;
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", passwrod=" + passwrod + ", realname=" + realname
 				+ ", telephone=" + telephone + ", qq=" + qq + ", email=" + email + ", idno=" + idno + ", remark="
-				+ remark + ", usertype=" + usertype + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
+				+ remark + ", usertype=" + usertype + ", ischecked=" + ischecked + ", createtime=" + createtime
+				+ ", updatetime=" + updatetime + "]";
 	}
 }

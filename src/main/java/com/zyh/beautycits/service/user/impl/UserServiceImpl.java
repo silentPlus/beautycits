@@ -28,7 +28,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 			resultMsg.setMsg("未查询到该账号信息，请先注册后再登录！");
 			return resultMsg;
 		}
-		if (!password.equals(user.getPasswrod())) {
+		if (!password.equals(user.getPassword())) {
 			resultMsg.setState(Results.ERROR);
 			resultMsg.setMsg("密码错误！");
 			return resultMsg;

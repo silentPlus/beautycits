@@ -142,33 +142,30 @@
     			cache:false,
     			data : {
     				username : username,
-    				password : username
+    				password : password
     			},
     			dataType : 'json',
-    			timeout : 15000,
+    			timeout : 150000,
     			beforeSend : function() {
     			},
     			complete : function(XMLHttpRequest,textStatus) {
-    				/* if(textStatus=="parsererror"){
-    		               $.messager.alert('提示信息', "登陆超时！请重新登陆！", 'info',function(){
-    		                   window.location.href = 'login.jsp';
-    		               });
-    		          } else if(textStatus=="error"){
-    		              $.messager.alert('提示信息', "请求超时！请稍后再试！", 'info');
-    		          } */
-    			},
-    			error : function() {
-    				alert("error");
     			},
     			success : function(response) {
     				var json = eval(response);
     				if (0===json.status){
-    					url = json.result;
-    					window.location.href = "${ctx}/aaa/bbb.html";
+    					var url = json.result;
+    					window.location.href = url;
                     } else if (1===json.status){
                         alert(json.message);
-                        window.location.reload();
                     }
+    			},
+    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+    				alert(XMLHttpRequest.status);
+    				 alert(XMLHttpRequest.readyState);
+    				 alert(XMLHttpRequest.responseText);
+    				 alert(errorThrown);
+    				/* alert("系统错误！请稍后重试");
+    				window.location.reload(); */
     			}
     		});
     	})

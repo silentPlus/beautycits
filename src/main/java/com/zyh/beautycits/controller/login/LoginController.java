@@ -35,7 +35,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(value = "/dologin.html")
     public JsonPackage doLogin(HttpServletRequest request, HttpServletResponse response, User user, String url){
 		JsonPackage jsonPackage = new JsonPackage();
-		ResultMsg resultMsg = userService.getUserByName(user.getUsername(), user.getPasswrod());
+		ResultMsg resultMsg = userService.getUserByName(user.getUsername(), user.getPassword());
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());

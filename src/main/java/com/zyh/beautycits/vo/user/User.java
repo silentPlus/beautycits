@@ -3,7 +3,7 @@ package com.zyh.beautycits.vo.user;
 public class User {
 	private Integer id;
 	private String username;
-	private String passwrod;
+	private String password;
 	private String realname;
 	private String telephone;
 	private String qq;
@@ -26,11 +26,11 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getPasswrod() {
-		return passwrod;
+	public String getPassword() {
+		return password;
 	}
-	public void setPasswrod(String passwrod) {
-		this.passwrod = passwrod;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getRealname() {
 		return realname;
@@ -94,7 +94,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", passwrod=" + passwrod + ", realname=" + realname
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", realname=" + realname
 				+ ", telephone=" + telephone + ", qq=" + qq + ", email=" + email + ", idno=" + idno + ", remark="
 				+ remark + ", usertype=" + usertype + ", ischecked=" + ischecked + ", createtime=" + createtime
 				+ ", updatetime=" + updatetime + "]";

@@ -8,9 +8,6 @@ import com.alibaba.fastjson.JSONObject;
  * message : 返回的信息
  * result  : 默认结果级，可以不使用 
  * 
- * @author 微信攻略组 2014-01-20
- * @version 3.0
- * 
  */
 public class JsonPackage extends JSONObject {
 

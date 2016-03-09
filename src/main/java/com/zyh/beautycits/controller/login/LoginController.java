@@ -26,14 +26,14 @@ public class LoginController extends BaseController{
 	@RequestMapping(value = "/index.html")
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		String url = getUrl_BizFunc("administration", "login.html");
+		String url = getUrl_BizFunc("login", "dologin.html");
 		mav.addObject("loginUrl", url);
-		mav.setViewName("/sign_in");
+		mav.setViewName("/login");
         return mav;
     }
 	
 	@RequestMapping(value = "/dologin.html")
-    public JsonPackage doLogin(HttpServletRequest request, HttpServletResponse response, User user){
+    public JsonPackage doLogin(HttpServletRequest request, HttpServletResponse response, User user, String url){
 		JsonPackage jsonPackage = new JsonPackage();
 		ResultMsg resultMsg = userService.getUserByName(user.getUsername(), user.getPasswrod());
 		if (resultMsg.getState() == Results.ERROR) {
@@ -58,20 +58,26 @@ public class LoginController extends BaseController{
 		sessionObject.setUser(user);
 		setSessionAttribute(sessionObject);
 		
-		if (user.getUsertype() == 2) {
-			// 管理员登录，跳转到用户信息管理页面
-			String url = getUrl_BizFunc("", "");
+		if (user.getUsertype() == 0) {
+			// 游客登录，跳转上一操作页面
 			jsonPackage.setResult(url);
 			return jsonPackage;
 		}
-		if (user.getUsertype() == 0) {
-			// 游客登录，刷新页面
-			jsonPackage.setResult(user);
+		if (user.getUsertype() == 1) {
+			// 旅行社登录，跳转到基础信息管理页面（车辆管理）
+			url = getUrl_BizFunc("", "");
+			jsonPackage.setResult(url);
 			return jsonPackage;
 		}
-		if (user.getUsertype() == 1) {
-			// 旅行社登录，跳转到基础信息管理页面
-			String url = getUrl_BizFunc("", "");
+		if (user.getUsertype() == 2) {
+			// 网站工作人员登录，跳转到基础信息管理页面（车票管理）
+			url = getUrl_BizFunc("admin", "index.html");
+			jsonPackage.setResult(url);
+			return jsonPackage;
+		}
+		if (user.getUsertype() == 3) {
+			// 管理员登录，跳转到用户信息管理页面
+			url = getUrl_BizFunc("admin", "index.html");
 			jsonPackage.setResult(url);
 			return jsonPackage;
 		}

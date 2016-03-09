@@ -13,9 +13,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.wuuxiang.i5xwxplus.constants.SessionKey;
-import com.wuuxiang.i5xwxplus.vo.session.CurrMpApiSessionObject;
 import com.zyh.beautycits.vo.SessionObject;
+import com.zyh.beautycits.vo.user.User;
 
 public class BaseClass {
 	
@@ -80,6 +79,16 @@ public class BaseClass {
 			throw new IllegalArgumentException("SessionObject is null");
 		}
 		getSession().setAttribute("Session_User_Info", sessionObject);
+	}
+	
+	protected boolean isLogin() {
+		Object object = getSession().getAttribute("Session_User_Info");
+		return (object == null) ? false : true;
+	}
+	
+	protected User getSessionUser() {
+		SessionObject sessionObject = getSessionAttribute();
+		return sessionObject.getUser();
 	}
 
 }

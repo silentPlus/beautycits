@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.user.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,16 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 		resultMsg.setState(Results.SUCCESS);
 		resultMsg.setMsgEntity(user);
+		return resultMsg;
+	}
+
+	@Override
+	public ResultMsg getUsers() {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "select * from user where usertype <> 3 order by createtime desc";
+		List<User> userList = userDao.getList(sql, User.class);
+		resultMsg.setState(Results.SUCCESS);
+		resultMsg.setMsgEntity(userList);
 		return resultMsg;
 	}
 

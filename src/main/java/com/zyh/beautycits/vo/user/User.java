@@ -10,7 +10,7 @@ public class User {
 	private String email;
 	private String idno;
 	private String remark;
-	private Integer usertype;  // 用户类型  0：游客；1：合作单位；2：管理员
+	private Integer usertype;  // 用户类型  0：游客；1：合作单位；2：网站工作人员；3：管理员
 	private Integer ischecked;  // 是否通过校验，0：未通过；1：通过；2：锁定
 	private String createtime;
 	private String updatetime;

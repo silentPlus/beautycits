@@ -52,7 +52,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public ResultMsg lockUser(Integer id, Integer ischecked) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "update user u set u.ischecked = ? where u.id = ?";
+		String sql = "update user u set u.ischecked = ?, u.updatetime = now() where u.id = ?";
 		int num = userDao.commonUpdate(sql, ischecked, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
@@ -66,7 +66,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public ResultMsg checkUser(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "update user u set u.ischecked = 1 where u.id = ?";
+		String sql = "update user u set u.ischecked = 1, u.updatetime = now() where u.id = ?";
 		int num = userDao.commonUpdate(sql, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
@@ -94,7 +94,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public ResultMsg saveUser(User user) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuilder sql = new StringBuilder("insert into user(username, password, realname, sex, telephone, idno, qq, email, usertype, ischecked, remark, createtime)")
+		StringBuilder sql = new StringBuilder("insert into user(username, password, realname, sex, telephone, qq, email, usertype, ischecked, remark, createtime)")
 				.append("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
 		int num = userDao.commonUpdate(sql.toString(), user.getUsername(), user.getPassword(), user.getRealname(), user.getSex(), user.getTelephone(),
 				 user.getQq(), user.getEmail(), user.getUsertype(), user.getIschecked(), user.getRemark());

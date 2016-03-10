@@ -14,8 +14,6 @@
 </head>
 <body class=" theme-blue">
 
-    <!-- Demo page code -->
-
     <script type="text/javascript">
         $(function() {
             var match = document.cookie.match(new RegExp('color=([^;]+)'));
@@ -113,15 +111,15 @@
 			    <div id="myTabContent" class="tab-content">
 			      <div class="tab-pane active in" id="home">
 			        <div class="form-group">
-			        <label>用户名</label>
+			        <label>用户名<span style="color:red;">*</span></label>
 			        <input type="text" id="username" class="form-control">
 			        </div>
 			        <div class="form-group">
-			        <label>密码</label>
+			        <label>密码<span style="color:red;">*</span></label>
 			        <input type="password" id="password" class="form-control">
 			        </div>
 			        <div class="form-group">
-			        <label>确认密码</label>
+			        <label>确认密码<span style="color:red;">*</span></label>
 			        <input type="password" id="cpassword" class="form-control" onmouseover="">
 			        </div>
 			        <div class="form-group">
@@ -156,7 +154,7 @@
 			
 			    <div class="tab-pane fade" id="profile"></div>
 			     <div class="btn-toolbar list-toolbar">
-			    <button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+			    <button id="saveBtn" class="btn btn-primary"><i class="fa fa-save"></i>保存</button>
 			    </div>
 			  </div>
 			</div>
@@ -194,6 +192,99 @@
 	    			}
 			    });
 		    } 
+		    // 密码
+		    $("#cpassword").focusout(function() {
+			    var password = $("#password").val();
+			    var cpassword = $("#cpassword").val();
+			    if(!checkpwd(password, cpassword)){
+			    	alert("两次输入的密码不一致");
+		    	}
+		    });
+		    
+		    function checkpwd(pwd, cpwd) {
+		    	if(pwd != cpwd){
+			    	return false;
+		    	}else{
+		    		return true;
+		    	}
+		    }
+		    // 手机号
+		    $("#telephone").focusout(function() {
+			    var telephone = $("#telephone").val();
+			    var re = /^1[3|4|5|7|8]\d{9}$/;
+			    if(telephone != '' && telephone != null && !(re.test(telephone))){
+			      alert('手机号格式错误');
+			      $("#telephone").val('');
+			    }
+		    });
+		    
+		 	// email
+		    $("#email").focusout(function() {
+			    var email = $("#email").val();
+			    var re= /\w@\w*\.\w/;
+			    if (email != '' && email != null && !re.test(email)){
+			    	alert('email格式错误');
+			    	$("#email").val('');
+			    }
+		    });
+		 	
+		    $("#saveBtn").click(function(){
+		    	var username = $("#username").val();
+		    	if(username == null || username == ''){
+		    		alert("用户名不能为空！");
+		    		return;
+		    	}
+		    	
+		    	var password = $("#password").val();
+		    	var cpassword = $("#cpassword").val();
+		    	if(password == null || password == ''){
+		    		alert("密码不能为空！");
+		    		return;
+		    	}
+		    	if(!checkpwd(password, cpassword)){
+			    	alert("两次输入的密码不一致");
+			    	return;
+		    	}
+		    	
+		    	var realname = $("#realname").val();
+		    	var sex = $("#sex option:selected") .val();
+		    	var telephone = $("#telephone").val();
+		    	var qq = $("#qq").val();
+		    	var email = $("email").val();
+		    	var remark = $("#remark").val();
+		    	
+		    	$.ajax({
+				    url : "${ctx}/admin/saveuser.html",
+				    type : "post",
+				    dataType : 'JSON',
+				    data : {
+				    	username:username,
+				    	password:password,
+				    	realname:realname==null?"":realname,
+				    	sex:sex,
+				    	telephone:telephone==null?"":telephone,
+				    	qq:qq==null?"":qq,
+				    	email:email==null?"":email,
+				    	remark:remark==null?"":remark,
+				    	ischecked:1,
+				    	usertype:2
+				    	},
+				    success : function(response) {
+				    	var data = eval(response);
+					    
+					    if(data.status == 0){
+					    	alert("保存成功！");
+					    	window.location.reload();
+					    } else {
+					    	alert(data.message);
+					    }
+				    },
+				    error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    				window.location.reload();
+	    			}
+			    });
+		    });
 	    });
     
     

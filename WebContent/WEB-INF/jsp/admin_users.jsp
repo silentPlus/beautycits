@@ -96,7 +96,7 @@
 
     <div class="sidebar-nav">
 	    <ul>
-		    <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">用户信息管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">用户信息管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="dashboard-menu nav nav-list collapse in">
 		            <li onclick="getTypeUsers(2)"><a><span class="fa fa-caret-right"></span>公司人员信息管理</a></li>

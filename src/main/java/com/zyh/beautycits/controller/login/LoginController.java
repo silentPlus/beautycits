@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zyh.beautycits.controller.BaseController;
@@ -16,7 +16,7 @@ import com.zyh.beautycits.vo.Results;
 import com.zyh.beautycits.vo.SessionObject;
 import com.zyh.beautycits.vo.user.User;
 
-@Controller
+@RestController
 @RequestMapping("/login")
 public class LoginController extends BaseController{
 	
@@ -83,4 +83,10 @@ public class LoginController extends BaseController{
 		}
 		return jsonPackage;
 	}
+	
+	@RequestMapping(value = "/test.html")
+    public JsonPackage test(HttpServletRequest request, HttpServletResponse response){
+		JsonPackage jsonPackage = new JsonPackage();
+        return jsonPackage;
+    }
 }

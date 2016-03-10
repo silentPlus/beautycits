@@ -5,10 +5,10 @@ public class User {
 	private String username;
 	private String password;
 	private String realname;
+	private Integer sex;
 	private String telephone;
 	private String qq;
 	private String email;
-	private String idno;
 	private String remark;
 	private Integer usertype;  // 用户类型  0：游客；1：合作单位；2：网站工作人员；3：管理员
 	private Integer ischecked;  // 是否通过校验，0：未通过；1：通过；2：锁定
@@ -56,12 +56,6 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getIdno() {
-		return idno;
-	}
-	public void setIdno(String idno) {
-		this.idno = idno;
-	}
 	public String getRemark() {
 		return remark;
 	}
@@ -92,11 +86,17 @@ public class User {
 	public void setIschecked(Integer ischecked) {
 		this.ischecked = ischecked;
 	}
+	public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", realname=" + realname
-				+ ", telephone=" + telephone + ", qq=" + qq + ", email=" + email + ", idno=" + idno + ", remark="
-				+ remark + ", usertype=" + usertype + ", ischecked=" + ischecked + ", createtime=" + createtime
-				+ ", updatetime=" + updatetime + "]";
+				+ ", sex=" + sex + ", telephone=" + telephone + ", qq=" + qq + ", email=" + email 
+				+ ", remark=" + remark + ", usertype=" + usertype + ", ischecked=" + ischecked + ", createtime="
+				+ createtime + ", updatetime=" + updatetime + "]";
 	}
 }

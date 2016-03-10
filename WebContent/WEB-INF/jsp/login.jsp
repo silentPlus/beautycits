@@ -10,16 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href='http://fonts.useso.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="${ctx}/lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="${ctx}/lib/font-awesome/css/font-awesome.css">
-
-    <script src="${ctx}/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
-
-    
-
-    <link rel="stylesheet" type="text/css" href="${ctx}/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/stylesheets/premium.css">
+    <c:import url="importcommon.jsp"></c:import>
 
 </head>
 <body class=" theme-blue">
@@ -78,14 +69,9 @@
    
     <!--<![endif]-->
     
-    <div class="navbar navbar-default" role="navigation">
+    <div class="navbar navbar-default" role="navigation" style="align: center;">
         <div class="navbar-header">
-          <a class="" href="">
-	          <span class="navbar-brand" style="color:#FAFAFA;">
-		          <!-- <span class="fa fa-paper-plane"></span> -->
-		                    旅游管理系统
-	          </span>
-          </a>
+          <span class="navbar-brand" style="color:#FAFAFA;"> 旅游管理系统</span>
         </div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
@@ -112,7 +98,6 @@
 	    <!-- 先屏蔽，后期有时间可作为拓展功能 -->
 	    <!-- <p><a href="reset-password.html">Forgot your password?</a></p> -->
 	</div>
-    <script src="${ctx}/lib/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript">
         $("[rel=tooltip]").tooltip();
         $(function() {
@@ -145,7 +130,7 @@
     				password : password
     			},
     			dataType : 'json',
-    			timeout : 150000,
+    			timeout : 15000,
     			beforeSend : function() {
     			},
     			complete : function(XMLHttpRequest,textStatus) {
@@ -160,12 +145,8 @@
                     }
     			},
     			error : function(XMLHttpRequest, textStatus, errorThrown) {
-    				alert(XMLHttpRequest.status);
-    				 alert(XMLHttpRequest.readyState);
-    				 alert(XMLHttpRequest.responseText);
-    				 alert(errorThrown);
-    				/* alert("系统错误！请稍后重试");
-    				window.location.reload(); */
+    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+    				window.location.reload();
     			}
     		});
     	})

@@ -40,12 +40,83 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResultMsg getUsers() {
+	public ResultMsg getUsersByType(Integer type) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "select * from user where usertype <> 3 order by createtime desc";
-		List<User> userList = userDao.getList(sql, User.class);
+		String sql = "select * from user where usertype = ? order by ischecked ASC, createtime desc";
+		List<User> userList = userDao.getList(sql, User.class, type);
 		resultMsg.setState(Results.SUCCESS);
 		resultMsg.setMsgEntity(userList);
+		return resultMsg;
+	}
+
+	@Override
+	public ResultMsg lockUser(Integer id, Integer ischecked) {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "update user u set u.ischecked = ? where u.id = ?";
+		int num = userDao.commonUpdate(sql, ischecked, id);
+		if (num == 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+
+	@Override
+	public ResultMsg checkUser(Integer id) {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "update user u set u.ischecked = 1 where u.id = ?";
+		int num = userDao.commonUpdate(sql, id);
+		if (num == 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+
+	@Override
+	public ResultMsg deleteUser(Integer id) {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "delete user u where u.id = ?";
+		int num = userDao.commonUpdate(sql, id);
+		if (num == 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+
+	@Override
+	public ResultMsg saveUser(User user) {
+		ResultMsg resultMsg = new ResultMsg();
+		StringBuilder sql = new StringBuilder("insert into user(username, password, realname, sex, telephone, idno, qq, email, usertype, ischecked, remark, createtime)")
+				.append("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+		int num = userDao.commonUpdate(sql.toString(), user.getUsername(), user.getPassword(), user.getRealname(), user.getSex(), user.getTelephone(),
+				 user.getQq(), user.getEmail(), user.getUsertype(), user.getIschecked(), user.getRemark());
+		if (num == 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+
+	@Override
+	public ResultMsg checkUserName(String username, Integer usertype) {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "select * from user u where u.username = ? and u.usertype = ?";
+		User user = userDao.getJavaBean(sql, User.class, username, usertype);
+		if (user == null) {
+			resultMsg.setState(Results.SUCCESS);
+		} else {
+			resultMsg.setState(Results.ERROR);
+		}
 		return resultMsg;
 	}
 

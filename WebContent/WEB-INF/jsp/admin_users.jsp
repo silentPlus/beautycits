@@ -2,29 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!doctype html>
-<html lang="en"><head>
+<html lang="zh-CN"><head>
     <meta charset="utf-8">
-    <title>Bootstrap Admin</title>
+    <title>旅游管理系统</title>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <link href='http://fonts.useso.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="${ctx}/lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="${ctx}/lib/font-awesome/css/font-awesome.css">
-
-    <script src="${ctx}/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
-
-    
-
-    <link rel="stylesheet" type="text/css" href="${ctx}/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/stylesheets/premium.css">
-
+	<c:import url="importcommon.jsp"></c:import>
 </head>
 <body class=" theme-blue">
-
-    <!-- Demo page code -->
 
     <script type="text/javascript">
         $(function() {
@@ -84,222 +71,389 @@
 
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="" href="index.html"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Aircraft</span></a></div>
+          <span class="navbar-brand"> 旅游管理系统</span>
+        </div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Jack Smith
+                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> ${ user.username }
                     <i class="fa fa-caret-down"></i>
                 </a>
 
               <ul class="dropdown-menu">
-                <li><a href="./">My Account</a></li>
+                <li><a tabindex="-1" href="${ url_editUser }">修改资料</a></li>
                 <li class="divider"></li>
-                <li class="dropdown-header">Admin Panel</li>
-                <li><a href="./">Users</a></li>
-                <li><a href="./">Security</a></li>
-                <li><a tabindex="-1" href="./">Payments</a></li>
-                <li class="divider"></li>
-                <li><a tabindex="-1" href="sign-in.html">Logout</a></li>
+                <li><a tabindex="-1" href="${ url_logout }">注销</a></li>
               </ul>
             </li>
           </ul>
 
         </div>
-      </div>
     </div>
     
 
     <div class="sidebar-nav">
-    <ul>
-    <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
-    <li><ul class="dashboard-menu nav nav-list collapse in">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
-            <li class="active"><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li ><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
-            <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
-            <li ><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
-    </ul></li>
-
-    <li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li>
-        <li><ul class="premium-menu nav nav-list collapse">
-                <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
-            <li ><a href="premium-profile.html"><span class="fa fa-caret-right"></span> Enhanced Profile</a></li>
-            <li ><a href="premium-blog.html"><span class="fa fa-caret-right"></span> Blog</a></li>
-            <li ><a href="premium-blog-item.html"><span class="fa fa-caret-right"></span> Blog Page</a></li>
-            <li ><a href="premium-pricing-tables.html"><span class="fa fa-caret-right"></span> Pricing Tables</a></li>
-            <li ><a href="premium-upgrade-account.html"><span class="fa fa-caret-right"></span> Upgrade Account</a></li>
-            <li ><a href="premium-widgets.html"><span class="fa fa-caret-right"></span> Widgets</a></li>
-            <li ><a href="premium-timeline.html"><span class="fa fa-caret-right"></span> Activity Timeline</a></li>
-            <li ><a href="premium-users.html"><span class="fa fa-caret-right"></span> Enhanced Users List</a></li>
-            <li ><a href="premium-media.html"><span class="fa fa-caret-right"></span> Enhanced Media</a></li>
-            <li ><a href="premium-invoice.html"><span class="fa fa-caret-right"></span> Invoice</a></li>
-            <li ><a href="premium-build.html"><span class="fa fa-caret-right"></span> Advanced Tools</a></li>
-            <li ><a href="premium-colors.html"><span class="fa fa-caret-right"></span> Additional Color Themes</a></li>
-    </ul></li>
-
-        <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
-        <li><ul class="accounts-menu nav nav-list collapse">
-            <li ><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li ><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
-            <li ><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
-    </ul></li>
-
-        <li><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-legal"></i> Legal<i class="fa fa-collapse"></i></a></li>
-        <li><ul class="legal-menu nav nav-list collapse">
-            <li ><a href="privacy-policy.html"><span class="fa fa-caret-right"></span> Privacy Policy</a></li>
-            <li ><a href="terms-and-conditions.html"><span class="fa fa-caret-right"></span> Terms and Conditions</a></li>
-    </ul></li>
-
-        <li><a href="help.html" class="nav-header"><i class="fa fa-fw fa-question-circle"></i> Help</a></li>
-            <li><a href="faq.html" class="nav-header"><i class="fa fa-fw fa-comment"></i> Faq</a></li>
-                <li><a href="http://portnine.com/bootstrap-themes/aircraft" class="nav-header" target="blank"><i class="fa fa-fw fa-heart"></i> Get Premium</a></li>
-            </ul>
+	    <ul>
+		    <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">用户信息管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="dashboard-menu nav nav-list collapse in">
+		            <li onclick="getTypeUsers(2)"><a><span class="fa fa-caret-right"></span>公司人员信息管理</a></li>
+		            <li onclick="getTypeUsers(1)"><a><span class="fa fa-caret-right"></span>旅行社信息管理</a></li>
+		            <li onclick="getTypeUsers(0)"><a><span class="fa fa-caret-right"></span>游客信息管理</a></li>
+			    </ul>
+		    </li>
+	    </ul>
     </div>
 
     <div class="content">
-        <div class="header">
+    	<div class="header">
             
-            <h1 class="page-title">Users</h1>
-                    <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> </li>
-            <li class="active">Users</li>
-        </ul>
+            <h1 class="page-title">公司人员信息管理</h1>
 
         </div>
         <div class="main-content">
             
-<div class="btn-toolbar list-toolbar">
-    <button class="btn btn-primary"><i class="fa fa-plus"></i> New User</button>
-    <button class="btn btn-default">Import</button>
-    <button class="btn btn-default">Export</button>
-  <div class="btn-group">
-  </div>
-</div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Username</th>
-      <th style="width: 3.5em;"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>Mark</td>
-      <td>Tompson</td>
-      <td>the_mark7</td>
-      <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
-          <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-      </td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Ashley</td>
-      <td>Jacobs</td>
-      <td>ash11927</td>
-      <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
-          <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-      </td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Audrey</td>
-      <td>Ann</td>
-      <td>audann84</td>
-      <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
-          <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-      </td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>John</td>
-      <td>Robinson</td>
-      <td>jr5527</td>
-      <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
-          <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-      </td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Aaron</td>
-      <td>Butler</td>
-      <td>aaron_butler</td>
-      <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
-          <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-      </td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Chris</td>
-      <td>Albert</td>
-      <td>cab79</td>
-      <td>
-          <a href="user.html"><i class="fa fa-pencil"></i></a>
-          <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+			<div class="btn-toolbar list-toolbar">
+			    <button id = "addUser" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加网站工作用户</button>
+			    <button class="btn btn-default">导出</button>
+		  		<div class="btn-group">
+		  		</div>
+			</div>
+			
+			  <div id="usersTable">
+			  <script id="usersTemplateView" type="text/html">
+			  <table class="table" style="text-align:center;">
+			  <thead>
+			    <tr>
+			      <th style="width:3%;text-align: center;">#</th>
+			      <th style="width:10%;text-align: center;">用户名</th>
+			      <th style="width:10%;text-align: center;">真实姓名</th>
+			      <th style="width:10%;text-align: center;">性别</th>
+			      <th style="width:10%;text-align: center;">联系电话</th>
+			      <th style="width:10%;text-align: center;">qq</th>
+			      <th style="width:10%;text-align: center;">邮箱</th>
+			      <th style="width:10%;text-align: center;">状态</th>
+			      <th style="width:10%;text-align: center;">备注</th>
+			      <th style="width:10%;text-align: center;">操作</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  {{ each users as user i }}
+			    <tr>
+			      <td>{{i + 1}}</td>
+			      <td>{{user.username}}</td>
+			      <td>{{user.realname}}</td>
+			      <td>{{if user.sex == 1}}男{{/if}}{{if user.sex == 2}}女{{/if}}</td>
+			      <td>{{user.telephone}}</td>
+			      <td>{{user.qq}}</td>
+				  <td>{{user.email}}</td>
+			      <td>{{if user.ischecked == 0}}未审核{{/if}}{{if user.ischecked == 1}}正常{{/if}}{{if user.ischecked == 2}}已锁定{{/if}}</td>
+			      <td>{{user.remark}}</td>
+			      <td>
+					  {{if user.ischecked == 0}}
+			          <a class="checkModelBtn" userid="{{user.id}}"><i class="fa fa-pencil"></i></a>
+			          {{/if}}
+					  {{if user.ischecked != 0}}
+			          <a class="lockModelBtn" userid="{{user.id}}" ischecked="{{user.ischecked}}"><i class="fa fa-lock"></i></a>
+			          {{/if}}
+					  <a class="deleteModelBtn" userid="{{user.id}}"><i class="fa fa-trash-o"></i></a>
+			      </td>
+			    </tr>
+			  {{ /each }}
+			  </tbody>
+			</table>
+			
+			{{if length != 0}}
+			<ul class="pagination">
+			  <li><a href="#">&laquo;</a></li>
+			  <li><a href="#">1</a></li>
+			  <li><a href="#">2</a></li>
+			  <li><a href="#">3</a></li>
+			  <li><a href="#">4</a></li>
+			  <li><a href="#">5</a></li>
+			  <li><a href="#">&raquo;</a></li>
+			</ul>
+			{{/if}}
+			</script>
+			</div>
 
-<ul class="pagination">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>
+			<div class="modal small fade" id="lockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="myModalLabel">锁定用户</h3>
+			        </div>
+			        <div class="modal-body">
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定锁定用户？<br>锁定后用户将无法进行正常操作。</p>
+			        </div>
+			        <div class="modal-footer">
+			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+			            <button class="btn btn-danger lockBtn" data-dismiss="modal">确定</button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
+			
+			<div class="modal small fade" id="unLockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="myModalLabel">解锁用户</h3>
+			        </div>
+			        <div class="modal-body">
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>解锁用户？</p>
+			        </div>
+			        <div class="modal-footer">
+			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+			            <button class="btn btn-danger lockBtn" data-dismiss="modal">确定</button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
+			
+			<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="myModalLabel">删除用户</h3>
+			        </div>
+			        <div class="modal-body">
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除用户?<br>操作不可恢复。</p>
+			        </div>
+			        <div class="modal-footer">
+			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+			            <button id="deleteBtn" class="btn btn-danger" data-dismiss="modal">删除</button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
+			
+			<div class="modal small fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="myModalLabel">用户审核</h3>
+			        </div>
+			        <div class="modal-body">
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定用户通过审核?</p>
+			        </div>
+			        <div class="modal-footer">
+			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+			            <button id="checkBtn" class="btn btn-danger" data-dismiss="modal">确定</button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
 
-<div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Delete Confirmation</h3>
         </div>
-        <div class="modal-body">
-            <p class="error-text"><i class="fa fa-warning modal-icon"></i>Are you sure you want to delete the user?<br>This cannot be undone.</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-            <button class="btn btn-danger" data-dismiss="modal">Delete</button>
-        </div>
-      </div>
     </div>
-</div>
+	<input type="hidden" id = "userid" value="" />
+	<input type="hidden" id = "ischecked" value="" />
 
-
-            <footer>
-                <hr>
-
-                
-                <p class="pull-right">Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
-                <p>© 2014 <a href="#" target="_blank">Portnine</a></p>
-            </footer>
-        </div>
-    </div>
-
-
-    <script src="${ctx}/lib/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript">
+	    $(function(){
+
+	    	var users = ${users};
+	    	data = {
+	    			users : users,
+	    			length : users.length
+	    	};
+	    	console.log('${ctx}');
+	    	var usersViewHtml = template("usersTemplateView", data);
+	    	$("#usersTable").html(usersViewHtml);
+	    	
+	    	$(".checkModelBtn").click(function(){
+	    		var id = $(this).attr("userid");
+	    		$("#userid").val(id);
+	    		$("#checkModal").modal('show');
+	    	});
+	    	
+	    	$(".lockModelBtn").click(function(){
+	    		var id = $(this).attr("userid");
+	    		var ischecked = $(this).attr("ischecked");
+	    		$("#userid").val(id);
+	    		$("#ischecked").val(ischecked);
+	    		if (ischecked == 1) 
+	    			$("#lockModal").modal('show');
+	    		else 
+	    			$("#unLockModal").modal('show');
+	    	});
+	    	
+	    	$(".deleteModelBtn").click(function(){
+	    		var id = $(this).attr("userid");
+	    		$("#userid").val(id);
+	    		$("#deleteModal").modal('show');
+	    	});
+	    	
+	    	$(".lockBtn").click(function(){
+	    		
+	    		var id = $("#userid").val();
+	    		var ischecked = $("#ischecked").val();
+	    		
+	    		$.ajax({
+	    			url : "${ctx}/admin/lock.html",
+	    			async : false,
+	    			type : 'POST',
+	    			cache:false,
+	    			data : {
+	    				id : id,
+	    				ischecked : ischecked
+	    			},
+	    			dataType : 'json',
+	    			timeout : 15000,
+	    			beforeSend : function() {
+	    	    		if (ischecked == 1) 
+	    	    			$("#lockModal").modal('hide');
+	    	    		else 
+	    	    			$("#unLockModal").modal('hide');
+	    			},
+	    			complete : function(XMLHttpRequest,textStatus) {
+	    			},
+	    			success : function(response) {
+	    				var json = eval(response);
+	    				if (0===json.status){
+	    					if (ischecked == 1)
+	    						alert("锁定成功！");
+	    					else
+	    						alert("解锁成功！")
+	                    } else if (1===json.status){
+	                        alert(json.message);
+	                    }
+	    				window.location.reload();
+	    			},
+	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    				window.location.reload();
+	    			}
+	    		});
+	    	});
+	    	
+	    	$("#checkBtn").click(function(){
+	    		
+	    		var id = $("#userid").val();
+	    		$.ajax({
+	    			url : "${ctx}/admin/check.html",
+	    			async : false,
+	    			type : 'POST',
+	    			cache:false,
+	    			data : {
+	    				id : id
+	    			},
+	    			dataType : 'json',
+	    			timeout : 15000,
+	    			beforeSend : function() {
+	    	    		$("#checkModal").modal('hide');
+	    			},
+	    			complete : function(XMLHttpRequest,textStatus) {
+	    			},
+	    			success : function(response) {
+	    				var json = eval(response);
+	    				if (0===json.status){
+	    					alert("审核成功！")
+	                    } else if (1===json.status){
+	                        alert(json.message);
+	                    }
+	    				window.location.reload();
+	    			},
+	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    				window.location.reload();
+	    			}
+	    		});
+	    	});
+	    	
+	    	$("#deleteBtn").click(function(){
+	    		
+	    		var id = $("#userid").val();
+	    		
+	    		$.ajax({
+	    			url : "${ctx}/admin/delete.html",
+	    			async : false,
+	    			type : 'POST',
+	    			cache:false,
+	    			data : {
+	    				id : id
+	    			},
+	    			dataType : 'json',
+	    			timeout : 15000,
+	    			beforeSend : function() {
+	    	    		$("#deleteModal").modal('hide');
+	    			},
+	    			complete : function(XMLHttpRequest,textStatus) {
+	    			},
+	    			success : function(response) {
+	    				var json = eval(response);
+	    				if (0===json.status){
+	    					alert("删除成功！")
+	                    } else if (1===json.status){
+	                        alert(json.message);
+	                    }
+	    				window.location.reload();
+	    			},
+	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    				window.location.reload();
+	    			}
+	    		});
+	    	});
+	    	
+	    });
+    
+	    function getTypeUsers(type){
+	    	
+    		$.ajax({
+    			url : "${ctx}/admin/gettypeusers.html",
+    			async : false,
+    			type : 'POST',
+    			cache:false,
+    			data : {
+    				type : type
+    			},
+    			dataType : 'json',
+    			timeout : 15000,
+    			beforeSend : function() {
+    			},
+    			complete : function(XMLHttpRequest,textStatus) {
+    			},
+    			success : function(response) {
+    				var json = eval(response);
+    				if (0===json.status){
+    					
+    					var result = json.result; 
+    					var data = {
+    							users:result,
+    							length:result.length
+    					}
+    			    	var usersViewHtml = template("usersTemplateView", data);
+    			    	$("#usersTable").html(usersViewHtml);
+    			    	if (type == 0)
+    			    		$(".page-title").html("游客信息管理");
+    			    	if (type == 1)
+    			    		$(".page-title").html("旅行社信息管理");
+   			    		if (type == 2)
+   			    			$(".page-title").html("公司人员信息管理");
+                    } else if (1===json.status){
+                        alert(json.message);
+        				window.location.reload();
+                    }
+    			},
+    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+    				window.location.reload();
+    			}
+    		});
+    	}
+	    
+	    $("#addUser").click(function(){
+			window.location.href = "${ctx}/admin/adduser.html";
+	    });
+	    
         $("[rel=tooltip]").tooltip();
         $(function() {
             $('.demo-cancel-click').click(function(){return false;});

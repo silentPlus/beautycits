@@ -2,6 +2,7 @@ package com.zyh.beautycits.service.user;
 
 import com.zyh.beautycits.service.base.BaseService;
 import com.zyh.beautycits.vo.ResultMsg;
+import com.zyh.beautycits.vo.user.User;
 
 public interface UserService extends BaseService{
 	
@@ -18,12 +19,62 @@ public interface UserService extends BaseService{
 	
 	/**
 	 * 
-	 * getUsers(获取全部用户信息)
-	 * @author Mobile Web Group-许倩
-	 * @date 2016年3月9日 下午4:18:16
+	 * getUsersByType(根据type获取用户信息)
 	 *
 	 * @return
 	 * @return ResultMsg
 	 */
-	public ResultMsg getUsers();
+	public ResultMsg getUsersByType(Integer type);
+	
+	/**
+	 * 
+	 * lockUser(锁定或解锁用户)
+	 *
+	 * @param id
+	 * @param ischecked
+	 * @return
+	 * @return ResultMsg
+	 */
+	public ResultMsg lockUser(Integer id, Integer ischecked);
+	
+	/**
+	 * 
+	 * checkUser(审核用户)
+	 *
+	 * @param id
+	 * @return
+	 * @return ResultMsg
+	 */
+	public ResultMsg checkUser(Integer id);
+	
+	/**
+	 * 
+	 * deleteUser(删除用户)
+	 *
+	 * @param id
+	 * @return
+	 * @return ResultMsg
+	 */
+	public ResultMsg deleteUser(Integer id);
+	
+	/**
+	 * 
+	 * saveUser(保存用户信息)
+	 *
+	 * @param user
+	 * @return
+	 * @return ResultMsg
+	 */
+	public ResultMsg saveUser(User user);
+	
+	/**
+	 * 
+	 * checkUserName(检测用户名是否重复)
+	 *
+	 * @param username
+	 * @param usertype
+	 * @return
+	 * @return ResultMsg
+	 */
+	public ResultMsg checkUserName(String username, Integer usertype);
 }

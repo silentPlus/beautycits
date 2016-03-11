@@ -61,7 +61,7 @@ public class BaseClass {
     public ModelAndView goToErrorPage(String errorMsg) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("errorMsg", errorMsg);
-        return new ModelAndView("errorpage", map);
+        return new ModelAndView("login", map);
     }
     
     protected String getUrl_BizFunc(String sBiz, String sFunc) {

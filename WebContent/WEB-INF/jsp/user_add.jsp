@@ -247,6 +247,11 @@
 		    	}
 		    	
 		    	var realname = $("#realname").val();
+		    	if (realname == null || realname == '') {
+		    		alert("真实姓名不能为空！");
+			    	return;
+		    	}
+		    	
 		    	var sex = $("#sex option:selected") .val();
 		    	var telephone = $("#telephone").val();
 		    	var qq = $("#qq").val();

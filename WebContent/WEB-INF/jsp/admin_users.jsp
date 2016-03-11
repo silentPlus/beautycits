@@ -117,7 +117,7 @@
             
 			<div class="btn-toolbar list-toolbar">
 			    <button id = "addUser" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加网站工作用户</button>
-			    <button class="btn btn-default">导出</button>
+			    <button onclick = "download();" class="btn btn-default">导出</button>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
@@ -255,6 +255,7 @@
     </div>
 	<input type="hidden" id = "userid" value="" />
 	<input type="hidden" id = "ischecked" value="" />
+	<input type="hidden" id = "usertype" value="2" />
 
     <script type="text/javascript">
 	    $(function(){
@@ -438,6 +439,8 @@
     			    		$(".page-title").html("旅行社信息管理");
    			    		if (type == 2)
    			    			$(".page-title").html("公司人员信息管理");
+   			    		
+   			    		$("#usertype").val(type);
                     } else if (1===json.status){
                         alert(json.message);
         				window.location.reload();
@@ -453,6 +456,11 @@
 	    $("#addUser").click(function(){
 			window.location.href = "${ctx}/admin/adduser.html";
 	    });
+	    
+	    function download() {
+	    	var usertype = $("#usertype").val();
+	    	window.location.href = "${ctx}/export/users.html?type=" + usertype;
+	    }
 	    
         $("[rel=tooltip]").tooltip();
         $(function() {

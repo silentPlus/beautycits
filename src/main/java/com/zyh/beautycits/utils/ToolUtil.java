@@ -288,11 +288,9 @@ public class ToolUtil {
 			return "";
 	}
 
-
 	/**
 	 *
 	 * getUUIDString(这里用一句话描述这个方法的作用)
-	 * @date 2016年1月19日 下午1:56:58
 	 *
 	 * @return
 	 * @return String

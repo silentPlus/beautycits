@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zyh.beautycits.base.BaseClass;
+import com.zyh.beautycits.utils.ToolUtil;
 import com.zyh.beautycits.vo.PageInfo;
 
 @Controller
@@ -113,5 +114,18 @@ public class BaseController extends BaseClass{
         }
         return params;
     }
+    
+    protected String dlFileNameEncode(String excelName,HttpServletResponse response) throws IOException{
+		
+		String excelName1 = ToolUtil.encodeUtf8(excelName);
+		if(excelName1.length()>150){   //解决IE 6.0 bug
+			excelName1=new String(excelName.getBytes("GBK"),"ISO-8859-1");
+			response.setContentType("application/octet-stream;charset=ISO-8859-1");// 定义输出类型
+		}
+		else{
+			response.setContentType("application/octet-stream;charset=utf-8");// 定义输出类型
+		}
+		return excelName1;
+	}
 
 }

@@ -52,8 +52,6 @@ public class DateUtil {
 	 *            格式:"yyyy-MM-dd" / "yyyy-MM-dd hh:mm:ss"
 	 * @Return:java.util.Date util.Date型日期
 	 * @Throws: ParseException
-	 * @Author: zhuqx
-	 * @Date: 2006-10-31
 	 */
 	public final static java.util.Date toUtilDateFromStrDateByFormat(
 			String p_strDate, String p_format) throws ParseException {

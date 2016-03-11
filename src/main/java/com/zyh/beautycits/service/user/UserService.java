@@ -77,4 +77,16 @@ public interface UserService extends BaseService{
 	 * @return ResultMsg
 	 */
 	public ResultMsg checkUserName(String username, Integer usertype);
+	
+	/**
+	 * 
+	 * updateUser(修改用户信息)
+	 *
+	 * @param user
+	 * @return
+	 * @return ResultMsg
+	 */
+	public ResultMsg updateUser(User user, Integer id);
+	
+	public ResultMsg changePwd(Integer id, String password, String newpassword);
 }

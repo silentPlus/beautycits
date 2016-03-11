@@ -120,4 +120,40 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		return resultMsg;
 	}
 
+	@Override
+	public ResultMsg updateUser(User user, Integer id) {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "update user u set u.realname = ?, u.sex = ?, u.telephone = ?, u.qq = ?, u.email = ?, u.remark = ?, u.updatetime = now() where u.id = ?";
+		int num = userDao.commonUpdate(sql, user.getRealname(), user.getSex(), user.getTelephone(),
+				 user.getQq(), user.getEmail(), user.getRemark(), id);
+		if (num == 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+
+	@Override
+	public ResultMsg changePwd(Integer id, String password, String newpassword) {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "select * from user where id = ? and password = ?";
+		User user = userDao.getJavaBean(sql, User.class, id, password);
+		if (user == null) {
+			resultMsg.setState(Results.ERROR);
+			resultMsg.setMsg("原密码错误！");
+			return resultMsg;
+		}
+		sql = "update user u set u.password = ?, u.updatetime = now() where u.id = ?";
+		int num = userDao.commonUpdate(sql, newpassword, id);
+		if (num == 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+
 }

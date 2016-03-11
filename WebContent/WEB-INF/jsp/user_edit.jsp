@@ -86,7 +86,7 @@
                 </a>
 
               <ul class="dropdown-menu">
-                <li class="dropdown-header" href="${ url_logout }">修改资料</li>
+                <li class="dropdown-header">修改资料</li>
                 <li class="divider"></li>
                 <li><a tabindex="-1" href="${ url_logout }">注销</a></li>
               </ul>
@@ -98,159 +98,222 @@
 
     <div class="sidebar-nav">
 	    <ul>
-		    <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">用户信息管理<i class="fa fa-collapse"></i></a></li>
-		    <li>
-			    <ul class="dashboard-menu nav nav-list collapse in">
-		            <li class="active"><a href="${ctx}/admin/index.html"><span class="fa fa-caret-right"></span>公司人员信息管理</a></li>
-		            <li><a href="users.html"><span class="fa fa-caret-right"></span>旅行社信息管理</a></li>
-		            <li><a href="user.html"><span class="fa fa-caret-right"></span>游客信息管理</a></li>
-			    </ul>
-		    </li>
+		    <li><a id="back" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 10px;"><i class="fa fa-arrow-left" style="padding-left: 20px;"></i>返回</a></li>
 	    </ul>
     </div>
 
     <div class="content">
-        <div class="header">
-            
-            <h1 class="page-title">Edit User</h1>
-                    <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> </li>
-            <li><a href="users.html">Users</a> </li>
-            <li class="active">jsmith</li>
-        </ul>
-
-        </div>
         <div class="main-content">
             
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#home" data-toggle="tab">Profile</a></li>
-  <li><a href="#profile" data-toggle="tab">Password</a></li>
-</ul>
+			<ul class="nav nav-tabs">
+			  <li class="active"><a href="#home" data-toggle="tab">基础信息</a></li>
+			  <li><a href="#profile" data-toggle="tab">修改密码</a></li>
+			</ul>
 
-<div class="row">
-  <div class="col-md-4">
-    <br>
-    <div id="myTabContent" class="tab-content">
-      <div class="tab-pane active in" id="home">
-      <form id="tab">
-        <div class="form-group">
-        <label>Username</label>
-        <input type="text" value="jsmith" class="form-control">
-        </div>
-        <div class="form-group">
-        <label>First Name</label>
-        <input type="text" value="John" class="form-control">
-        </div>
-        <div class="form-group">
-        <label>Last Name</label>
-        <input type="text" value="Smith" class="form-control">
-        </div>
-        <div class="form-group">
-        <label>Email</label>
-        <input type="text" value="jsmith@yourcompany.com" class="form-control">
-        </div>
-
-        <div class="form-group">
-          <label>Address</label>
-          <textarea value="Smith" rows="3" class="form-control">2817 S 49th
-Apt 314
-San Jose, CA 95101</textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Time Zone</label>
-            <select name="DropDownTimezone" id="DropDownTimezone" class="form-control">
-              <option value="-12.0">(GMT -12:00) Eniwetok, Kwajalein</option>
-              <option value="-11.0">(GMT -11:00) Midway Island, Samoa</option>
-              <option value="-10.0">(GMT -10:00) Hawaii</option>
-              <option value="-9.0">(GMT -9:00) Alaska</option>
-              <option selected="selected" value="-8.0">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
-              <option value="-7.0">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
-              <option value="-6.0">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
-              <option value="-5.0">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
-              <option value="-4.0">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
-              <option value="-3.5">(GMT -3:30) Newfoundland</option>
-              <option value="-3.0">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
-              <option value="-2.0">(GMT -2:00) Mid-Atlantic</option>
-              <option value="-1.0">(GMT -1:00 hour) Azores, Cape Verde Islands</option>
-              <option value="0.0">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
-              <option value="1.0">(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris</option>
-              <option value="2.0">(GMT +2:00) Kaliningrad, South Africa</option>
-              <option value="3.0">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
-              <option value="3.5">(GMT +3:30) Tehran</option>
-              <option value="4.0">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
-              <option value="4.5">(GMT +4:30) Kabul</option>
-              <option value="5.0">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
-              <option value="5.5">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
-              <option value="5.75">(GMT +5:45) Kathmandu</option>
-              <option value="6.0">(GMT +6:00) Almaty, Dhaka, Colombo</option>
-              <option value="7.0">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
-              <option value="8.0">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
-              <option value="9.0">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
-              <option value="9.5">(GMT +9:30) Adelaide, Darwin</option>
-              <option value="10.0">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
-              <option value="11.0">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
-              <option value="12.0">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
-            </select>
-          </div>
-        </form>
-      </div>
-
-      <div class="tab-pane fade" id="profile">
-
-        <form id="tab2">
-          <div class="form-group">
-            <label>New Password</label>
-            <input type="password" class="form-control">
-          </div>
-          <div>
-              <button class="btn btn-primary">Update</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="btn-toolbar list-toolbar">
-      <button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-      <a href="#myModal" data-toggle="modal" class="btn btn-danger">Delete</a>
-    </div>
-  </div>
-</div>
-
-<div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Delete Confirmation</h3>
-      </div>
-      <div class="modal-body">
-        
-        <p class="error-text"><i class="fa fa-warning modal-icon"></i>Are you sure you want to delete the user?</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn btn-danger" data-dismiss="modal">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-            <footer>
-                <hr>
-
-                
-                <p class="pull-right">Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
-                <p>© 2014 <a href="#" target="_blank">Portnine</a></p>
-            </footer>
+			<div class="row">
+			  <div class="col-md-4">
+			    <br>
+			    <div id="myTabContent" class="tab-content">
+			      <div class="tab-pane active in" id="home">
+			        <div class="form-group">
+				        <label>用户名<span style="color:red;">*</span></label>
+				        <input type="text" id="username" value="${ user.username }" readonly="true" class="form-control">
+			        </div>
+			        <div class="form-group">
+				        <label>真实姓名</label>
+				        <input type="text" id="realname" value="${ user.realname }" class="form-control">
+			        </div>
+			        <div class="form-group">
+				        <label>性别</label>
+				        <select id="sex" class="form-control">
+				              <option value="1">男</option>
+				              <option value="2">女</option>
+				        </select>
+			        </div>
+			        <div class="form-group">
+			        	<label>手机号</label>
+			        	<input type="text" id="telephone" value="${ user.telephone }" class="form-control">
+			        </div>
+			        <div class="form-group">
+				        <label>qq</label>
+				        <input type="text" id="qq" value="${ user.qq }" class="form-control">
+			        </div>
+			        <div class="form-group">
+				        <label>Email</label>
+				        <input type="email" id="email" value="${ user.email }" class="form-control">
+			        </div>
+			        <div class="form-group">
+				        <label>remark</label>
+				        <textarea id="remark" class="form-control" >${ user.remark }</textarea>
+			        </div>
+			        <br/>
+			        <div class="btn-toolbar list-toolbar">
+				      <button id="saveEdit" class="btn btn-primary"><i class="fa fa-save"></i>保存修改</button>
+			    	</div>
+			      </div>
+			
+			      <div class="tab-pane fade" id="profile">
+			        <div class="form-group">
+				        <label>密码<span style="color:red;">*</span></label>
+				        <input type="password" id="password" class="form-control">
+			        </div>
+			        <div class="form-group">
+				        <label>新密码<span style="color:red;">*</span></label>
+				        <input type="password" id="newpassword" class="form-control">
+			        </div>
+			        <div class="form-group">
+				        <label>确认密码<span style="color:red;">*</span></label>
+				        <input type="password" id="cpassword" class="form-control">
+			        </div>
+			        <br/>
+			        <div class="btn-toolbar list-toolbar">
+				      <button id="changepwd" class="btn btn-primary"><i class="fa fa-save"></i>修改密码</button>
+			    	</div>
+			      </div>
+			    </div>
+			
+			  </div>
+			</div>
+			
         </div>
     </div>
 
     <script type="text/javascript">
+    	$("#back").on("click", function(){window.history.back();});
         $("[rel=tooltip]").tooltip();
         $(function() {
-            $('.demo-cancel-click').click(function(){return false;});
+        	
+        	var sex = ${user.sex};
+        	if(sex != null || sex != ''){
+        		$("#sex").val(sex);
+        	}
+        	
+		    // 密码
+		    $("#cpassword").focusout(function() {
+			    var newpassword = $("#newpassword").val().trim();
+			    var cpassword = $("#cpassword").val().trim();
+			    if(!checkpwd(newpassword, cpassword)){
+			    	alert("两次输入的密码不一致");
+		    	}
+		    });
+		    
+		    function checkpwd(pwd, cpwd) {
+		    	if(pwd != cpwd){
+			    	return false;
+		    	}else{
+		    		return true;
+		    	}
+		    }
+		 	// qq
+		    $("#qq").focusout(function() {
+			    var qq = $("#qq").val().trim();
+			    var re = /^[1-9]*[1-9][0-9]*$/;
+			    if(qq != '' && qq != null && !(re.test(qq))){
+			      alert('qq号格式错误');
+			      $("#qq").val('');
+			    }
+		    });
+		    // 手机号
+		    $("#telephone").focusout(function() {
+			    var telephone = $("#telephone").val().trim();
+			    var re = /^1[3|4|5|7|8]\d{9}$/;
+			    if(telephone != '' && telephone != null && !(re.test(telephone))){
+			      alert('手机号格式错误');
+			      $("#telephone").val('');
+			    }
+		    });
+		    
+		 	// email
+		    $("#email").focusout(function() {
+			    var email = $("#email").val().trim();
+			    var re= /\w@\w*\.\w/;
+			    if (email != '' && email != null && !re.test(email)){
+			    	alert('email格式错误');
+			    	$("#email").val('');
+			    }
+		    });
+		 	
+		    $("#saveEdit").click(function(){
+		    	
+		    	var realname = $("#realname").val().trim();
+		    	if (realname == null || realname == '') {
+		    		alert("真实姓名不能为空！");
+			    	return;
+		    	}
+		    	
+		    	var sex = $("#sex option:selected").val().trim();
+		    	var telephone = $("#telephone").val().trim();
+		    	var qq = $("#qq").val().trim();
+		    	var email = $("#email").val().trim();
+		    	var remark = $.trim($("#remark").val());
+		    	
+		    	$.ajax({
+				    url : "${ctx}/admin/doedit.html",
+				    type : "post",
+				    dataType : 'JSON',
+				    data : {
+				    	realname:realname,
+				    	sex:sex,
+				    	telephone:telephone==null?"":telephone,
+				    	qq:qq==null?"":qq,
+				    	email:email==null?"":email,
+				    	remark:remark==null?"":remark,
+				    	},
+				    success : function(response) {
+				    	var data = eval(response);
+					    
+					    if(data.status == 0){
+					    	alert("保存成功！");
+					    	window.location.href = '${ url_logout }';
+					    } else {
+					    	alert(data.message);
+					    }
+				    },
+				    error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    				window.location.reload();
+	    			}
+			    });
+		    });
+		    
+		    $("#changepwd").click(function(){
+		    	var password = $("#password").val();
+		    	var newpassword = $("#newpassword").val();
+		    	var cpassword = $("#cpassword").val();
+		    	if(password == null || password == ''){
+		    		alert("密码不能为空！");
+		    		return;
+		    	}
+		    	if(!checkpwd(newpassword, cpassword)){
+			    	alert("两次输入的新密码不一致");
+			    	return;
+		    	}
+		    	
+		    	$.ajax({
+				    url : "${ctx}/admin/changepwd.html",
+				    type : "post",
+				    dataType : 'JSON',
+				    data : {
+				    	password:password,
+				    	newpassword:newpassword
+				    	},
+				    success : function(response) {
+				    	var data = eval(response);
+					    
+					    if(data.status == 0){
+					    	alert("保存成功！");
+					    	window.location.href = '${ url_logout }';
+					    } else {
+					    	alert(data.message);
+					    }
+				    },
+				    error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    				window.location.reload();
+	    			}
+			    });
+		    });
+		    
         });
     </script>
     

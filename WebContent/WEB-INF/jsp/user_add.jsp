@@ -123,7 +123,7 @@
 			        <input type="password" id="cpassword" class="form-control" onmouseover="">
 			        </div>
 			        <div class="form-group">
-			        <label>真实姓名</label>
+			        <label>真实姓名<span style="color:red;">*</span></label>
 			        <input type="text" id="realname" class="form-control">
 			        </div>
 			        <div class="form-group">
@@ -166,7 +166,7 @@
 	    $(function(){
 		  	//给文本框绑定一个失去焦点事件
 		    $("#username").focusout(function() {
-			    var name = $("#username").val();
+			    var name = $("#username").val().trim();
 			    if(name != null && name != ''){
 			    	checkName(name);
 		    	}
@@ -194,8 +194,8 @@
 		    } 
 		    // 密码
 		    $("#cpassword").focusout(function() {
-			    var password = $("#password").val();
-			    var cpassword = $("#cpassword").val();
+			    var password = $("#password").val().trim();
+			    var cpassword = $("#cpassword").val().trim();
 			    if(!checkpwd(password, cpassword)){
 			    	alert("两次输入的密码不一致");
 		    	}
@@ -208,9 +208,18 @@
 		    		return true;
 		    	}
 		    }
+		 	// qq
+		    $("#qq").focusout(function() {
+			    var qq = $("#qq").val().trim();
+			    var re = /^[1-9]*[1-9][0-9]*$/;
+			    if(telephone != '' && telephone != null && !(re.test(qq))){
+			      alert('qq号格式错误');
+			      $("#qq").val('');
+			    }
+		    });
 		    // 手机号
 		    $("#telephone").focusout(function() {
-			    var telephone = $("#telephone").val();
+			    var telephone = $("#telephone").val().trim();
 			    var re = /^1[3|4|5|7|8]\d{9}$/;
 			    if(telephone != '' && telephone != null && !(re.test(telephone))){
 			      alert('手机号格式错误');
@@ -220,7 +229,7 @@
 		    
 		 	// email
 		    $("#email").focusout(function() {
-			    var email = $("#email").val();
+			    var email = $("#email").val().trim();
 			    var re= /\w@\w*\.\w/;
 			    if (email != '' && email != null && !re.test(email)){
 			    	alert('email格式错误');
@@ -229,14 +238,14 @@
 		    });
 		 	
 		    $("#saveBtn").click(function(){
-		    	var username = $("#username").val();
+		    	var username = $("#username").val().trim();
 		    	if(username == null || username == ''){
 		    		alert("用户名不能为空！");
 		    		return;
 		    	}
 		    	
-		    	var password = $("#password").val();
-		    	var cpassword = $("#cpassword").val();
+		    	var password = $("#password").val().trim();
+		    	var cpassword = $("#cpassword").val().trim();
 		    	if(password == null || password == ''){
 		    		alert("密码不能为空！");
 		    		return;
@@ -246,17 +255,17 @@
 			    	return;
 		    	}
 		    	
-		    	var realname = $("#realname").val();
+		    	var realname = $("#realname").val().trim();
 		    	if (realname == null || realname == '') {
 		    		alert("真实姓名不能为空！");
 			    	return;
 		    	}
 		    	
-		    	var sex = $("#sex option:selected") .val();
-		    	var telephone = $("#telephone").val();
-		    	var qq = $("#qq").val();
-		    	var email = $("email").val();
-		    	var remark = $("#remark").val();
+		    	var sex = $("#sex option:selected").val().trim();
+		    	var telephone = $("#telephone").val().trim();
+		    	var qq = $("#qq").val().trim();
+		    	var email = $("#email").val().trim();
+		    	var remark = $.trim($("#remark").val());
 		    	
 		    	$.ajax({
 				    url : "${ctx}/admin/saveuser.html",
@@ -265,7 +274,7 @@
 				    data : {
 				    	username:username,
 				    	password:password,
-				    	realname:realname==null?"":realname,
+				    	realname:realname,
 				    	sex:sex,
 				    	telephone:telephone==null?"":telephone,
 				    	qq:qq==null?"":qq,
@@ -279,10 +288,10 @@
 					    
 					    if(data.status == 0){
 					    	alert("保存成功！");
-					    	window.location.reload();
 					    } else {
 					    	alert(data.message);
 					    }
+				    	window.location.reload();
 				    },
 				    error : function(XMLHttpRequest, textStatus, errorThrown) {
 	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");

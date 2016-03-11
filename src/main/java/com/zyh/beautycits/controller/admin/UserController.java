@@ -43,7 +43,7 @@ public class UserController extends BaseController{
 		mav.addObject("user", user);
 		// 一些链接
 		String url_logout = getUrl_BizFunc("logout", "dologout.html");
-		String url_editUser = getUrl_BizFunc("admin", "deituser.html");
+		String url_editUser = getUrl_BizFunc("admin", "edituser.html");
 		mav.addObject("url_logout", url_logout);
 		mav.addObject("url_editUser", url_editUser);
 		mav.setViewName("/admin_users");
@@ -60,6 +60,9 @@ public class UserController extends BaseController{
 			return mav;
 		}
 		mav.setViewName("user_edit");
+		// 获取登录用户信息
+		User user = getSessionUser();
+		mav.addObject("user", user);
 		// 一些链接
 		String url_logout = getUrl_BizFunc("logout", "dologout.html");
 		String url_editUser = getUrl_BizFunc("admin", "deituser.html");
@@ -184,6 +187,43 @@ public class UserController extends BaseController{
 		ResultMsg resultMsg = userService.checkUserName(username, usertype);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
+		}
+		return jsonPackage;
+    }
+	
+	@RequestMapping(value = "/doedit.html")
+    public JsonPackage doEdit(HttpServletRequest request, HttpServletResponse response, User user){
+		JsonPackage jsonPackage = new JsonPackage();
+		// 判断是否登录
+		if (!isLogin()) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage("请先登录");
+			return jsonPackage;
+		}
+		// 获取登录用户信息
+		User uuser = getSessionUser();
+		ResultMsg resultMsg = userService.updateUser(user, uuser.getId());
+		if (resultMsg.getState() == Results.ERROR) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage(resultMsg.getMsg());
+		}
+		return jsonPackage;
+    }
+	
+	@RequestMapping(value = "/changepwd.html")
+    public JsonPackage changePwd(HttpServletRequest request, HttpServletResponse response, String password, String newpassword){
+		JsonPackage jsonPackage = new JsonPackage();
+		// 判断是否登录
+		if (!isLogin()) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage("请先登录");
+			return jsonPackage;
+		}// 获取登录用户信息
+		User user = getSessionUser();
+		ResultMsg resultMsg = userService.changePwd(user.getId(), password, newpassword);
+		if (resultMsg.getState() == Results.ERROR) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage(resultMsg.getMsg());
 		}
 		return jsonPackage;
     }

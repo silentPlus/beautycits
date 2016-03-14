@@ -116,21 +116,6 @@
         <div class="main-content">
             
 			<div class="btn-toolbar list-toolbar">
-				<div>
-	            	<table class="table" style="text-align:center;">
-	            		<tr>
-	            			<td width="10%" align="right">用户名:</td>
-	            			<td width="40%" align="left"><input id="username" /></td>
-	            			<td width="10%" align="right">真实姓名:</td>
-	            			<td width="40%" align="left"><input id="realname" /></td>
-	            		</tr>
-	            		<tr>
-	            			<td rowspan="4" align="right">
-	            				<button onclick = "search();" class="btn btn-default">导出</button>
-	            			</td>
-	            		</tr>
-	            	</table>
-            	</div>
 			    <button id = "addUser" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加网站工作用户</button>
 			    <button onclick = "download();" class="btn btn-default">导出</button>
 		  		<div class="btn-group">
@@ -485,4 +470,3 @@
     
   
 </body></html>
-

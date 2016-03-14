@@ -91,7 +91,8 @@
                     <input id="password" type="password" class="form-control span12 form-control">
                 </div>
                 <br/>
-                <button id="loginbtn" class="btn btn-primary pull-right">登录</button>
+                <button id="loginbtn" class="btn btn-primary" style="margin-left:250px;">登录</button>
+                <button id="registerbtn" class="btn btn-primary pull-right">注册</button>
                 <div class="clearfix"></div>
 	        </div>
 	    </div>
@@ -105,6 +106,10 @@
         });
     </script>
     <script type="text/javascript">
+    
+    $("#registerbtn").click(function(){
+    	window.location.href = "${ctx}/register/index.html"
+    });
     
     $($("#loginbtn").click(function(){
     		var username = $("#username").val().trim();

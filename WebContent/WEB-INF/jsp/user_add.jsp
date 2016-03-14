@@ -261,7 +261,7 @@
 			    	return;
 		    	}
 		    	
-		    	var sex = $("#sex option:selected").val().trim();
+		    	var sex = $("#sex option:selected").val();
 		    	var telephone = $("#telephone").val().trim();
 		    	var qq = $("#qq").val().trim();
 		    	var email = $("#email").val().trim();

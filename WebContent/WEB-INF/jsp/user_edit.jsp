@@ -154,7 +154,7 @@
 			
 			      <div class="tab-pane fade" id="profile">
 			        <div class="form-group">
-				        <label>密码<span style="color:red;">*</span></label>
+				        <label>原密码<span style="color:red;">*</span></label>
 				        <input type="password" id="password" class="form-control">
 			        </div>
 			        <div class="form-group">

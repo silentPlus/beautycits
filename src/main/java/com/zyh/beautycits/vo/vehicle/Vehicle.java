@@ -4,7 +4,7 @@ public class Vehicle {
 	private Integer id;
 	private Integer originid;
 	private Integer destinationid;
-	private Integer vehicletype;
+	private Integer vehicletype;   //交通工具类别，1：汽车；2：火车；3：飞机；4：轮船
 	private String cost;
 	private String remark;
 	private String createtime;

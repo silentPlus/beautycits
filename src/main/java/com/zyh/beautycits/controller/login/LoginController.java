@@ -33,7 +33,7 @@ public class LoginController extends BaseController{
     }
 	
 	@RequestMapping(value = "/dologin.html")
-    public JsonPackage doLogin(HttpServletRequest request, HttpServletResponse response, User user, String url){
+    public JsonPackage doLogin(HttpServletRequest request, HttpServletResponse response, User user){
 		JsonPackage jsonPackage = new JsonPackage();
 		ResultMsg resultMsg = userService.getUserByName(user.getUsername(), user.getPassword());
 		if (resultMsg.getState() == Results.ERROR) {
@@ -57,9 +57,10 @@ public class LoginController extends BaseController{
 		SessionObject sessionObject = getSessionAttribute();
 		sessionObject.setUser(user);
 		setSessionAttribute(sessionObject);
-		
+		String url;
 		if (user.getUsertype() == 0) {
-			// 游客登录，跳转上一操作页面
+			// 游客登录，跳转主页
+			url = getUrl_BizFunc("", "");
 			jsonPackage.setResult(url);
 			return jsonPackage;
 		}
@@ -71,7 +72,7 @@ public class LoginController extends BaseController{
 		}
 		if (user.getUsertype() == 2) {
 			// 网站工作人员登录，跳转到基础信息管理页面（车票管理）
-			url = getUrl_BizFunc("admin", "index.html");
+			url = getUrl_BizFunc("staff", "index.html");
 			jsonPackage.setResult(url);
 			return jsonPackage;
 		}

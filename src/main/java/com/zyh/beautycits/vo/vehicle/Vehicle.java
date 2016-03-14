@@ -9,6 +9,8 @@ public class Vehicle {
 	private String remark;
 	private String createtime;
 	private String updatetime;
+	private String origin;
+	private String destination;
 	public Integer getId() {
 		return id;
 	}
@@ -56,6 +58,18 @@ public class Vehicle {
 	}
 	public void setUpdatetime(String updatetime) {
 		this.updatetime = updatetime;
+	}
+	public String getOrigin() {
+		return origin;
+	}
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+	public String getDestination() {
+		return destination;
+	}
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 	@Override
 	public String toString() {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.zyh.beautycits.dao.JdbcBaseDao;
 import com.zyh.beautycits.service.base.impl.BaseServiceImpl;
 import com.zyh.beautycits.service.user.UserService;
+import com.zyh.beautycits.vo.PageInfo;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
 import com.zyh.beautycits.vo.user.User;
@@ -40,14 +41,29 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResultMsg getUsersByType(Integer type) {
+	public ResultMsg getUsersByType(Integer currentPage, Integer type) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "select * from user where usertype = ? order by ischecked ASC, createtime desc";
-		List<User> userList = userDao.getList(sql, User.class, type);
+		String countSql = "Select count(*) from user where usertype = ?";
+		String querySql = "select * from user where usertype = ? order by ischecked ASC, createtime desc";
+		PageInfo<User> pageUser = new PageInfo<User>();
+		pageUser.setCurrentPage(currentPage);
+		pageUser.setPageSize(2);
+		pageUser = userDao.getPageModel(pageUser, new StringBuffer(querySql), new StringBuffer(countSql), User.class, type);
 		resultMsg.setState(Results.SUCCESS);
-		resultMsg.setMsgEntity(userList);
+		resultMsg.setMsgEntity(pageUser);
 		return resultMsg;
 	}
+	
+	@Override
+	public ResultMsg getUsersByType(Integer type) {
+		ResultMsg resultMsg = new ResultMsg();
+		String querySql = "select * from user where usertype = ? order by ischecked ASC, createtime desc";
+		List<User> list = userDao.getList(querySql,User.class, type);
+		resultMsg.setState(Results.SUCCESS);
+		resultMsg.setMsgEntity(list);
+		return resultMsg;
+	}
+
 
 	@Override
 	public ResultMsg lockUser(Integer id, Integer ischecked) {

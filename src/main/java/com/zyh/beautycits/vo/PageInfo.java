@@ -5,9 +5,6 @@ import java.util.List;
 /**
  * 分页信息
  * 
- * @author 微信攻略组 2014-01-20
- * @version 1.0
- * 
  * @param <M>
  */
 public class PageInfo<M> {
@@ -51,6 +48,8 @@ public class PageInfo<M> {
 	 * 返回的url
 	 */
 	private String url;
+	
+	public PageInfo(){}
 
 	public PageInfo(Integer currentPage, Long totalRecord, int pageSize,
 			List<?> result, String url) {
@@ -69,19 +68,11 @@ public class PageInfo<M> {
 	/**
 	 * 修正了第一页和最后一页查询时的结果
 	 * 
-	 * @author 微信攻略组 2014-02-10 V1.0
-	 * 
 	 * @param currentPage
 	 */
 	public void setCurrentPage(Integer currentPage) {
 		if ((currentPage.intValue() == 0) || (currentPage.intValue() < 0)) {
 			currentPage = Integer.valueOf(1);
-		}
-		if ((currentPage.intValue() > this.totalPage.intValue())
-				&& (this.totalPage.intValue() != 0)) {
-			this.currentPage = this.totalPage;
-		} else if (this.totalPage.intValue() == 0) {
-			this.currentPage = Integer.valueOf(1);
 		} else
 			this.currentPage = currentPage;
 	}

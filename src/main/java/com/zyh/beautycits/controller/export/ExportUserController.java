@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -104,9 +105,19 @@ public class ExportUserController extends BaseController{
 					sheet.addCell(new Label(2, i+2, "女", wcf_c));
 				}
 			    sheet.mergeCells(3, i+2, 4, i+2);
-			    sheet.addCell(new Number(3, i+2, Double.parseDouble(user.getTelephone()), wcf_l));
+			    String telephone = StringUtils.isBlank(user.getTelephone())?"":user.getTelephone();
+			    if (StringUtils.isBlank(telephone)) {
+			    	sheet.addCell(new Label(3, i+2, "", wcf_l));
+			    } else {
+			    	sheet.addCell(new Number(3, i+2, Double.parseDouble(telephone), wcf_l));
+			    }
 			    sheet.mergeCells(5, i+2, 6, i+2);
-			    sheet.addCell(new Number(5, i+2, Double.parseDouble(user.getQq()), wcf_l));
+			    String qq = StringUtils.isBlank(user.getQq())?"":user.getQq();
+			    if (StringUtils.isBlank(qq)) {
+			    	sheet.addCell(new Label(5, i+2, "", wcf_l));
+			    } else {
+			    	sheet.addCell(new Number(5, i+2, Double.parseDouble(qq), wcf_l));
+			    }
 			    sheet.mergeCells(7, i+2, 8, i+2);
 			    sheet.addCell(new Label(7, i+2, user.getEmail(), wcf_l));
 			    if (user.getIschecked() == 0) {

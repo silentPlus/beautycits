@@ -38,6 +38,13 @@
         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
             color: #fff;
         }
+        .left {
+            display: block;
+		    padding: 3px 20px;
+		    font-size: 12px;
+		    line-height: 1.42857143;
+		    color: #999;
+        }
     </style>
 
     <script type="text/javascript">
@@ -99,9 +106,9 @@
 		    <li><a data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">用户信息管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="dashboard-menu nav nav-list collapse in">
-		            <li onclick="getTypeUsers(2)"><a><span class="fa fa-caret-right"></span>公司人员信息管理</a></li>
-		            <li onclick="getTypeUsers(1)"><a><span class="fa fa-caret-right"></span>旅行社信息管理</a></li>
-		            <li onclick="getTypeUsers(0)"><a><span class="fa fa-caret-right"></span>游客信息管理</a></li>
+		            <li onclick="getTypeUsers(2, 1)"><a><span class="fa fa-caret-right"></span>公司人员信息管理</a></li>
+		            <li onclick="getTypeUsers(1, 1)"><a><span class="fa fa-caret-right"></span>旅行社信息管理</a></li>
+		            <li onclick="getTypeUsers(0, 1)"><a><span class="fa fa-caret-right"></span>游客信息管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -116,21 +123,6 @@
         <div class="main-content">
             
 			<div class="btn-toolbar list-toolbar">
-				<div>
-	            	<table class="table" style="text-align:center;">
-	            		<tr>
-	            			<td width="10%" align="right">用户名:</td>
-	            			<td width="40%" align="left"><input id="username" /></td>
-	            			<td width="10%" align="right">真实姓名:</td>
-	            			<td width="40%" align="left"><input id="realname" /></td>
-	            		</tr>
-	            		<tr>
-	            			<td rowspan="4" align="right">
-	            				<button onclick = "search();" class="btn btn-default">导出</button>
-	            			</td>
-	            		</tr>
-	            	</table>
-            	</div>
 			    <button id = "addUser" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加网站工作用户</button>
 			    <button onclick = "download();" class="btn btn-default">导出</button>
 		  		<div class="btn-group">
@@ -181,15 +173,30 @@
 			</table>
 			
 			{{if length != 0}}
+			<div align = "right">
 			<ul class="pagination">
-			  <li><a href="#">&laquo;</a></li>
-			  <li><a href="#">1</a></li>
-			  <li><a href="#">2</a></li>
-			  <li><a href="#">3</a></li>
-			  <li><a href="#">4</a></li>
-			  <li><a href="#">5</a></li>
-			  <li><a href="#">&raquo;</a></li>
-			</ul>
+				{{ if currentPage == 1 }}
+  				<li><a style="display:none;">&laquo;</a></li>
+				{{ /if }}
+				{{ if currentPage != 1 }}
+  				<li><a onclick="getTypeUsers(-1, -1)">&laquo;</a></li>
+				{{ /if }}
+				{{ each list as val i }}
+				{{ if currentPage == i+1 }}
+  				<li><a style="color:#444;">{{i+1}}</a></li>
+				{{ /if}}
+				{{ if currentPage != i+1 }}
+  				<li><a onclick="getTypeUsers(-1, {{i+1}})">{{i+1}}</a></li>
+				{{ /if}}
+				{{ /each }}
+				{{ if currentPage == totalPage }}
+  				<li><a style="display:none;">&raquo;</a></li>
+				{{ /if }}
+				{{ if currentPage != totalPage }}
+  				<li><a onclick="getTypeUsers(-1, -2)">&raquo;</a></li>
+				{{ /if }}
+			</ul> 
+			</div>
 			{{/if}}
 			</script>
 			</div>
@@ -271,18 +278,29 @@
 	<input type="hidden" id = "userid" value="" />
 	<input type="hidden" id = "ischecked" value="" />
 	<input type="hidden" id = "usertype" value="2" />
+	<input type="hidden" id = "currentPage" value="" />
 
     <script type="text/javascript">
 	    $(function(){
 
-	    	var users = ${users};
+	    	var pageUsers = ${pageUsers};
+	    	var arrayObj = new Array(pageUsers.totalPage);
+	    	for (var i=0; i<pageUsers.totalPage; i++){
+	    		arrayObj[i] = i;
+	    	}
+	    	console.log(pageUsers);
 	    	data = {
-	    			users : users,
-	    			length : users.length
+	    			users : pageUsers.pageInfoResult,
+	    			length : pageUsers.totalRecord,
+	    			currentPage : pageUsers.currentPage,
+	    			totalPage : pageUsers.totalPage,
+	    			list : arrayObj
 	    	};
-	    	console.log('${ctx}');
+	    	console.log(data);
 	    	var usersViewHtml = template("usersTemplateView", data);
 	    	$("#usersTable").html(usersViewHtml);
+	    	
+	    	$("#currentPage").val(data.currentPage);
 	    	
 	    	$(".checkModelBtn").click(function(){
 	    		var id = $(this).attr("userid");
@@ -421,7 +439,19 @@
 	    	
 	    });
     
-	    function getTypeUsers(type){
+	    function getTypeUsers(type,i){
+	    	if (type == -1) {
+	    		type = $("#usertype").val();
+	    	}
+	    	if (i == null || i == '') {
+	    		i = 0;
+	    	}
+	    	if (i == -1) {
+	    		i = parseInt($("#currentPage").val())-1;
+	    	}
+	    	if (i == -2) {
+	    		i = parseInt($("#currentPage").val())+1;
+	    	}
 	    	
     		$.ajax({
     			url : "${ctx}/admin/gettypeusers.html",
@@ -429,6 +459,7 @@
     			type : 'POST',
     			cache:false,
     			data : {
+    				currentpage : i,
     				type : type
     			},
     			dataType : 'json',
@@ -442,9 +473,16 @@
     				if (0===json.status){
     					
     					var result = json.result; 
+    					var arrayObj = new Array(result.totalPage);
+    			    	for (var j=1; j<result.totalPage; j++){
+    			    		arrayObj[j] = j;
+    			    	}
     					var data = {
-    							users:result,
-    							length:result.length
+    							users : result.pageInfoResult,
+    			    			length : result.totalRecord,
+    			    			currentPage : result.currentPage,
+    			    			totalPage : result.totalPage,
+    			    			list : arrayObj
     					}
     			    	var usersViewHtml = template("usersTemplateView", data);
     			    	$("#usersTable").html(usersViewHtml);
@@ -456,6 +494,7 @@
    			    			$(".page-title").html("公司人员信息管理");
    			    		
    			    		$("#usertype").val(type);
+   			 	    	$("#currentPage").val(i);
                     } else if (1===json.status){
                         alert(json.message);
         				window.location.reload();

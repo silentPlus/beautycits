@@ -19,10 +19,17 @@ public interface UserService extends BaseService{
 	
 	/**
 	 * 
-	 * getUsersByType(根据type获取用户信息)
+	 * getUsersByType(根据type获取用户信息分页显示)
 	 *
 	 * @return
 	 * @return ResultMsg
+	 */
+	public ResultMsg getUsersByType(Integer currentpage, Integer type);
+	
+	/**
+	 * 不分页
+	 * @param type
+	 * @return
 	 */
 	public ResultMsg getUsersByType(Integer type);
 	
@@ -88,5 +95,12 @@ public interface UserService extends BaseService{
 	 */
 	public ResultMsg updateUser(User user, Integer id);
 	
+	/**
+	 * 修改密码
+	 * @param id
+	 * @param password
+	 * @param newpassword
+	 * @return
+	 */
 	public ResultMsg changePwd(Integer id, String password, String newpassword);
 }

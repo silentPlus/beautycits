@@ -33,11 +33,11 @@ public class UserController extends BaseController{
 			return mav;
 		}
 		// 获取所有公司内部人员信息
-		ResultMsg resultMsg = userService.getUsersByType(2);
+		ResultMsg resultMsg = userService.getUsersByType(1, 2);
 		if (resultMsg.getState() == Results.ERROR) {
 			goToErrorPage(resultMsg.getMsg());
 		}
-		mav.addObject("users", JSON.toJSONString(resultMsg.getMsgEntity()));
+		mav.addObject("pageUsers", JSON.toJSONString(resultMsg.getMsgEntity()));
 		// 获取登录用户信息
 		User user = getSessionUser();
 		mav.addObject("user", user);
@@ -124,7 +124,7 @@ public class UserController extends BaseController{
     }
 	
 	@RequestMapping(value = "/gettypeusers.html")
-    public JsonPackage getTypeUsers(HttpServletRequest request, HttpServletResponse response,Integer type){
+    public JsonPackage getTypeUsers(HttpServletRequest request, HttpServletResponse response, Integer currentpage, Integer type){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -132,7 +132,7 @@ public class UserController extends BaseController{
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		ResultMsg resultMsg = userService.getUsersByType(type);
+		ResultMsg resultMsg = userService.getUsersByType(currentpage, type);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());

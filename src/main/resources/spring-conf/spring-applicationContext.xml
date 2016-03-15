@@ -41,12 +41,13 @@
     </bean>
     
 	<bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
-        <property name="dbType" value="oracle" />
+        <property name="dbType" value="mysql" />
         <property name="config" ref="wall-filter-config" />
     </bean>
     <bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig" init-method="init">
 		<property name="dir" value="META-INF/druid/wall/mysql" />
 		<property name="objectCheck" value="false"/> 
+		<!-- <property name="limitZeroAllow" value="true" /> -->
     </bean>
     
 	<!-- druid Spring配置数据源 -->

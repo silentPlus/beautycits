@@ -126,7 +126,7 @@
 			        <div class="form-group">
 				        <label>性别</label>
 				        <select id="sex" class="form-control">
-				              <option value="1">男</option>
+				              <option value="1" checked="checked">男</option>
 				              <option value="2">女</option>
 				        </select>
 			        </div>

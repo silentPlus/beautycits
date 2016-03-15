@@ -1,5 +1,8 @@
 package com.zyh.beautycits.dao.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,14 +19,15 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.zyh.beautycits.dao.JdbcBaseDao;
 import com.zyh.beautycits.vo.PageInfo;
+import com.zyh.beautycits.vo.user.User;
 
 @Repository("jdbcBaseDao")
 public  class JdbcBaseDaoImpl<T> extends NamedParameterJdbcDaoSupport implements JdbcBaseDao<T> {
 
-    public final static String PAGE_SQL_PREFIX = "select * from(select m.*,rownum num from (";
-    public final static String PAGE_SQL_END = ") m where rownum<=%1$s) where num>%2$s";
+    public final static String PAGE_SQL_END = " limit %1$s,%2$s";
 
 	private boolean isJavaClass(Class<?> clz) {
 	    return clz != null && clz.getClassLoader() == null;
@@ -218,11 +222,11 @@ public  class JdbcBaseDaoImpl<T> extends NamedParameterJdbcDaoSupport implements
         // 1。构造完整的分页语句
         int rowNumEnd=model.getCurrentPage()* model.getPageSize();
         int rowNumBegin=(model.getCurrentPage()-1)* model.getPageSize();
-        querySQL.insert(0, PAGE_SQL_PREFIX);
-        querySQL.append(String.format(PAGE_SQL_END, rowNumEnd,rowNumBegin));
+        querySQL.append(String.format(PAGE_SQL_END, rowNumBegin,rowNumEnd));
 
+        List<T> result = new ArrayList<>();
         // 2.连数据库查询
-        List<T> result = this.getList(querySQL.toString(), returnType, paramValue);
+    	result = this.getList(querySQL.toString(), returnType, paramValue);
 
         // 3.重置分页数据
         model.setTotalRecord(allCount);
@@ -235,14 +239,12 @@ public  class JdbcBaseDaoImpl<T> extends NamedParameterJdbcDaoSupport implements
 	/* ?方式Object传参 ,Map专用分页*/
 	@Override
 	public PageInfo<Map<String, Object>> getPageModel(PageInfo<Map<String, Object>> model, StringBuffer querySQL,StringBuffer countSQL, Object... paramValue) {
-		// TODO Auto-generated method stub
 		 // 计算总记录数
         long allCount = this.getCount(countSQL.toString(), paramValue);
         // 获取分页记录集
         // 1。构造完整的分页语句
         int rowNumEnd=model.getCurrentPage()* model.getPageSize();
         int rowNumBegin=(model.getCurrentPage()-1)* model.getPageSize();
-        querySQL.insert(0, PAGE_SQL_PREFIX);
         querySQL.append(String.format(PAGE_SQL_END, rowNumEnd,rowNumBegin));
 
         // 2.连数据库查询

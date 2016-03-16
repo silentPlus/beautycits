@@ -49,7 +49,7 @@ public class UserController extends BaseController{
 		mav.setViewName("/admin_users");
         return mav;
     }
-	
+
 	@RequestMapping(value = "/edituser.html")
     public ModelAndView edituser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();

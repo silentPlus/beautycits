@@ -103,4 +103,5 @@ public interface UserService extends BaseService{
 	 * @return
 	 */
 	public ResultMsg changePwd(Integer id, String password, String newpassword);
+	
 }

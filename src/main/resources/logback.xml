@@ -2,7 +2,7 @@
 <!DOCTYPE configuration>
 <configuration scan="true" scanPeriod="1 hours" debug="false">
 
-    <property name="USER_HOME" value="logs" />
+    <property name="E:/log/" value="logs" />
     <property scope="context" name="FILE_NAME" value="mylog-logback" />
 
     <timestamp key="byDay" datePattern="yyyy-MM-dd" />

@@ -123,6 +123,21 @@
         <div class="main-content">
             
 			<div class="btn-toolbar list-toolbar">
+				<div>
+	            	<table class="table" style="text-align:center;">
+	            		<tr>
+	            			<td width="10%" align="right" style="border-top:none;">用户名:</td>
+	            			<td width="40%" align="left" style="border-top:none;"><input id="username" /></td>
+	            			<td width="10%" align="right" style="border-top:none;">真实姓名:</td>
+	            			<td width="40%" align="left" style="border-top:none;"><input id="realname" /></td>
+	            		</tr>
+	            		<tr>
+	            			<td rowspan="4" align="right" style="border-top:none;">
+	            				<button onclick = "getTypeUsers(-1,1);" class="btn btn-default">查询</button>
+	            			</td>
+	            		</tr>
+	            	</table>
+            	</div>
 			    <button id = "addUser" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加网站工作用户</button>
 			    <button onclick = "download();" class="btn btn-default">导出</button>
 		  		<div class="btn-group">
@@ -452,7 +467,8 @@
 	    	if (i == -2) {
 	    		i = parseInt($("#currentPage").val())+1;
 	    	}
-	    	
+	    	var username = $.trim($("#username").val());
+	    	var realname = $.trim($("#realname").val());
     		$.ajax({
     			url : "${ctx}/admin/gettypeusers.html",
     			async : false,
@@ -460,7 +476,9 @@
     			cache:false,
     			data : {
     				currentpage : i,
-    				type : type
+    				type : type,
+    				username : username,
+    				realname : realname
     			},
     			dataType : 'json',
     			timeout : 15000,

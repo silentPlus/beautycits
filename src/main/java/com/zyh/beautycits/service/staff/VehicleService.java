@@ -13,7 +13,8 @@ public interface VehicleService extends BaseService{
 	 * @return
 	 * @return ResultMsg
 	 */
-	public ResultMsg getVehicle(Integer vehicletype, Integer originid, Integer destinationid);
+	public ResultMsg getVehicle(Integer currentPage, Integer vehicletype, Integer oareaid, Integer ocityid, Integer oprovinceid, 
+			Integer dareaid, Integer dcityid, Integer dprovinceid);
 	
 	/**
 	 * 

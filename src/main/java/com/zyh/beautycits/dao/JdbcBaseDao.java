@@ -67,7 +67,7 @@ public interface JdbcBaseDao<T> {
 	
 	/* ?方式Object传参 ,javaBean分页 */
 	public PageInfo<T> getPageModel(PageInfo<T> model, StringBuffer querySQL, StringBuffer countSQL, Class<T> returnType, Object... paramValue);
-
+	
 	/* ?方式Object传参 ,Map专用分页 */
 	public PageInfo<Map<String, Object>> getPageModel(PageInfo<Map<String, Object>> model, StringBuffer querySQL, StringBuffer countSQL, Object... paramValue);
 

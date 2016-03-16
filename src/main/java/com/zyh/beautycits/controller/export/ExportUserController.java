@@ -47,7 +47,8 @@ public class ExportUserController extends BaseController{
 		// 查询用户信息
 		ResultMsg resultMsg = userService.getUsersByType(type);
 		if (resultMsg.getState() == Results.ERROR) {
-			goToErrorPage(resultMsg.getMsg());
+			logger.error("出错");
+			return ;
 		}
 		List<User> userList = (List<User>) resultMsg.getMsgEntity();
 		try {

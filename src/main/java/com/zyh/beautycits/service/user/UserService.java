@@ -24,7 +24,7 @@ public interface UserService extends BaseService{
 	 * @return
 	 * @return ResultMsg
 	 */
-	public ResultMsg getUsersByType(Integer currentpage, Integer type);
+	public ResultMsg getUsersByType(Integer currentpage, Integer type, String username, String realname);
 	
 	/**
 	 * 不分页

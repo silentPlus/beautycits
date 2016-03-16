@@ -3,12 +3,14 @@ package com.zyh.beautycits.controller.staff;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.zyh.beautycits.controller.BaseController;
+import com.zyh.beautycits.service.staff.VehicleService;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
 import com.zyh.beautycits.vo.user.User;
@@ -16,6 +18,9 @@ import com.zyh.beautycits.vo.user.User;
 @RestController
 @RequestMapping("staff")
 public class StaffController extends BaseController{
+	
+	@Autowired
+	private VehicleService vehicleService;
 	
 	@RequestMapping(value = "/index.html")
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response)  throws Exception {
@@ -26,12 +31,12 @@ public class StaffController extends BaseController{
 			mav.setViewName("redirect:"+url_login);
 			return mav;
 		}
-		// 获取所有公司内部人员信息
-//		ResultMsg resultMsg = userService.getUsersByType(2);
-//		if (resultMsg.getState() == Results.ERROR) {
-//			goToErrorPage(resultMsg.getMsg());
-//		}
-//		mav.addObject("users", JSON.toJSONString(resultMsg.getMsgEntity()));
+		// 获取所有交通信息
+		ResultMsg resultMsg = vehicleService.getVehicle(1, null, null, null, null, null, null, null);
+		if (resultMsg.getState() == Results.ERROR) {
+			return goToErrorPage(resultMsg.getMsg());
+		}
+		mav.addObject("vehicles", JSON.toJSONString(resultMsg.getMsgEntity()));
 		// 获取登录用户信息
 		User user = getSessionUser();
 		mav.addObject("user", user);

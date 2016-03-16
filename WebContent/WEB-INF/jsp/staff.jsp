@@ -96,12 +96,11 @@
 
     <div class="sidebar-nav">
 	    <ul>
-		    <li><a data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">用户信息管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">基础信息管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="dashboard-menu nav nav-list collapse in">
-		            <li onclick="getTypeUsers(2)"><a><span class="fa fa-caret-right"></span>公司人员信息管理</a></li>
-		            <li onclick="getTypeUsers(1)"><a><span class="fa fa-caret-right"></span>旅行社信息管理</a></li>
-		            <li onclick="getTypeUsers(0)"><a><span class="fa fa-caret-right"></span>游客信息管理</a></li>
+		            <li onclick="getTypeUsers(2)"><a><span class="fa fa-caret-right"></span>交通信息管理</a></li>
+		            <li onclick="getTypeUsers(1)"><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -110,14 +109,41 @@
     <div class="content">
     	<div class="header">
             
-            <h1 class="page-title">公司人员信息管理</h1>
+            <h1 class="page-title">交通信息管理</h1>
 
         </div>
         <div class="main-content">
             
 			<div class="btn-toolbar list-toolbar">
+				<div>
+	            	<table class="table" style="text-align:center;">
+	            		<tr>
+	            			<td width="10%" align="right" style="border-top:none;">始发地:</td>
+	            			<td width="90%" align="left" style="border-top:none;">
+	            				<input id="username" />&nbsp;&nbsp;<input id="username" />&nbsp;&nbsp;<input id="username" />
+	            			</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="10%" align="right" style="border-top:none;">目的地:</td>
+	            			<td width="90%" align="left" style="border-top:none;">
+	            				<input id="username" />&nbsp;&nbsp;<input id="username" />&nbsp;&nbsp;<input id="username" />
+	            			</td>
+	            		</tr>
+	            		
+	            		<tr>
+	            			<td width="10%" align="right" style="border-top:none;">交通类别:</td>
+	            			<td width="90%" align="left" style="border-top:none;">
+	            				<input id="username" />
+	            			</td>
+	            		</tr>
+	            		<tr>
+	            			<td rowspan="4" align="right" style="border-top:none;">
+	            				<button onclick = "getTypeUsers(-1,1);" class="btn btn-default">查询</button>
+	            			</td>
+	            		</tr>
+	            	</table>
+            	</div>
 			    <button id = "addUser" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加网站工作用户</button>
-			    <button onclick = "download();" class="btn btn-default">导出</button>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
@@ -128,15 +154,11 @@
 			  <thead>
 			    <tr>
 			      <th style="width:3%;text-align: center;">#</th>
-			      <th style="width:10%;text-align: center;">用户名</th>
-			      <th style="width:10%;text-align: center;">真实姓名</th>
-			      <th style="width:10%;text-align: center;">性别</th>
-			      <th style="width:10%;text-align: center;">联系电话</th>
-			      <th style="width:10%;text-align: center;">qq</th>
-			      <th style="width:10%;text-align: center;">邮箱</th>
-			      <th style="width:10%;text-align: center;">状态</th>
-			      <th style="width:10%;text-align: center;">备注</th>
-			      <th style="width:10%;text-align: center;">操作</th>
+			      <th style="width:25%;text-align: center;">始发地</th>
+			      <th style="width:25%;text-align: center;">目的地</th>
+			      <th style="width:10%;text-align: center;">类别</th>
+			      <th style="width:10%;text-align: center;">金额</th>
+			      <th style="width:25%;text-align: center;">备注</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -148,18 +170,6 @@
 			      <td>{{if user.sex == 1}}男{{/if}}{{if user.sex == 2}}女{{/if}}</td>
 			      <td>{{user.telephone}}</td>
 			      <td>{{user.qq}}</td>
-				  <td>{{user.email}}</td>
-			      <td>{{if user.ischecked == 0}}未审核{{/if}}{{if user.ischecked == 1}}正常{{/if}}{{if user.ischecked == 2}}已锁定{{/if}}</td>
-			      <td>{{user.remark}}</td>
-			      <td>
-					  {{if user.ischecked == 0}}
-			          <a class="checkModelBtn" userid="{{user.id}}"><i class="fa fa-pencil"></i></a>
-			          {{/if}}
-					  {{if user.ischecked != 0}}
-			          <a class="lockModelBtn" userid="{{user.id}}" ischecked="{{user.ischecked}}"><i class="fa fa-lock"></i></a>
-			          {{/if}}
-					  <a class="deleteModelBtn" userid="{{user.id}}"><i class="fa fa-trash-o"></i></a>
-			      </td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>

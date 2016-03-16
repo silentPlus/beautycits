@@ -2,6 +2,7 @@ package com.zyh.beautycits.service.user.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,14 +42,23 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResultMsg getUsersByType(Integer currentPage, Integer type) {
+	public ResultMsg getUsersByType(Integer currentPage, Integer type, String username, String realname) {
 		ResultMsg resultMsg = new ResultMsg();
-		String countSql = "Select count(*) from user where usertype = ?";
-		String querySql = "select * from user where usertype = ? order by ischecked ASC, createtime desc";
+		StringBuffer countSql = new StringBuffer("Select count(*) from user where usertype = ? ");
+		StringBuffer querySql = new StringBuffer("select * from user where usertype = ? ");
+		if (StringUtils.isNotBlank(username)) {
+			querySql.append("and username like '%").append(username).append("%' ");
+			countSql.append("and username like '%").append(username).append("%' ");
+		}
+		if (StringUtils.isNotBlank(realname)) {
+			querySql.append("and realname like '%").append(realname).append("%' ");
+			countSql.append("and realname like '%").append(realname).append("%' ");
+		}
+		querySql.append("order by ischecked ASC, createtime desc");
 		PageInfo<User> pageUser = new PageInfo<User>();
 		pageUser.setCurrentPage(currentPage);
 		pageUser.setPageSize(2);
-		pageUser = userDao.getPageModel(pageUser, new StringBuffer(querySql), new StringBuffer(countSql), User.class, type);
+		pageUser = userDao.getPageModel(pageUser, querySql, countSql, User.class, type);
 		resultMsg.setState(Results.SUCCESS);
 		resultMsg.setMsgEntity(pageUser);
 		return resultMsg;

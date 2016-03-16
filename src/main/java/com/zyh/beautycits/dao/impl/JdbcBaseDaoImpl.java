@@ -235,7 +235,7 @@ public  class JdbcBaseDaoImpl<T> extends NamedParameterJdbcDaoSupport implements
 
         return model;
     }
-
+	
 	/* ?方式Object传参 ,Map专用分页*/
 	@Override
 	public PageInfo<Map<String, Object>> getPageModel(PageInfo<Map<String, Object>> model, StringBuffer querySQL,StringBuffer countSQL, Object... paramValue) {

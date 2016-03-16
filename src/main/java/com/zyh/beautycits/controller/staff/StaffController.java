@@ -1,5 +1,8 @@
 package com.zyh.beautycits.controller.staff;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,9 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.zyh.beautycits.controller.BaseController;
+import com.zyh.beautycits.service.region.RegionService;
 import com.zyh.beautycits.service.staff.VehicleService;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
+import com.zyh.beautycits.vo.region.Area;
+import com.zyh.beautycits.vo.region.City;
+import com.zyh.beautycits.vo.region.Province;
 import com.zyh.beautycits.vo.user.User;
 
 @RestController
@@ -20,7 +27,10 @@ import com.zyh.beautycits.vo.user.User;
 public class StaffController extends BaseController{
 	
 	@Autowired
-	private VehicleService vehicleService;
+	private VehicleService vehicleService;	
+	
+	@Autowired
+	private RegionService regionService;
 	
 	@RequestMapping(value = "/index.html")
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response)  throws Exception {
@@ -40,6 +50,14 @@ public class StaffController extends BaseController{
 		// 获取登录用户信息
 		User user = getSessionUser();
 		mav.addObject("user", user);
+		
+		List<Province> provinces = regionService.getProvinces();
+		Map<String, List<City>> citys = regionService.getcitys();
+		Map<String, List<Area>> areas = regionService.getareas();
+		mav.addObject("provinces", provinces);
+		mav.addObject("citys", citys);
+		mav.addObject("areas", areas);
+		
 		// 一些链接
 		String url_logout = getUrl_BizFunc("logout", "dologout.html");
 		String url_editUser = getUrl_BizFunc("admin", "edituser.html");

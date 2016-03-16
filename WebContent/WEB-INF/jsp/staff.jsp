@@ -148,8 +148,8 @@
 		  		</div>
 			</div>
 			
-			  <div id="usersTable">
-			  <script id="usersTemplateView" type="text/html">
+			  <div id="vehiclesTable">
+			  <script id="vehiclesTemplateView" type="text/html">
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
@@ -162,34 +162,49 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			  {{ each users as user i }}
+			  {{ each vehicles as vehicle i }}
 			    <tr>
 			      <td>{{i + 1}}</td>
-			      <td>{{user.username}}</td>
-			      <td>{{user.realname}}</td>
-			      <td>{{if user.sex == 1}}男{{/if}}{{if user.sex == 2}}女{{/if}}</td>
-			      <td>{{user.telephone}}</td>
-			      <td>{{user.qq}}</td>
+			      <td>{{vehicle.origin}}</td>
+			      <td>{{vehicle.destination}}</td>
+			      <td>{{vehicle.type}}</td>
+			      <td>{{vehicle.cost}}元</td>
+			      <td>{{vehicle.remark}}</td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
 			</table>
 			
 			{{if length != 0}}
+			<div align = "right">
 			<ul class="pagination">
-			  <li><a href="#">&laquo;</a></li>
-			  <li><a href="#">1</a></li>
-			  <li><a href="#">2</a></li>
-			  <li><a href="#">3</a></li>
-			  <li><a href="#">4</a></li>
-			  <li><a href="#">5</a></li>
-			  <li><a href="#">&raquo;</a></li>
-			</ul>
+				{{ if currentPage == 1 }}
+  				<li><a style="display:none;">&laquo;</a></li>
+				{{ /if }}
+				{{ if currentPage != 1 }}
+  				<li><a onclick="getTypeUsers(-1, -1)">&laquo;</a></li>
+				{{ /if }}
+				{{ each list as val i }}
+				{{ if currentPage == i+1 }}
+  				<li><a style="color:#444;">{{i+1}}</a></li>
+				{{ /if}}
+				{{ if currentPage != i+1 }}
+  				<li><a onclick="getTypeUsers(-1, {{i+1}})">{{i+1}}</a></li>
+				{{ /if}}
+				{{ /each }}
+				{{ if currentPage == totalPage }}
+  				<li><a style="display:none;">&raquo;</a></li>
+				{{ /if }}
+				{{ if currentPage != totalPage }}
+  				<li><a onclick="getTypeUsers(-1, -2)">&raquo;</a></li>
+				{{ /if }}
+			</ul> 
+			</div>
 			{{/if}}
 			</script>
 			</div>
 
-			<div class="modal small fade" id="lockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<!-- <div class="modal small fade" id="lockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			        <div class="modal-header">
@@ -206,103 +221,39 @@
 			      </div>
 			    </div>
 			</div>
-			
-			<div class="modal small fade" id="unLockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			        <div class="modal-header">
-			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">解锁用户</h3>
-			        </div>
-			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>解锁用户？</p>
-			        </div>
-			        <div class="modal-footer">
-			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger lockBtn" data-dismiss="modal">确定</button>
-			        </div>
-			      </div>
-			    </div>
-			</div>
-			
-			<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			        <div class="modal-header">
-			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除用户</h3>
-			        </div>
-			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除用户?<br>操作不可恢复。</p>
-			        </div>
-			        <div class="modal-footer">
-			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button id="deleteBtn" class="btn btn-danger" data-dismiss="modal">删除</button>
-			        </div>
-			      </div>
-			    </div>
-			</div>
-			
-			<div class="modal small fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			        <div class="modal-header">
-			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">用户审核</h3>
-			        </div>
-			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定用户通过审核?</p>
-			        </div>
-			        <div class="modal-footer">
-			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button id="checkBtn" class="btn btn-danger" data-dismiss="modal">确定</button>
-			        </div>
-			      </div>
-			    </div>
-			</div>
-
+			 -->
         </div>
     </div>
 	<input type="hidden" id = "userid" value="" />
-	<input type="hidden" id = "ischecked" value="" />
-	<input type="hidden" id = "usertype" value="2" />
 
     <script type="text/javascript">
 	    $(function(){
 
-	    	var users = ${users};
+	    	var vehicles = ${vehicles};
+	    	var arrayObj = new Array(vehicles.totalPage);
+	    	for (var i=0; i<vehicles.totalPage; i++){
+	    		arrayObj[i] = i;
+	    	}
+	    	console.log(vehicles);
 	    	data = {
-	    			users : users,
-	    			length : users.length
+	    			vehicles : vehicles.pageInfoResult,
+	    			length : vehicles.totalRecord,
+	    			currentPage : vehicles.currentPage,
+	    			totalPage : vehicles.totalPage,
+	    			list : arrayObj
 	    	};
-	    	console.log('${ctx}');
-	    	var usersViewHtml = template("usersTemplateView", data);
-	    	$("#usersTable").html(usersViewHtml);
+	    	console.log(data);
+	    	var usersViewHtml = template("vehiclesTemplateView", data);
+	    	$("#vehiclesTable").html(usersViewHtml);
 	    	
-	    	$(".checkModelBtn").click(function(){
-	    		var id = $(this).attr("userid");
-	    		$("#userid").val(id);
-	    		$("#checkModal").modal('show');
-	    	});
+	    	var provinces = ${provinces};
+	    	var citys = ${citys};
+	    	var areas = ${areas};
+	    	console.log("provinces" + provinces);
+	    	console.log("citys" + citys);
+	    	console.log("areas" + areas);
 	    	
-	    	$(".lockModelBtn").click(function(){
-	    		var id = $(this).attr("userid");
-	    		var ischecked = $(this).attr("ischecked");
-	    		$("#userid").val(id);
-	    		$("#ischecked").val(ischecked);
-	    		if (ischecked == 1) 
-	    			$("#lockModal").modal('show');
-	    		else 
-	    			$("#unLockModal").modal('show');
-	    	});
-	    	
-	    	$(".deleteModelBtn").click(function(){
-	    		var id = $(this).attr("userid");
-	    		$("#userid").val(id);
-	    		$("#deleteModal").modal('show');
-	    	});
-	    	
-	    	$(".lockBtn").click(function(){
+	    	/* $(".lockBtn").click(function(){
 	    		
 	    		var id = $("#userid").val();
 	    		var ischecked = $("#ischecked").val();
@@ -345,76 +296,6 @@
 	    		});
 	    	});
 	    	
-	    	$("#checkBtn").click(function(){
-	    		
-	    		var id = $("#userid").val();
-	    		$.ajax({
-	    			url : "${ctx}/admin/check.html",
-	    			async : false,
-	    			type : 'POST',
-	    			cache:false,
-	    			data : {
-	    				id : id
-	    			},
-	    			dataType : 'json',
-	    			timeout : 15000,
-	    			beforeSend : function() {
-	    	    		$("#checkModal").modal('hide');
-	    			},
-	    			complete : function(XMLHttpRequest,textStatus) {
-	    			},
-	    			success : function(response) {
-	    				var json = eval(response);
-	    				if (0===json.status){
-	    					alert("审核成功！")
-	                    } else if (1===json.status){
-	                        alert(json.message);
-	                    }
-	    				window.location.reload();
-	    			},
-	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
-	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-	    				window.location.reload();
-	    			}
-	    		});
-	    	});
-	    	
-	    	$("#deleteBtn").click(function(){
-	    		
-	    		var id = $("#userid").val();
-	    		
-	    		$.ajax({
-	    			url : "${ctx}/admin/delete.html",
-	    			async : false,
-	    			type : 'POST',
-	    			cache:false,
-	    			data : {
-	    				id : id
-	    			},
-	    			dataType : 'json',
-	    			timeout : 15000,
-	    			beforeSend : function() {
-	    	    		$("#deleteModal").modal('hide');
-	    			},
-	    			complete : function(XMLHttpRequest,textStatus) {
-	    			},
-	    			success : function(response) {
-	    				var json = eval(response);
-	    				if (0===json.status){
-	    					alert("删除成功！")
-	                    } else if (1===json.status){
-	                        alert(json.message);
-	                    }
-	    				window.location.reload();
-	    			},
-	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
-	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-	    				window.location.reload();
-	    			}
-	    		});
-	    	});
-	    	
-	    });
     
 	    function getTypeUsers(type){
 	    	
@@ -465,18 +346,14 @@
 	    
 	    $("#addUser").click(function(){
 			window.location.href = "${ctx}/admin/adduser.html";
-	    });
-	    
-	    function download() {
-	    	var usertype = $("#usertype").val();
-	    	window.location.href = "${ctx}/export/users.html?type=" + usertype;
-	    }
+	    }); */
 	    
         $("[rel=tooltip]").tooltip();
         $(function() {
             $('.demo-cancel-click').click(function(){return false;});
         });
-    </script>
+    });
+   </script>
     
   
 </body></html>

@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-	<c:import url="importcommon.jsp"></c:import>
 
+    <c:import url="importcommon.jsp"></c:import>
 </head>
 <body class=" theme-blue">
 
@@ -72,47 +72,64 @@
 
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-          <span class="navbar-brand"> 旅游管理系统</span>
-
-        <div class="navbar-collapse collapse" style="height: 1px;">
-
-        </div>
-      </div>
-    </div>
+			<span class="navbar-brand" style="color:#FAFAFA;"> 旅游管理系统</span>
+        	<div class="navbar-collapse collapse" style="height: 1px;"></div>
+    	</div>
+   	</div>
     
-
-
         <div class="dialog">
     <div class="panel panel-default">
         <p class="panel-heading no-collapse" style="font-size:17px;">注册</p>
         <div class="panel-body">
-            <form>
-                <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" class="form-control span12">
-                </div>
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" class="form-control span12">
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="text" class="form-control span12">
-                </div>
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" class="form-control span12">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control span12">
-                </div>
-                <div class="form-group">
-                    <a href="index.html" class="btn btn-primary pull-right">Sign Up!</a>
-                    <label class="remember-me"><input type="checkbox"> I agree with the <a href="terms-and-conditions.html">Terms and Conditions</a></label>
-                </div>
-                    <div class="clearfix"></div>
-            </form>
+        	<div class="form-group">
+        		<label>用户名<span style="color:red;">*</span></label>
+        		<input type="text" id="username" class="form-control span12">
+	        </div>
+	        <div class="form-group">
+	        	<label>密码<span style="color:red;">*</span></label>
+	        	<input type="password" id="password" class="form-control">
+	        </div>
+	        <div class="form-group">
+	        	<label>确认密码<span style="color:red;">*</span></label>
+	        	<input type="password" id="cpassword" class="form-control" onmouseover="">
+	        </div>
+	        <div class="form-group">
+		        <label>真实姓名<span style="color:red;">*</span></label>
+		        <input type="text" id="realname" class="form-control span12">
+	        </div>
+	        <div class="form-group">
+		        <label>性别</label>
+		        <select id="sex" class="form-control">
+		              <option value="1">男</option>
+		              <option value="2">女</option>
+		        </select>
+	        </div>
+	        <div class="form-group">
+		        <label>用户类别</label>
+		        <select id="usertype" class="form-control">
+		              <option value="0">游客</option>
+		              <option value="1">旅行社</option>
+		        </select>
+	        </div>
+	        <div class="form-group">
+	        	<label>手机号</label>
+	        	<input type="text" id="telephone" class="form-control span12">
+	        </div>
+	        <div class="form-group">
+		        <label>qq</label>
+		        <input type="text" id="qq" class="form-control span12">
+	        </div>
+	        <div class="form-group">
+		        <label>Email</label>
+		        <input type="email" id="email" class="form-control span12">
+	        </div>
+	        <div class="form-group">
+		        <label>remark</label>
+		        <textarea id="remark" class="form-control" ></textarea>
+	        </div>
+            <div class="form-group">
+                <a id="registerBtn" class="btn btn-primary pull-right">注册</a>
+            </div>
         </div>
     </div>
 </div>
@@ -121,6 +138,149 @@
         $("[rel=tooltip]").tooltip();
         $(function() {
             $('.demo-cancel-click').click(function(){return false;});
+        	}
+        );
+        
+      	//给文本框绑定一个失去焦点事件
+	    $("#username").focusout(function() {
+		    var name = $("#username").val().trim();
+		    if(name != null && name != ''){
+		    	checkName(name);
+	    	}
+	    });
+	    //发ajax请求到后台判断用户名是否重复
+	    function checkName(name){
+	    	var type = $("#usertype option:selected").val();
+		    $.ajax({
+			    url : "${ctx}/admin/checkusername.html",
+			    type : "post",
+			    dataType : 'JSON',
+			    data : {username:name,usertype:type},
+			    success : function(response) {
+			    	var result = response.status;
+				    //已经存在该名字提示用户
+				    if(result == 1){
+				    	alert("该用户名已经存在");
+				    	$("#username").val('');
+				    }
+			    },
+			    error : function(XMLHttpRequest, textStatus, errorThrown) {
+    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+    				window.location.reload();
+    			}
+		    });
+	    } 
+	    // 密码
+	    $("#cpassword").focusout(function() {
+		    var password = $("#password").val().trim();
+		    var cpassword = $("#cpassword").val().trim();
+		    if(!checkpwd(password, cpassword)){
+		    	alert("两次输入的密码不一致");
+	    	}
+	    });
+	    
+	    function checkpwd(pwd, cpwd) {
+	    	if(pwd != cpwd){
+		    	return false;
+	    	}else{
+	    		return true;
+	    	}
+	    }
+	 	// qq
+	    $("#qq").focusout(function() {
+		    var qq = $("#qq").val().trim();
+		    var re = /^[1-9]*[1-9][0-9]*$/;
+		    if(telephone != '' && telephone != null && !(re.test(qq))){
+		      alert('qq号格式错误');
+		      $("#qq").val('');
+		    }
+	    });
+	    // 手机号
+	    $("#telephone").focusout(function() {
+		    var telephone = $("#telephone").val().trim();
+		    var re = /^1[3|4|5|7|8]\d{9}$/;
+		    if(telephone != '' && telephone != null && !(re.test(telephone))){
+		      alert('手机号格式错误');
+		      $("#telephone").val('');
+		    }
+	    });
+	    
+	 	// email
+	    $("#email").focusout(function() {
+		    var email = $("#email").val().trim();
+		    var re= /\w@\w*\.\w/;
+		    if (email != '' && email != null && !re.test(email)){
+		    	alert('email格式错误');
+		    	$("#email").val('');
+		    }
+	    });
+        
+        $("#registerBtn").click(function(){
+        	var username = $("#username").val().trim();
+	    	if(username == null || username == ''){
+	    		alert("用户名不能为空！");
+	    		return;
+	    	}
+	    	
+	    	var password = $("#password").val().trim();
+	    	var cpassword = $("#cpassword").val().trim();
+	    	if(password == null || password == ''){
+	    		alert("密码不能为空！");
+	    		return;
+	    	}
+	    	if(!checkpwd(password, cpassword)){
+		    	alert("两次输入的密码不一致");
+		    	return;
+	    	}
+	    	
+	    	var realname = $("#realname").val().trim();
+	    	if (realname == null || realname == '') {
+	    		alert("真实姓名不能为空！");
+		    	return;
+	    	}
+	    	var usertype = $("#usertype option:selected").val();
+	    	var ischecked = 1;
+	    	if (usertype == 1) {
+	    		ischecked = 0;
+	    	}
+	    	var sex = $("#sex option:selected").val();
+	    	var telephone = $("#telephone").val().trim();
+	    	var qq = $("#qq").val().trim();
+	    	var email = $("#email").val().trim();
+	    	var remark = $.trim($("#remark").val());
+	    	
+	    	$.ajax({
+			    url : "${ctx}/register/doregister.html",
+			    type : "post",
+			    dataType : 'JSON',
+			    data : {
+			    	username:username,
+			    	password:password,
+			    	realname:realname,
+			    	sex:sex,
+			    	telephone:telephone==null?"":telephone,
+			    	qq:qq==null?"":qq,
+			    	email:email==null?"":email,
+			    	remark:remark==null?"":remark,
+			    	ischecked:ischecked,
+			    	usertype:usertype
+			    	},
+			    success : function(response) {
+			    	var data = eval(response);
+				    
+				    if(data.status == 0){
+				    	alert("保存成功！");
+				    	window.location.href = "${ctx}/login/index.html";
+				    } else {
+				    	alert(data.message);
+				    	window.location.reload();
+				    }
+			    },
+			    error : function(XMLHttpRequest, textStatus, errorThrown) {
+    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+    				window.location.reload();
+    			}
+	    	});
         });
     </script>
     

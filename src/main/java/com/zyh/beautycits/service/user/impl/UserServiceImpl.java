@@ -136,8 +136,8 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public ResultMsg checkUserName(String username, Integer usertype) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "select * from user u where u.username = ? and u.usertype = ?";
-		User user = userDao.getJavaBean(sql, User.class, username, usertype);
+		String sql = "select * from user u where u.username = ?";
+		User user = userDao.getJavaBean(sql, User.class, username);
 		if (user == null) {
 			resultMsg.setState(Results.SUCCESS);
 		} else {

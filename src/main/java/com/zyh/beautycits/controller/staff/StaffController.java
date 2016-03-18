@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zyh.beautycits.controller.BaseController;
 import com.zyh.beautycits.service.region.RegionService;
 import com.zyh.beautycits.service.staff.VehicleService;
@@ -52,9 +53,9 @@ public class StaffController extends BaseController{
 		mav.addObject("user", user);
 		
 		List<Province> provinces = regionService.getProvinces();
-		Map<String, List<City>> citys = regionService.getcitys();
-		Map<String, List<Area>> areas = regionService.getareas();
-		mav.addObject("provinces", provinces);
+		JSONObject citys = regionService.getcitys();
+		JSONObject areas = regionService.getareas();
+		mav.addObject("provinces", JSON.toJSONString(provinces));
 		mav.addObject("citys", citys);
 		mav.addObject("areas", areas);
 		

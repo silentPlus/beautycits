@@ -96,11 +96,16 @@
 
     <div class="sidebar-nav">
 	    <ul>
-		    <li><a data-target=".dashboard-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">基础信息管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".vehicle-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">交通信息管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
-			    <ul class="dashboard-menu nav nav-list collapse in">
-		            <li onclick="getTypeUsers(2)"><a><span class="fa fa-caret-right"></span>交通信息管理</a></li>
-		            <li onclick="getTypeUsers(1)"><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
+			    <ul class="vehicle-menu nav nav-list collapse in">
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>交通信息管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".ticket-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">门票信息管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="ticket-menu nav nav-list collapse in">
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -119,22 +124,52 @@
 	            	<table class="table" style="text-align:center;">
 	            		<tr>
 	            			<td width="10%" align="right" style="border-top:none;">始发地:</td>
-	            			<td width="90%" align="left" style="border-top:none;">
-	            				<input id="username" />&nbsp;&nbsp;<input id="username" />&nbsp;&nbsp;<input id="username" />
+	            			<td width="30%" align="left" style="border-top:none;">
+	            				<select id="oprovince" class="form-control" ">
+	            					  <option value="" checked="checked">请选择</option>
+					        	</select>
+				        	<td width="30%" align="left" style="border-top:none;" onchange="doOcity(this.selectedIndex);">
+					        	<select id="ocity" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+					        	</select>
+					        </td>
+					        <td width="30%" align="left" style="border-top:none;">
+					        	<select id="oarea" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+					        	</select>
 	            			</td>
 	            		</tr>
 	            		<tr>
 	            			<td width="10%" align="right" style="border-top:none;">目的地:</td>
-	            			<td width="90%" align="left" style="border-top:none;">
-	            				<input id="username" />&nbsp;&nbsp;<input id="username" />&nbsp;&nbsp;<input id="username" />
+	            			<td width="30%" align="left" style="border-top:none;">
+	            				<select id="dprovince" class="form-control" onchange="doDprovince(this.selectedIndex);">
+	            					  <option value="" checked="checked">请选择</option>
+					        	</select>
+				        	<td width="30%" align="left" style="border-top:none;" onchange="doDcity(this.selectedIndex);">
+					        	<select id="dcity" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+					        	</select>
+					        </td>
+					        <td width="30%" align="left" style="border-top:none;">
+					        	<select id="darea" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+					        	</select>
 	            			</td>
 	            		</tr>
 	            		
 	            		<tr>
 	            			<td width="10%" align="right" style="border-top:none;">交通类别:</td>
-	            			<td width="90%" align="left" style="border-top:none;">
-	            				<input id="username" />
+	            			<td align="left" style="border-top:none;">
+	            				<select id="vehicletype" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+						              <option value="1">汽车</option>
+						              <option value="2">火车</option>
+						              <option value="3">飞机</option>
+						              <option value="4">轮船</option>
+					        	</select>
 	            			</td>
+	            			<td style="border-top:none;"></td>
+	            			<td style="border-top:none;"></td>
 	            		</tr>
 	            		<tr>
 	            			<td rowspan="4" align="right" style="border-top:none;">
@@ -143,7 +178,7 @@
 	            		</tr>
 	            	</table>
             	</div>
-			    <button id = "addUser" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加网站工作用户</button>
+			    <button id = "addVehicle" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加交通信息</button>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
@@ -228,6 +263,29 @@
 
     <script type="text/javascript">
 	    $(function(){
+	    	$("#oprovince").change(function(){
+	    		var index = $.trim($("#oprovince").val());
+	    		if (index != null || index != ''){
+	    			for (var city in citys[index]) { 
+	    				console.log(city);
+	    				$('#ocity').append('<option value="' + city[i].id + '">'+ city[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	
+	    	function doOprovince(index){
+	    		
+	    		$('#ocity').append('<option value="' + citys[index][i].id + '">'+ provinces[i].name + '</option>');
+	    	}
+			function doOcity(index){
+				$('#oarea').append('<option value="' + areas[index][i].id + '">'+ provinces[i].name + '</option>');		
+	    	}
+			function doDprovince(index){
+				$('#ocity').append('<option value="' + citys[index][i].id + '">'+ provinces[i].name + '</option>');
+			}
+			function doDcity(index){
+				$('#oarea').append('<option value="' + areas[index][i].id + '">'+ provinces[i].name + '</option>');
+			}
 
 	    	var vehicles = ${vehicles};
 	    	var arrayObj = new Array(vehicles.totalPage);
@@ -252,6 +310,13 @@
 	    	console.log("provinces" + provinces);
 	    	console.log("citys" + citys);
 	    	console.log("areas" + areas);
+	    	
+	    	for (i = 0; i < provinces.length; i++) {
+	    		$('#oprovince').append('<option value="' + provinces[i].id + '">'+ provinces[i].name + '</option>');
+    		} 
+	    	for (i = 0; i < provinces.length; i++) {
+	    		$('#dprovince').append('<option value="' + provinces[i].id + '">'+ provinces[i].name + '</option>');
+    		}
 	    	
 	    	/* $(".lockBtn").click(function(){
 	    		

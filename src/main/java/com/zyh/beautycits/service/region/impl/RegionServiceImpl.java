@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zyh.beautycits.dao.JdbcBaseDao;
 import com.zyh.beautycits.service.base.impl.BaseServiceImpl;
 import com.zyh.beautycits.service.region.RegionService;
@@ -33,14 +34,14 @@ public class RegionServiceImpl extends BaseServiceImpl implements RegionService{
 	}
 
 	@Override
-	public Map<String, List<City>> getcitys() {
+	public JSONObject getcitys() {
 		String sql = "select * from city";
-		Map<String, List<City>> map = new HashMap<>();
+		JSONObject map = new JSONObject();
 		List<City> listCity = cityDao.getList(sql, City.class);
 		for (City city : listCity) {
 			String provinceCode = city.getProvincecode();
 			if (map.containsKey(provinceCode)) {
-				List<City> citys = map.get(provinceCode);
+				List<City> citys = (List<City>) map.get(provinceCode);
 				citys.add(city);
 				map.put(provinceCode, citys);
 			} else {
@@ -53,14 +54,14 @@ public class RegionServiceImpl extends BaseServiceImpl implements RegionService{
 	}
 
 	@Override
-	public Map<String, List<Area>> getareas() {
+	public JSONObject getareas() {
 		String sql = "select * from area";
 		List<Area> listArea = areaDao.getList(sql, Area.class);
-		Map<String, List<Area>> map = new HashMap<>();
+		JSONObject map = new JSONObject();
 		for (Area area : listArea) {
 			String citycode = area.getCitycode();
 			if (map.containsKey(citycode)) {
-				List<Area> areas = map.get(citycode);
+				List<Area> areas = (List<Area>) map.get(citycode);
 				areas.add(area);
 				map.put(citycode, areas);
 			} else {

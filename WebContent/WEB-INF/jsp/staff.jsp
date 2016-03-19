@@ -126,33 +126,33 @@
 	            			<td width="10%" align="right" style="border-top:none;">始发地:</td>
 	            			<td width="30%" align="left" style="border-top:none;">
 	            				<select id="oprovince" class="form-control" ">
-	            					  <option value="" checked="checked">请选择</option>
+	            					  <option value="" code="" checked="checked">请选择</option>
 					        	</select>
-				        	<td width="30%" align="left" style="border-top:none;" onchange="doOcity(this.selectedIndex);">
+				        	<td width="30%" align="left" style="border-top:none;">
 					        	<select id="ocity" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
+	            					  <option value="" code="" checked="checked">请选择</option>
 					        	</select>
 					        </td>
 					        <td width="30%" align="left" style="border-top:none;">
 					        	<select id="oarea" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
+	            					  <option value="" code="" checked="checked">请选择</option>
 					        	</select>
 	            			</td>
 	            		</tr>
 	            		<tr>
 	            			<td width="10%" align="right" style="border-top:none;">目的地:</td>
 	            			<td width="30%" align="left" style="border-top:none;">
-	            				<select id="dprovince" class="form-control" onchange="doDprovince(this.selectedIndex);">
-	            					  <option value="" checked="checked">请选择</option>
+	            				<select id="dprovince" class="form-control">
+	            					  <option value="" code="" checked="checked">请选择</option>
 					        	</select>
-				        	<td width="30%" align="left" style="border-top:none;" onchange="doDcity(this.selectedIndex);">
+				        	<td width="30%" align="left" style="border-top:none;">
 					        	<select id="dcity" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
+	            					  <option value="" code="" checked="checked">请选择</option>
 					        	</select>
 					        </td>
 					        <td width="30%" align="left" style="border-top:none;">
 					        	<select id="darea" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
+	            					  <option value="" code="" checked="checked">请选择</option>
 					        	</select>
 	            			</td>
 	            		</tr>
@@ -173,7 +173,7 @@
 	            		</tr>
 	            		<tr>
 	            			<td rowspan="4" align="right" style="border-top:none;">
-	            				<button onclick = "getTypeUsers(-1,1);" class="btn btn-default">查询</button>
+	            				<button id="search" class="btn btn-default">查询</button>
 	            			</td>
 	            		</tr>
 	            	</table>
@@ -193,7 +193,8 @@
 			      <th style="width:25%;text-align: center;">目的地</th>
 			      <th style="width:10%;text-align: center;">类别</th>
 			      <th style="width:10%;text-align: center;">金额</th>
-			      <th style="width:25%;text-align: center;">备注</th>
+			      <th style="width:20%;text-align: center;">备注</th>
+				  <th style="width:5%;text-align: center;">备注</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -205,6 +206,7 @@
 			      <td>{{vehicle.type}}</td>
 			      <td>{{vehicle.cost}}元</td>
 			      <td>{{vehicle.remark}}</td>
+				  <td><a class="deleteModelBtn" vehicleid="{{vehicle.id}}"><i class="fa fa-trash-o"></i></a></td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -217,21 +219,21 @@
   				<li><a style="display:none;">&laquo;</a></li>
 				{{ /if }}
 				{{ if currentPage != 1 }}
-  				<li><a onclick="getTypeUsers(-1, -1)">&laquo;</a></li>
+  				<li><a onclick="javascript:dosearch(-1)">&laquo;</a></li>
 				{{ /if }}
 				{{ each list as val i }}
 				{{ if currentPage == i+1 }}
   				<li><a style="color:#444;">{{i+1}}</a></li>
 				{{ /if}}
 				{{ if currentPage != i+1 }}
-  				<li><a onclick="getTypeUsers(-1, {{i+1}})">{{i+1}}</a></li>
+  				<li><a onclick="javascript:dosearch({{i+1}})">{{i+1}}</a></li>
 				{{ /if}}
 				{{ /each }}
 				{{ if currentPage == totalPage }}
   				<li><a style="display:none;">&raquo;</a></li>
 				{{ /if }}
 				{{ if currentPage != totalPage }}
-  				<li><a onclick="getTypeUsers(-1, -2)">&raquo;</a></li>
+  				<li><a onclick="javascript:dosearch(-2)">&raquo;</a></li>
 				{{ /if }}
 			</ul> 
 			</div>
@@ -239,60 +241,117 @@
 			</script>
 			</div>
 
-			<!-- <div class="modal small fade" id="lockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
+			<div class="modal small fade" id="addVehicleModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" style="width:800px;">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">锁定用户</h3>
+			            <h3 id="myModalLabel">添加交通信息</h3>
 			        </div>
 			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定锁定用户？<br>锁定后用户将无法进行正常操作。</p>
+			            <table class="table" style="text-align:center;">
+		            		<tr>
+		            			<td width="10%" align="right" style="border-top:none;">始发地:</td>
+		            			<td width="30%" align="left" style="border-top:none;">
+		            				<select id="ooprovince" class="form-control" ">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+					        	<td width="30%" align="left" style="border-top:none;">
+						        	<select id="oocity" class="form-control">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+						        </td>
+						        <td width="30%" align="left" style="border-top:none;">
+						        	<select id="ooarea" class="form-control">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+		            			</td>
+		            		</tr>
+		            		<tr>
+		            			<td width="10%" align="right" style="border-top:none;">目的地:</td>
+		            			<td width="30%" align="left" style="border-top:none;">
+		            				<select id="ddprovince" class="form-control">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+					        	<td width="30%" align="left" style="border-top:none;">
+						        	<select id="ddcity" class="form-control">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+						        </td>
+						        <td width="30%" align="left" style="border-top:none;">
+						        	<select id="ddarea" class="form-control">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+		            			</td>
+		            		</tr>
+		            		
+		            		<tr>
+		            			<td width="10%" align="right" style="border-top:none;">交通类别:</td>
+		            			<td align="left" style="border-top:none;">
+		            				<select id="vvehicletype" class="form-control">
+		            					  <option value="" checked="checked">请选择</option>
+							              <option value="1">汽车</option>
+							              <option value="2">火车</option>
+							              <option value="3">飞机</option>
+							              <option value="4">轮船</option>
+						        	</select>
+		            			</td>
+		            			<td width="10%" align="right" style="border-top:none;">金额（单位：元）</td>
+		            			<td align="left" style="border-top:none;">
+		            				<input type="text" id="cost" class="form-control">
+		            			</td>
+		            		</tr>
+		            		<tr>
+		            			<td width="10%" align="right" style="border-top:none;">备注</td>
+		            			<td align="left" style="border-top:none;">
+		            				<textarea id="remark" class="form-control" ></textarea>
+		            			</td>
+		            			<td style="border-top:none;"></td>
+		            			<td style="border-top:none;"></td>
+		            		</tr>
+		            	</table>
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger lockBtn" data-dismiss="modal">确定</button>
+			            <button class="btn btn-danger addVehicleBtn" data-dismiss="modal">确定</button>
 			        </div>
 			      </div>
 			    </div>
 			</div>
-			 -->
+			
+
+			<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="myModalLabel">删除交通信息</h3>
+			        </div>
+			        <div class="modal-body">
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该交通信息?<br>操作不可恢复。</p>
+			        </div>
+			        <div class="modal-footer">
+			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+			            <button id="deleteBtn" class="btn btn-danger" data-dismiss="modal">删除</button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
+			
         </div>
     </div>
-	<input type="hidden" id = "userid" value="" />
+	<input type="hidden" id = "currentPage" value="1" />
+	<input type="hidden" id = "vehicleid" value="" />
 
     <script type="text/javascript">
 	    $(function(){
-	    	$("#oprovince").change(function(){
-	    		var index = $.trim($("#oprovince").val());
-	    		if (index != null || index != ''){
-	    			for (var city in citys[index]) { 
-	    				console.log(city);
-	    				$('#ocity').append('<option value="' + city[i].id + '">'+ city[i].name + '</option>');
-	    			}
-	    		}
-	    	});
-	    	
-	    	function doOprovince(index){
-	    		
-	    		$('#ocity').append('<option value="' + citys[index][i].id + '">'+ provinces[i].name + '</option>');
-	    	}
-			function doOcity(index){
-				$('#oarea').append('<option value="' + areas[index][i].id + '">'+ provinces[i].name + '</option>');		
-	    	}
-			function doDprovince(index){
-				$('#ocity').append('<option value="' + citys[index][i].id + '">'+ provinces[i].name + '</option>');
-			}
-			function doDcity(index){
-				$('#oarea').append('<option value="' + areas[index][i].id + '">'+ provinces[i].name + '</option>');
-			}
-
+			
+			
 	    	var vehicles = ${vehicles};
 	    	var arrayObj = new Array(vehicles.totalPage);
 	    	for (var i=0; i<vehicles.totalPage; i++){
 	    		arrayObj[i] = i;
 	    	}
-	    	console.log(vehicles);
 	    	data = {
 	    			vehicles : vehicles.pageInfoResult,
 	    			length : vehicles.totalRecord,
@@ -300,55 +359,189 @@
 	    			totalPage : vehicles.totalPage,
 	    			list : arrayObj
 	    	};
-	    	console.log(data);
-	    	var usersViewHtml = template("vehiclesTemplateView", data);
-	    	$("#vehiclesTable").html(usersViewHtml);
+	    	var vehiclesViewHtml = template("vehiclesTemplateView", data);
+	    	$("#vehiclesTable").html(vehiclesViewHtml);
 	    	
 	    	var provinces = ${provinces};
 	    	var citys = ${citys};
 	    	var areas = ${areas};
-	    	console.log("provinces" + provinces);
-	    	console.log("citys" + citys);
-	    	console.log("areas" + areas);
 	    	
 	    	for (i = 0; i < provinces.length; i++) {
-	    		$('#oprovince').append('<option value="' + provinces[i].id + '">'+ provinces[i].name + '</option>');
+	    		$('#oprovince').append('<option value="' + provinces[i].id + '" code="' + provinces[i].code + '">'+ provinces[i].name + '</option>');
     		} 
 	    	for (i = 0; i < provinces.length; i++) {
-	    		$('#dprovince').append('<option value="' + provinces[i].id + '">'+ provinces[i].name + '</option>');
+	    		$('#dprovince').append('<option value="' + provinces[i].id + '" code="' + provinces[i].code + '">'+ provinces[i].name + '</option>');
     		}
+	    	for (i = 0; i < provinces.length; i++) {
+	    		$('#ooprovince').append('<option value="' + provinces[i].id + '" code="' + provinces[i].code + '">'+ provinces[i].name + '</option>');
+    		} 
+	    	for (i = 0; i < provinces.length; i++) {
+	    		$('#ddprovince').append('<option value="' + provinces[i].id + '" code="' + provinces[i].code + '">'+ provinces[i].name + '</option>');
+    		}
+	    	$("#oprovince").change(function(){
+	    		var code = $("#oprovince").find("option:selected").attr("code");
+	    		//console.log(code);
+	    		if (code != null && code != ''){
+	    			var cit = citys[code];
+	    			//console.log(cit);
+	    			$('#ocity').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			$('#oarea').html('<option value="" code="" checked="checked">请选择</option>');
+	    			for (var i = 0; i < cit.length; i++) { 
+	    				//console.log(cit[i]);
+	    				$('#ocity').append('<option value="' + cit[i].id + '" code="' + cit[i].code + '">'+ cit[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	$("#ocity").change(function(){
+	    		var code = $("#ocity").find("option:selected").attr("code");
+	    		if (code != null && code != ''){
+	    			var are = areas[code];
+	    			$('#oarea').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			for (var i = 0; i < are.length; i++) { 
+	    				$('#oarea').append('<option value="' + are[i].id + '" code="' + are[i].code + '">'+ are[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	$("#dprovince").change(function(){
+	    		var code = $("#dprovince").find("option:selected").attr("code");
+	    		if (code != null && code != ''){
+	    			var cit = citys[code];
+	    			$('#dcity').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			$('#darea').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			for (var i = 0; i < cit.length; i++) { 
+	    				$('#dcity').append('<option value="' + cit[i].id + '" code="' + cit[i].code + '">'+ cit[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	$("#dcity").change(function(){
+	    		var code = $("#dcity").find("option:selected").attr("code");
+	    		if (code != null && code != ''){
+	    			var are = areas[code];
+	    			$('#darea').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			for (var i = 0; i < are.length; i++) { 
+	    				$('#darea').append('<option value="' + are[i].id + '" code="' + are[i].code + '">'+ are[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	$("#ooprovince").change(function(){
+	    		var code = $("#ooprovince").find("option:selected").attr("code");
+	    		if (code != null && code != ''){
+	    			var cit = citys[code];
+	    			$('#oocity').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			$('#ooarea').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			for (var i = 0; i < cit.length; i++) { 
+	    				$('#oocity').append('<option value="' + cit[i].id + '" code="' + cit[i].code + '">'+ cit[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	$("#oocity").change(function(){
+	    		var code = $("#oocity").find("option:selected").attr("code");
+	    		if (code != null && code != ''){
+	    			var are = areas[code];
+	    			$('#ooarea').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			for (var i = 0; i < are.length; i++) { 
+	    				$('#ooarea').append('<option value="' + are[i].id + '" code="' + are[i].code + '">'+ are[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	$("#ddprovince").change(function(){
+	    		var code = $("#ddprovince").find("option:selected").attr("code");
+	    		if (code != null && code != ''){
+	    			var cit = citys[code];
+	    			$('#ddcity').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			$('#ddarea').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			for (var i = 0; i < cit.length; i++) { 
+	    				$('#ddcity').append('<option value="' + cit[i].id + '" code="' + cit[i].code + '">'+ cit[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	$("#ddcity").change(function(){
+	    		var code = $("#ddcity").find("option:selected").attr("code");
+	    		if (code != null && code != ''){
+	    			var are = areas[code];
+	    			$('#ddarea').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			for (var i = 0; i < are.length; i++) { 
+	    				$('#ddarea').append('<option value="' + are[i].id + '" code="' + are[i].code + '">'+ are[i].name + '</option>');
+	    			}
+	    		}
+	    	});
 	    	
-	    	/* $(".lockBtn").click(function(){
+	    	$("#addVehicle").click(function(){
+	    		$("#addVehicleModel").modal('show');
+	    	});
+	    	
+	    	$(".addVehicleBtn").on("click", function(){
+	    		var oareaid = $.trim($("#ooarea").val());
+	    		var ocityid = $.trim($("#oocity").val());
+	    		var oprovinceid = $.trim($("#ooprovince").val());
+	    		var dareaid = $.trim($("#ddarea").val());
+	    		var dcityid = $.trim($("#ddcity").val());
+	    		var dprovinceid = $.trim($("#ddprovince").val());
+	    		var vehicletype = $.trim($("#vvehicletype").val());
+	    		var cost = $.trim($("#cost").val());
+	    		var remark = $.trim($("#remark").val());
 	    		
-	    		var id = $("#userid").val();
-	    		var ischecked = $("#ischecked").val();
+	    		if (oprovinceid == null || oprovinceid == '') {
+	    			alert("请选则始发地城市");
+	    			return ;
+	    		}
+	    		if (dprovinceid == null || dprovinceid == '') {
+	    			alert("请选则目的地城市");
+	    			return ;
+	    		}
+	    		if (vehicletype == null || vehicletype == '') {
+	    			alert("请选则交通类型");
+	    			return ;
+	    		}
+	    		if (cost == null || cost == '') {
+	    			alert("金额不能为空");
+	    			return ;
+	    		}
 	    		
+	    		var origin = $("#ooprovince").find("option:selected").text();
+	    		if (ocityid != null && ocityid != ''){
+	    			origin += $("#oocity").find("option:selected").text();
+	    		}
+    			if (oareaid != null && oareaid != ''){
+    				origin += $("#ooarea").find("option:selected").text();
+    			}
+	    		var destination = $("#ddprovince").find("option:selected").text();
+	    		if (dcityid != null && dcityid != ''){
+	    			destination += $("#ddcity").find("option:selected").text();
+	    		}
+    			if (dareaid != null && dareaid != ''){
+    				destination += $("#darea").find("option:selected").text();
+    			}
+    			
 	    		$.ajax({
-	    			url : "${ctx}/admin/lock.html",
+	    			url : "${ctx}/staff/addvehicle.html",
 	    			async : false,
 	    			type : 'POST',
 	    			cache:false,
 	    			data : {
-	    				id : id,
-	    				ischecked : ischecked
+	    				oareaid : oareaid,
+	    	    		ocityid : ocityid,
+	    	    		oprovinceid : oprovinceid,
+	    	    		dareaid : dareaid,
+	    	    		dcityid : dcityid,
+	    	    		dprovinceid : dprovinceid,
+	    	    		vehicletype : vehicletype,
+	    	    		cost : cost,
+	    	    		remark : remark,
+	    	    		origin : origin,
+	    	    		destination : destination
 	    			},
 	    			dataType : 'json',
 	    			timeout : 15000,
 	    			beforeSend : function() {
-	    	    		if (ischecked == 1) 
-	    	    			$("#lockModal").modal('hide');
-	    	    		else 
-	    	    			$("#unLockModal").modal('hide');
+    	    			$("#addVehicleModel").modal('hide');
 	    			},
 	    			complete : function(XMLHttpRequest,textStatus) {
 	    			},
 	    			success : function(response) {
 	    				var json = eval(response);
 	    				if (0===json.status){
-	    					if (ischecked == 1)
-	    						alert("锁定成功！");
-	    					else
-	    						alert("解锁成功！")
+	    					alert("添加成功");
 	                    } else if (1===json.status){
 	                        alert(json.message);
 	                    }
@@ -361,16 +554,99 @@
 	    		});
 	    	});
 	    	
-    
-	    function getTypeUsers(type){
+	    	$(".deleteModelBtn").click(function(){
+	    		var id = $(this).attr("vehicleid");
+	    		$("#vehicleid").val(id);
+	    		$("#deleteModal").modal('show');
+	    	});
 	    	
+			$("#deleteBtn").click(function(){
+	    		
+	    		var id = $("#vehicleid").val();
+	    		
+	    		$.ajax({
+	    			url : "${ctx}/staff/delete.html",
+	    			async : false,
+	    			type : 'POST',
+	    			cache:false,
+	    			data : {
+	    				id : id
+	    			},
+	    			dataType : 'json',
+	    			timeout : 15000,
+	    			beforeSend : function() {
+	    	    		$("#deleteModal").modal('hide');
+	    			},
+	    			complete : function(XMLHttpRequest,textStatus) {
+	    			},
+	    			success : function(response) {
+	    				var json = eval(response);
+	    				if (0===json.status){
+	    					alert("删除成功！")
+	                    } else if (1===json.status){
+	                        alert(json.message);
+	                    }
+	    				window.location.reload();
+	    			},
+	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    				window.location.reload();
+	    			}
+	    		});
+    	});
+			
+		
+		
+		$("#search").on("click", function(){
+			dosearch(1);
+		});
+		$(".dosearch").on("click", function(){
+			var page = $(this).attr("page");
+			dosearch(page);
+		});
+	    
+	    $("#addUser").click(function(){
+			window.location.href = "${ctx}/admin/adduser.html";
+	    }); 
+	    
+        $("[rel=tooltip]").tooltip();
+        $(function() {
+            $('.demo-cancel-click').click(function(){return false;});
+        });
+    });
+function dosearch(i){
+    		
+	    	var oprovinceid = $.trim($('#oprovince').val());
+	    	var dprovinceid = $.trim($('#dprovince').val());
+	    	var ocityid = $.trim($('#ocityid').val());
+	    	var dcityid = $.trim($('#dcityid').val());
+	    	var oareaid = $.trim($('#oareaid').val());
+	    	var dareaid = $.trim($('#dareaid').val());
+	    	var vehicletype = $.trim($('#vehicletype').val());
+	    	
+	    	if (i == null || i == '') {
+	    		i = 0;
+	    	}
+	    	if (i == -1) {
+	    		i = parseInt($("#currentPage").val())-1;
+	    	}
+	    	if (i == -2) {
+	    		i = parseInt($("#currentPage").val())+1;
+	    	}
     		$.ajax({
-    			url : "${ctx}/admin/gettypeusers.html",
+    			url : "${ctx}/staff/search.html",
     			async : false,
     			type : 'POST',
     			cache:false,
     			data : {
-    				type : type
+    				currentpage : i,
+    				oprovinceid : oprovinceid,
+    				dprovinceid : dprovinceid,
+    				ocityid : ocityid,
+    				dcityid : dcityid,
+    				oareaid : oareaid,
+    				dareaid : dareaid,
+    				vehicletype : vehicletype
     			},
     			dataType : 'json',
     			timeout : 15000,
@@ -383,20 +659,22 @@
     				if (0===json.status){
     					
     					var result = json.result; 
-    					var data = {
-    							users:result,
-    							length:result.length
-    					}
-    			    	var usersViewHtml = template("usersTemplateView", data);
-    			    	$("#usersTable").html(usersViewHtml);
-    			    	if (type == 0)
-    			    		$(".page-title").html("游客信息管理");
-    			    	if (type == 1)
-    			    		$(".page-title").html("旅行社信息管理");
-   			    		if (type == 2)
-   			    			$(".page-title").html("公司人员信息管理");
-   			    		
-   			    		$("#usertype").val(type);
+    					
+    			    	var arrayObj = new Array(result.totalPage);
+    			    	for (var j=0; j<result.totalPage; j++){
+    			    		arrayObj[j] = j;
+    			    	}
+    			    	data = {
+    			    			vehicles : result.pageInfoResult,
+    			    			length : result.totalRecord,
+    			    			currentPage : result.currentPage,
+    			    			totalPage : result.totalPage,
+    			    			list : arrayObj
+    			    	};
+    			    	var vehiclesViewHtml = template("vehiclesTemplateView", data);
+    			    	$("#vehiclesTable").html(vehiclesViewHtml);
+    					
+   			    		$("#currentPage").val(i);
                     } else if (1===json.status){
                         alert(json.message);
         				window.location.reload();
@@ -408,16 +686,6 @@
     			}
     		});
     	}
-	    
-	    $("#addUser").click(function(){
-			window.location.href = "${ctx}/admin/adduser.html";
-	    }); */
-	    
-        $("[rel=tooltip]").tooltip();
-        $(function() {
-            $('.demo-cancel-click').click(function(){return false;});
-        });
-    });
    </script>
     
   

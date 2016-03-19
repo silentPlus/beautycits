@@ -28,16 +28,6 @@ public interface VehicleService extends BaseService{
 	
 	/**
 	 * 
-	 * getVehicleById(根据主键查询交通信息)
-	 *
-	 * @param id
-	 * @return
-	 * @return ResultMsg
-	 */
-	public ResultMsg getVehicleById(Integer id);
-	
-	/**
-	 * 
 	 * deleteVehicle(删除)
 	 *
 	 * @param id
@@ -46,13 +36,4 @@ public interface VehicleService extends BaseService{
 	 */
 	public ResultMsg deleteVehicle(Integer id);
 	
-	/**
-	 * 
-	 * updateVehicle(更新)
-	 *
-	 * @param vehicle
-	 * @return
-	 * @return ResultMsg
-	 */
-	public ResultMsg updateVehicle(Vehicle vehicle);
 }

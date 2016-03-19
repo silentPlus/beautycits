@@ -52,7 +52,8 @@ public class VehicleServiceImpl extends BaseServiceImpl implements VehicleServic
 		PageInfo<Vehicle> pageVehicle = new PageInfo<>();
 		pageVehicle.setPageSize(2);
 		pageVehicle.setCurrentPage(currentPage);
-		StringBuffer countsql = new StringBuffer("select count(*) from vehicle");
+		StringBuffer countsql = new StringBuffer("select count(*) from (");
+		countsql.append(ssql).append(") m");
 		pageVehicle = vehicleDao.getPageModel(pageVehicle, new StringBuffer(ssql), countsql, Vehicle.class);
 		resultMsg.setState(Results.SUCCESS);
 		resultMsg.setMsgEntity(pageVehicle);
@@ -62,37 +63,12 @@ public class VehicleServiceImpl extends BaseServiceImpl implements VehicleServic
 	@Override
 	public ResultMsg saveVehicle(Vehicle vehicle) {
 		ResultMsg resultMsg = new ResultMsg();
-		/*String sql = "insert into vehicle (originid, destinationid, vehicletype, cost, remark, createtime) VALUES (?, ?, ?, ?, ?, now())";
-		int num = vehicleDao.commonUpdate(sql, vehicle.getOriginid(), vehicle.getDestinationid(), vehicle.getCost(), vehicle.getRemark());
-		if (num == 1) {
-			resultMsg.setState(Results.SUCCESS);
-			return resultMsg;
-		}
-		resultMsg.setState(Results.ERROR);*/
-		resultMsg.setMsg("操作失败！");
-		return resultMsg;
-	}
-
-	@Override
-	public ResultMsg getVehicleById(Integer id) {
-		ResultMsg resultMsg = new ResultMsg();
-		String sql = "select * from vehicle v where v.id = ?";
-		Vehicle vehicle = vehicleDao.getJavaBean(sql, Vehicle.class, id);
-		if (vehicle != null) {
-			resultMsg.setState(Results.ERROR);
-			resultMsg.setMsg("操作失败！");
-			return resultMsg;
-		}
-		resultMsg.setState(Results.SUCCESS);
-		resultMsg.setMsgEntity(vehicle);
-		return resultMsg;
-	}
-
-	@Override
-	public ResultMsg deleteVehicle(Integer id) {
-		ResultMsg resultMsg = new ResultMsg();
-		String sql = "delete vehicle v where v.id = ?";
-		int num = vehicleDao.commonUpdate(sql, id);
+		StringBuilder sql = new StringBuilder("insert into vehicle (origin, oareaid, ocityid, oprovinceid, dareaid, dcityid, dprovinceid, ");
+		sql.append("destination, vehicletype, cost, remark, createtime) VALUES ");
+		sql.append("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())");
+		sql.trimToSize();
+		int num = vehicleDao.commonUpdate(sql.toString(), vehicle.getOrigin(), vehicle.getOareaid(), vehicle.getOcityid(), vehicle.getOprovinceid(), 
+					vehicle.getDareaid(), vehicle.getDcityid(), vehicle.getDprovinceid(), vehicle.getDestination(), vehicle.getVehicletype(), vehicle.getCost(), vehicle.getRemark());
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
@@ -103,10 +79,10 @@ public class VehicleServiceImpl extends BaseServiceImpl implements VehicleServic
 	}
 
 	@Override
-	public ResultMsg updateVehicle(Vehicle vehicle) {
+	public ResultMsg deleteVehicle(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "update vehicle v set v.cost = ?, v.remark = ?, v.updatetime=now() where v.id = ?";
-		int num = vehicleDao.commonUpdate(sql, vehicle.getCost(), vehicle.getRemark(), vehicle.getId());
+		String sql = "delete from vehicle where id = ?";
+		int num = vehicleDao.commonUpdate(sql, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;

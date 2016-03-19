@@ -106,7 +106,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public ResultMsg deleteUser(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "delete user u where u.id = ?";
+		String sql = "delete from user where id = ?";
 		int num = userDao.commonUpdate(sql, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);

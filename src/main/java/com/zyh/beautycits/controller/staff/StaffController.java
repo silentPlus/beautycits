@@ -1,7 +1,6 @@
 package com.zyh.beautycits.controller.staff;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,12 +15,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.zyh.beautycits.controller.BaseController;
 import com.zyh.beautycits.service.region.RegionService;
 import com.zyh.beautycits.service.staff.VehicleService;
+import com.zyh.beautycits.vo.JsonPackage;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
-import com.zyh.beautycits.vo.region.Area;
-import com.zyh.beautycits.vo.region.City;
 import com.zyh.beautycits.vo.region.Province;
 import com.zyh.beautycits.vo.user.User;
+import com.zyh.beautycits.vo.vehicle.Vehicle;
 
 @RestController
 @RequestMapping("staff")
@@ -67,4 +66,61 @@ public class StaffController extends BaseController{
 		mav.setViewName("/staff");
         return mav;
     }
+	
+	@RequestMapping(value = "/search.html")
+    public JsonPackage search(HttpServletRequest request, HttpServletResponse response, Integer currentpage, Integer oprovinceid, Integer dprovinceid, 
+    		 Integer ocityid, Integer dcityid, Integer oareaid, Integer dareaid, Integer vehicletype){
+		JsonPackage jsonPackage = new JsonPackage();
+		// 判断是否登录
+		if (!isLogin()) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage("请先登录");
+			return jsonPackage;
+		}
+		ResultMsg resultMsg =  vehicleService.getVehicle(currentpage, vehicletype, oareaid, ocityid, oprovinceid, dareaid, dcityid, dprovinceid);
+		if (resultMsg.getState() == Results.ERROR) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage(resultMsg.getMsg());
+			return jsonPackage;
+		}
+		jsonPackage.setResult(resultMsg.getMsgEntity());
+		return jsonPackage;
+    }
+	
+	@RequestMapping(value = "/addvehicle.html")
+    public JsonPackage addVehicle(HttpServletRequest request, HttpServletResponse response, Vehicle vehicle){
+		JsonPackage jsonPackage = new JsonPackage();
+		// 判断是否登录
+		if (!isLogin()) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage("请先登录");
+			return jsonPackage;
+		}
+		ResultMsg resultMsg = vehicleService.saveVehicle(vehicle);
+		if (resultMsg.getState() == Results.ERROR) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage(resultMsg.getMsg());
+			return jsonPackage;
+		}
+		jsonPackage.setResult(resultMsg.getMsgEntity());
+		return jsonPackage;
+    }
+	
+	@RequestMapping(value = "/delete.html")
+    public JsonPackage delete(HttpServletRequest request, HttpServletResponse response,Integer id){
+		JsonPackage jsonPackage = new JsonPackage();
+		// 判断是否登录
+		if (!isLogin()) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage("请先登录");
+			return jsonPackage;
+		}
+		ResultMsg resultMsg = vehicleService.deleteVehicle(id);
+		if (resultMsg.getState() == Results.ERROR) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage(resultMsg.getMsg());
+		}
+		return jsonPackage;
+    }
+	
 }

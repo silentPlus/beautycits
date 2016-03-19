@@ -223,7 +223,7 @@
 			</div>
 
 			<div class="modal small fade" id="addTicketModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
+			  <div class="modal-dialog" style="width:800px;">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -232,12 +232,33 @@
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
 		            		<tr>
-		            			<td width="40%" align="right" style="border-top:none;">类型名称</td>
+		            			<td width="10%" align="right" style="border-top:none;">名称</td>
 		            			<td align="left" style="border-top:none;">
 		            				<input type="text" id="typename" class="form-control">
 		            			</td>
-		            			<td style="border-top:none;"></td>
-		            			<td style="border-top:none;"></td>
+		            			<td style="border-top:none;">类型</td>
+		            			<td style="border-top:none;">
+		            				<select id="ttickettypeid" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+					        	</select>
+		            			</td>
+		            		</tr>
+		            		<tr>
+		            			<td width="10%" align="right" style="border-top:none;">地址:</td>
+		            			<td width="30%" align="left" style="border-top:none;">
+		            				<select id="province" class="form-control" ">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+					        	<td width="30%" align="left" style="border-top:none;">
+						        	<select id="city" class="form-control">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+						        </td>
+						        <td width="30%" align="left" style="border-top:none;">
+						        	<select id="area" class="form-control">
+		            					  <option value="" code="" checked="checked">请选择</option>
+						        	</select>
+		            			</td>
 		            		</tr>
 		            		<tr>
 		            			<td width="40%" align="right" style="border-top:none;">备注</td>
@@ -301,7 +322,39 @@
 	    	var listType = ${listType};
 	    	for (i = 0; i < listType.length; i++) {
 	    		$('#tickettypeid').append('<option value="' + listType[i].id + '">'+ listType[i].name + '</option>');
+	    		$('#ttickettypeid').append('<option value="' + listType[i].id + '">'+ listType[i].name + '</option>');
     		} 
+	    	
+	    	var provinces = ${provinces};
+	    	var citys = ${citys};
+	    	var areas = ${areas};
+	    	for (i = 0; i < provinces.length; i++) {
+	    		$('#province').append('<option value="' + provinces[i].id + '" code="' + provinces[i].code + '">'+ provinces[i].name + '</option>');
+    		} 
+	    	$("#province").change(function(){
+	    		var code = $("#province").find("option:selected").attr("code");
+	    		//console.log(code);
+	    		if (code != null && code != ''){
+	    			var cit = citys[code];
+	    			//console.log(cit);
+	    			$('#city').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			$('#area').html('<option value="" code="" checked="checked">请选择</option>');
+	    			for (var i = 0; i < cit.length; i++) { 
+	    				//console.log(cit[i]);
+	    				$('#city').append('<option value="' + cit[i].id + '" code="' + cit[i].code + '">'+ cit[i].name + '</option>');
+	    			}
+	    		}
+	    	});
+	    	$("#city").change(function(){
+	    		var code = $("#city").find("option:selected").attr("code");
+	    		if (code != null && code != ''){
+	    			var are = areas[code];
+	    			$('#area').html('<option value="" code="" checked="checked">请选择</option>'); 
+	    			for (var i = 0; i < are.length; i++) { 
+	    				$('#area').append('<option value="' + are[i].id + '" code="' + are[i].code + '">'+ are[i].name + '</option>');
+	    			}
+	    		}
+	    	});
 	    	
 	    	$("#addTicket").click(function(){
 	    		$("#addTicketModel").modal('show');

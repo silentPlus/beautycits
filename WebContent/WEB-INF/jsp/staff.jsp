@@ -96,16 +96,17 @@
 
     <div class="sidebar-nav">
 	    <ul>
-		    <li><a data-target=".vehicle-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">交通信息管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".vehicle-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">交通管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="vehicle-menu nav nav-list collapse in">
 		            <li onclick=""><a><span class="fa fa-caret-right"></span>交通信息管理</a></li>
 			    </ul>
 		    </li>
-		    <li><a data-target=".ticket-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">门票信息管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".ticket-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">门票管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="ticket-menu nav nav-list collapse in">
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
+		            <li onclick="ticket();"><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
+		            <li onclick="ticketType();"><a><span class="fa fa-caret-right"></span>门票类型管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -194,7 +195,7 @@
 			      <th style="width:10%;text-align: center;">类别</th>
 			      <th style="width:10%;text-align: center;">金额</th>
 			      <th style="width:20%;text-align: center;">备注</th>
-				  <th style="width:5%;text-align: center;">备注</th>
+				  <th style="width:5%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -496,6 +497,12 @@
 	    		if (cost == null || cost == '') {
 	    			alert("金额不能为空");
 	    			return ;
+	    		} else {
+	    			var partn =/^[0-9]{0}([0-9]|[.])+$/; 
+	    			if (!partn.test(cost)){
+	    				alert("金额只允许输入数字和小数点");
+		    			return ;
+	    			}
 	    		}
 	    		
 	    		var origin = $("#ooprovince").find("option:selected").text();
@@ -605,88 +612,97 @@
 			dosearch(page);
 		});
 	    
-	    $("#addUser").click(function(){
-			window.location.href = "${ctx}/admin/adduser.html";
-	    }); 
-	    
         $("[rel=tooltip]").tooltip();
         $(function() {
             $('.demo-cancel-click').click(function(){return false;});
         });
     });
-function dosearch(i){
+	function dosearch(i){
     		
-	    	var oprovinceid = $.trim($('#oprovince').val());
-	    	var dprovinceid = $.trim($('#dprovince').val());
-	    	var ocityid = $.trim($('#ocityid').val());
-	    	var dcityid = $.trim($('#dcityid').val());
-	    	var oareaid = $.trim($('#oareaid').val());
-	    	var dareaid = $.trim($('#dareaid').val());
-	    	var vehicletype = $.trim($('#vehicletype').val());
-	    	
-	    	if (i == null || i == '') {
-	    		i = 0;
-	    	}
-	    	if (i == -1) {
-	    		i = parseInt($("#currentPage").val())-1;
-	    	}
-	    	if (i == -2) {
-	    		i = parseInt($("#currentPage").val())+1;
-	    	}
-    		$.ajax({
-    			url : "${ctx}/staff/search.html",
-    			async : false,
-    			type : 'POST',
-    			cache:false,
-    			data : {
-    				currentpage : i,
-    				oprovinceid : oprovinceid,
-    				dprovinceid : dprovinceid,
-    				ocityid : ocityid,
-    				dcityid : dcityid,
-    				oareaid : oareaid,
-    				dareaid : dareaid,
-    				vehicletype : vehicletype
-    			},
-    			dataType : 'json',
-    			timeout : 15000,
-    			beforeSend : function() {
-    			},
-    			complete : function(XMLHttpRequest,textStatus) {
-    			},
-    			success : function(response) {
-    				var json = eval(response);
-    				if (0===json.status){
-    					
-    					var result = json.result; 
-    					
-    			    	var arrayObj = new Array(result.totalPage);
-    			    	for (var j=0; j<result.totalPage; j++){
-    			    		arrayObj[j] = j;
-    			    	}
-    			    	data = {
-    			    			vehicles : result.pageInfoResult,
-    			    			length : result.totalRecord,
-    			    			currentPage : result.currentPage,
-    			    			totalPage : result.totalPage,
-    			    			list : arrayObj
-    			    	};
-    			    	var vehiclesViewHtml = template("vehiclesTemplateView", data);
-    			    	$("#vehiclesTable").html(vehiclesViewHtml);
-    					
-   			    		$("#currentPage").val(i);
-                    } else if (1===json.status){
-                        alert(json.message);
-        				window.location.reload();
-                    }
-    			},
-    			error : function(XMLHttpRequest, textStatus, errorThrown) {
-    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-    				window.location.reload();
-    			}
-    		});
+    	var oprovinceid = $.trim($('#oprovince').val());
+    	var dprovinceid = $.trim($('#dprovince').val());
+    	var ocityid = $.trim($('#ocityid').val());
+    	var dcityid = $.trim($('#dcityid').val());
+    	var oareaid = $.trim($('#oareaid').val());
+    	var dareaid = $.trim($('#dareaid').val());
+    	var vehicletype = $.trim($('#vehicletype').val());
+    	
+    	if (i == null || i == '') {
+    		i = 0;
     	}
-   </script>
+    	if (i == -1) {
+    		i = parseInt($("#currentPage").val())-1;
+    	}
+    	if (i == -2) {
+    		i = parseInt($("#currentPage").val())+1;
+    	}
+   		$.ajax({
+   			url : "${ctx}/staff/search.html",
+   			async : false,
+   			type : 'POST',
+   			cache:false,
+   			data : {
+   				currentpage : i,
+   				oprovinceid : oprovinceid,
+   				dprovinceid : dprovinceid,
+   				ocityid : ocityid,
+   				dcityid : dcityid,
+   				oareaid : oareaid,
+   				dareaid : dareaid,
+   				vehicletype : vehicletype
+   			},
+   			dataType : 'json',
+   			timeout : 15000,
+   			beforeSend : function() {
+   			},
+   			complete : function(XMLHttpRequest,textStatus) {
+   				$(".deleteModelBtn").click(function(){
+   		    		var id = $(this).attr("vehicleid");
+   		    		$("#vehicleid").val(id);
+   		    		$("#deleteModal").modal('show');
+   		    	});
+   			},
+   			success : function(response) {
+   				var json = eval(response);
+   				if (0===json.status){
+   					
+   					var result = json.result; 
+   					
+   			    	var arrayObj = new Array(result.totalPage);
+   			    	for (var j=0; j<result.totalPage; j++){
+   			    		arrayObj[j] = j;
+   			    	}
+   			    	data = {
+   			    			vehicles : result.pageInfoResult,
+   			    			length : result.totalRecord,
+   			    			currentPage : result.currentPage,
+   			    			totalPage : result.totalPage,
+   			    			list : arrayObj
+   			    	};
+   			    	var vehiclesViewHtml = template("vehiclesTemplateView", data);
+   			    	$("#vehiclesTable").html(vehiclesViewHtml);
+   					
+  			    		$("#currentPage").val(i);
+                   } else if (1===json.status){
+                       alert(json.message);
+       				window.location.reload();
+                   }
+   			},
+   			error : function(XMLHttpRequest, textStatus, errorThrown) {
+   				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+   				window.location.reload();
+   			}
+   		});
+   	}
+	
+	function ticket(){
+		window.location.href = "${ctx}/ticket/index.html";
+    }
+	
+	function ticketType(){
+		window.location.href = "${ctx}/tickettype/index.html";
+    }
+</script>
     
   
 </body></html>

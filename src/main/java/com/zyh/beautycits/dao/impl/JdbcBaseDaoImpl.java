@@ -220,8 +220,8 @@ public  class JdbcBaseDaoImpl<T> extends NamedParameterJdbcDaoSupport implements
         long allCount = this.getCount(countSQL.toString(), paramValue);
         // 获取分页记录集
         // 1。构造完整的分页语句
-        int rowNumEnd=model.getCurrentPage()* model.getPageSize();
-        int rowNumBegin=(model.getCurrentPage()-1)* model.getPageSize();
+        int rowNumEnd = model.getPageSize();
+        int rowNumBegin = (model.getCurrentPage()-1)* model.getPageSize();
         querySQL.append(String.format(PAGE_SQL_END, rowNumBegin,rowNumEnd));
 
         List<T> result = new ArrayList<>();

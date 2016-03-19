@@ -5,9 +5,11 @@ public class Ticket {
 	private Integer provinceid;
 	private Integer cityid;
 	private Integer areaid;
+	private String area;
 	private String name;
 	private Integer star;
 	private Integer tickettypeid;
+	private String tickettype;
 	private String cost;
 	private String description;
 	private String remark;
@@ -85,11 +87,24 @@ public class Ticket {
 	public void setUpdatetime(String updatetime) {
 		this.updatetime = updatetime;
 	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public String getTickettype() {
+		return tickettype;
+	}
+	public void setTickettype(String tickettype) {
+		this.tickettype = tickettype;
+	}
 	@Override
 	public String toString() {
 		return "Ticket [id=" + id + ", provinceid=" + provinceid + ", cityid=" + cityid + ", areaid=" + areaid
-				+ ", name=" + name + ", star=" + star + ", tickettypeid=" + tickettypeid + ", cost=" + cost
-				+ ", description=" + description + ", remark=" + remark + ", createtime=" + createtime + ", updatetime="
-				+ updatetime + "]";
+				+ ", area=" + area + ", name=" + name + ", star=" + star + ", tickettypeid=" + tickettypeid
+				+ ", tickettype=" + tickettype + ", cost=" + cost + ", description=" + description + ", remark="
+				+ remark + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
 	}
+	
 }

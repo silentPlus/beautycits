@@ -485,6 +485,28 @@
     			beforeSend : function() {
     			},
     			complete : function(XMLHttpRequest,textStatus) {
+    				$(".checkModelBtn").click(function(){
+    		    		var id = $(this).attr("userid");
+    		    		$("#userid").val(id);
+    		    		$("#checkModal").modal('show');
+    		    	});
+    		    	
+    		    	$(".lockModelBtn").click(function(){
+    		    		var id = $(this).attr("userid");
+    		    		var ischecked = $(this).attr("ischecked");
+    		    		$("#userid").val(id);
+    		    		$("#ischecked").val(ischecked);
+    		    		if (ischecked == 1) 
+    		    			$("#lockModal").modal('show');
+    		    		else 
+    		    			$("#unLockModal").modal('show');
+    		    	});
+    		    	
+    		    	$(".deleteModelBtn").click(function(){
+    		    		var id = $(this).attr("userid");
+    		    		$("#userid").val(id);
+    		    		$("#deleteModal").modal('show');
+    		    	});
     			},
     			success : function(response) {
     				var json = eval(response);

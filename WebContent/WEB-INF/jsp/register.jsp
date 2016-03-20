@@ -132,9 +132,13 @@
             </div>
         </div>
     </div>
+    <p class="pull-right" style=""><a href="" onclick="login();" target="blank" style="font-size: .75em; margin-top: .25em;">已有账号？登录</a></p>
 </div>
 
     <script type="text/javascript">
+    	function login(){
+    		window.location.href = "${ctx}/login/index.html";
+    	}
         $("[rel=tooltip]").tooltip();
         $(function() {
             $('.demo-cancel-click').click(function(){return false;});

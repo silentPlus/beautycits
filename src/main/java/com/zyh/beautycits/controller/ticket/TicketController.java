@@ -74,8 +74,8 @@ public class TicketController extends BaseController{
     }
 	
 	@RequestMapping(value = "/search.html")
-    public JsonPackage searchType(HttpServletRequest request, HttpServletResponse response, Integer currentPage, String name,
-    		Integer star, Integer tickettype){
+    public JsonPackage search(HttpServletRequest request, HttpServletResponse response, Integer currentPage, String name,
+    		Integer star, Integer tickettypeid){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -83,7 +83,7 @@ public class TicketController extends BaseController{
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		ResultMsg resultMsg =  ticketService.getTickets(currentPage, name, star, tickettype);
+		ResultMsg resultMsg =  ticketService.getTickets(currentPage, name, star, tickettypeid);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());

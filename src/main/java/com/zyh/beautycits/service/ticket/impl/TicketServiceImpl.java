@@ -45,8 +45,19 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService{
 
 	@Override
 	public ResultMsg addTicket(Ticket ticket) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultMsg resultMsg = new ResultMsg();
+		StringBuilder sql = new StringBuilder("INSERT INTO ticket(provinceid, cityid, areaid, area, name, star, cost, tickettypeid, description, remark, createtime)");
+		sql.append("VALUES(?,?,?,?,?,?,?,?,?,?,now())");
+		sql.trimToSize();
+		int num = ticketDao.commonUpdate(sql.toString(), ticket.getProvinceid(), ticket.getCityid(), ticket.getAreaid(), ticket.getArea(), ticket.getName(),
+				ticket.getStar(), ticket.getCost(), ticket.getTickettypeid(), ticket.getDescription(), ticket.getRemark());
+		if (num == 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
 	}
 
 	@Override

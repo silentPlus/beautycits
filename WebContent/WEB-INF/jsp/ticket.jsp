@@ -234,9 +234,9 @@
 		            		<tr>
 		            			<td width="10%" align="right" style="border-top:none;">名称</td>
 		            			<td align="left" style="border-top:none;">
-		            				<input type="text" id="typename" class="form-control">
+		            				<input type="text" id="nname" class="form-control">
 		            			</td>
-		            			<td style="border-top:none;">类型</td>
+		            			<td style="border-top:none;" align="right">类型</td>
 		            			<td style="border-top:none;">
 		            				<select id="ttickettypeid" class="form-control">
 	            					  <option value="" checked="checked">请选择</option>
@@ -261,7 +261,32 @@
 		            			</td>
 		            		</tr>
 		            		<tr>
-		            			<td width="40%" align="right" style="border-top:none;">备注</td>
+		            			<td width="10%" align="right" style="border-top:none;">费用</td>
+		            			<td align="left" style="border-top:none;">
+		            				<input type="text" id="cost" class="form-control">
+		            			</td>
+		            			<td style="border-top:none;" align="right">星级</td>
+		            			<td style="border-top:none;">
+		            				<select id="sstar" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+	            					  <option value="1">1</option>
+						              <option value="2">2</option>
+						              <option value="3">3</option>
+						              <option value="4">4</option>
+						              <option value="5">5</option>
+					        	</select>
+		            			</td>
+		            		</tr>
+		            		<tr>
+		            			<td align="right" style="border-top:none;">景点说明</td>
+		            			<td align="left" style="border-top:none;">
+		            				<textarea id="description" class="form-control" ></textarea>
+		            			</td>
+		            			<td style="border-top:none;"></td>
+		            			<td style="border-top:none;"></td>
+		            		</tr>
+		            		<tr>
+		            			<td align="right" style="border-top:none;">备注</td>
 		            			<td align="left" style="border-top:none;">
 		            				<textarea id="remark" class="form-control" ></textarea>
 		            			</td>
@@ -361,12 +386,41 @@
 	    	});
 	    	
 	    	$(".addTicketBtn").on("click", function(){
-	    		var name = $.trim($("#typename").val());
+	    		var name = $.trim($("#nname").val());
 	    		var remark = $.trim($("#remark").val());
+	    		var provinceid = $.trim($("#province").val());
+	    		var cityid = $.trim($("#city").val());
+	    		var areaid = $.trim($("#area").val());
+	    		var tickettypeid = $.trim($("#ttickettypeid").val());
+	    		var cost = $.trim($("#cost").val());
+	    		var description = $.trim($("#description").val());
+	    		var star = $.trim($("#sstar").val());
 	    		
 	    		if (name == null || name == '') {
-	    			alert("类型名称不能为空");
+	    			alert("名称不能为空");
 	    			return ;
+	    		}
+	    		if (provinceid == null || name == '') {
+	    			alert("请选择地址");
+	    			return ;
+	    		}
+	    		var area = $("#province").find("option:selected").text();
+	    		if (cityid != null && cityid != ''){
+	    			area += $("#city").find("option:selected").text();
+	    		}
+    			if (areaid != null && areaid != ''){
+    				area += $("#area").find("option:selected").text();
+    			}
+    			
+    			if (cost == null || cost == '') {
+	    			alert("金额不能为空");
+	    			return ;
+	    		} else {
+	    			var partn =/^[0-9]{0}([0-9]|[.])+$/; 
+	    			if (!partn.test(cost)){
+	    				alert("金额只允许输入数字和小数点");
+		    			return ;
+	    			}
 	    		}
 	    		
 	    		$.ajax({
@@ -376,7 +430,15 @@
 	    			cache:false,
 	    			data : {
 	    				name : name,
-	    	    		remark : remark
+	    	    		remark : remark,
+	    	    		provinceid : provinceid,
+	    	    		cityid : cityid,
+	    	    		areaid : areaid,
+	    	    		tickettypeid : tickettypeid,
+	    	    		cost : cost,
+	    	    		description : description,
+	    	    		star : star,
+	    	    		area : area
 	    			},
 	    			dataType : 'json',
 	    			timeout : 15000,
@@ -384,8 +446,6 @@
     	    			$("#addTicketTypeModel").modal('hide');
 	    			},
 	    			complete : function(XMLHttpRequest,textStatus) {
-	    				
-	    				
 	    			},
 	    			success : function(response) {
 	    				var json = eval(response);

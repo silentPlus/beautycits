@@ -437,7 +437,7 @@
    	}
 	
 	function ticket(){
-		window.location.href = "${ctx}/ticket/ticketinfo.html";
+		window.location.href = "${ctx}/ticket/index.html";
     }
 	
 	function vehicle(){

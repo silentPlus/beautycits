@@ -3,6 +3,7 @@ package com.zyh.beautycits.service.staff.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zyh.beautycits.constats.ConfigConstants;
 import com.zyh.beautycits.dao.JdbcBaseDao;
 import com.zyh.beautycits.service.base.impl.BaseServiceImpl;
 import com.zyh.beautycits.service.staff.VehicleService;
@@ -50,7 +51,7 @@ public class VehicleServiceImpl extends BaseServiceImpl implements VehicleServic
 		String ssql = sql.substring(0, sql.length()-4);
 		
 		PageInfo<Vehicle> pageVehicle = new PageInfo<>();
-		pageVehicle.setPageSize(2);
+		pageVehicle.setPageSize(ConfigConstants.PAGESIZE);
 		pageVehicle.setCurrentPage(currentPage);
 		StringBuffer countsql = new StringBuffer("select count(*) from (");
 		countsql.append(ssql).append(") m");

@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zyh.beautycits.constats.ConfigConstants;
 import com.zyh.beautycits.dao.JdbcBaseDao;
 import com.zyh.beautycits.service.base.impl.BaseServiceImpl;
 import com.zyh.beautycits.service.ticket.TicketService;
@@ -33,7 +34,7 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService{
 		}
 		
 		PageInfo<Ticket> pageTicket = new PageInfo<>();
-		pageTicket.setPageSize(2);
+		pageTicket.setPageSize(ConfigConstants.PAGESIZE);
 		pageTicket.setCurrentPage(currentPage);
 		StringBuffer countsql = new StringBuffer("select count(*) from (");
 		countsql.append(sql).append(") m");

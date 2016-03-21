@@ -66,7 +66,7 @@ public class LoginController extends BaseController{
 		}
 		if (user.getUsertype() == 1) {
 			// 旅行社登录，跳转到基础信息管理页面（车辆管理）
-			url = getUrl_BizFunc("", "");
+			url = getUrl_BizFunc("hoteltype", "index.html");
 			jsonPackage.setResult(url);
 			return jsonPackage;
 		}

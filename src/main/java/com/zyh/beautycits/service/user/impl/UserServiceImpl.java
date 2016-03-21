@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zyh.beautycits.constats.ConfigConstants;
 import com.zyh.beautycits.dao.JdbcBaseDao;
 import com.zyh.beautycits.service.base.impl.BaseServiceImpl;
 import com.zyh.beautycits.service.user.UserService;
@@ -57,7 +58,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		querySql.append("order by ischecked ASC, createtime desc");
 		PageInfo<User> pageUser = new PageInfo<User>();
 		pageUser.setCurrentPage(currentPage);
-		pageUser.setPageSize(2);
+		pageUser.setPageSize(ConfigConstants.PAGESIZE);
 		pageUser = userDao.getPageModel(pageUser, querySql, countSql, User.class, type);
 		resultMsg.setState(Results.SUCCESS);
 		resultMsg.setMsgEntity(pageUser);

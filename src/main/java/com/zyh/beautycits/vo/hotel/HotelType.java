@@ -2,6 +2,7 @@ package com.zyh.beautycits.vo.hotel;
 
 public class HotelType {
 	private Integer id;
+	private Integer userid;
 	private String name;
 	private Integer star;
 	private String createtiem;
@@ -11,6 +12,12 @@ public class HotelType {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public Integer getUserid() {
+		return userid;
+	}
+	public void setUserid(Integer userid) {
+		this.userid = userid;
 	}
 	public String getName() {
 		return name;
@@ -38,7 +45,7 @@ public class HotelType {
 	}
 	@Override
 	public String toString() {
-		return "HotelType [id=" + id + ", name=" + name + ", star=" + star + ", createtiem=" + createtiem
-				+ ", updatetime=" + updatetime + "]";
+		return "HotelType [id=" + id + ", userid=" + userid + ", name=" + name + ", star=" + star + ", createtiem="
+				+ createtiem + ", updatetime=" + updatetime + "]";
 	}
 }

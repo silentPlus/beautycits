@@ -1,4 +1,4 @@
-package com.zyh.beautycits.service.ticket.impl;
+package com.zyh.beautycits.service.hotel.impl;
 
 import java.util.List;
 
@@ -9,43 +9,42 @@ import org.springframework.stereotype.Service;
 import com.zyh.beautycits.constats.ConfigConstants;
 import com.zyh.beautycits.dao.JdbcBaseDao;
 import com.zyh.beautycits.service.base.impl.BaseServiceImpl;
-import com.zyh.beautycits.service.ticket.TicketTypeService;
+import com.zyh.beautycits.service.hotel.HotelTypeService;
 import com.zyh.beautycits.vo.PageInfo;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
-import com.zyh.beautycits.vo.ticket.TicketType;
+import com.zyh.beautycits.vo.hotel.HotelType;
 
-@Service("ticketTypeService")
-public class TicketTypeServiceImpl extends BaseServiceImpl implements TicketTypeService{
-	
+@Service("hotelTypeService")
+public class HotelTypeServiceImpl extends BaseServiceImpl implements HotelTypeService{
 	@Autowired
-	private JdbcBaseDao<TicketType> ticketTypeDao;
+	private JdbcBaseDao<HotelType> hotelTypeDao;
 	
 	@Override
-	public ResultMsg getTicketTypes(Integer currentPage, String name) {
+	public ResultMsg getHotelTypes(Integer currentPage, String name, Integer userid) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuffer sql = new StringBuffer("select * from tickettype tt ");
+		StringBuffer sql = new StringBuffer("select * from hoteltype ht where ht.userid = ?");
 		if (StringUtils.isNotBlank(name)) {
-			sql.append("where tt.name like '%").append(name).append("%' ");
+			sql.append("ht.name like '%").append(name).append("%' ");
 		}
 		
-		PageInfo<TicketType> pageTicketType = new PageInfo<>();
+		PageInfo<HotelType> pageTicketType = new PageInfo<>();
 		pageTicketType.setPageSize(ConfigConstants.PAGESIZE);
 		pageTicketType.setCurrentPage(currentPage);
 		StringBuffer countsql = new StringBuffer("select count(*) from (");
 		countsql.append(sql).append(") m");
-		pageTicketType = ticketTypeDao.getPageModel(pageTicketType, sql, countsql, TicketType.class);
+		pageTicketType = hotelTypeDao.getPageModel(pageTicketType, sql, countsql, HotelType.class, userid);
 		resultMsg.setState(Results.SUCCESS);
 		resultMsg.setMsgEntity(pageTicketType);
 		return resultMsg;
 	}
 
 	@Override
-	public ResultMsg addTicketType(TicketType ticketType) {
+	public ResultMsg addHotelType(HotelType hotelType) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuilder sql = new StringBuilder("INSERT into tickettype(name, remark, createtime) values(?, ?, now())");
+		StringBuilder sql = new StringBuilder("INSERT INTO hoteltype(name, star, createtime) values(?,?,now())");
 		sql.trimToSize();
-		int num = ticketTypeDao.commonUpdate(sql.toString(), ticketType.getName(), ticketType.getRemark());
+		int num = hotelTypeDao.commonUpdate(sql.toString(), hotelType.getName(), hotelType.getStar());
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
@@ -56,10 +55,10 @@ public class TicketTypeServiceImpl extends BaseServiceImpl implements TicketType
 	}
 
 	@Override
-	public ResultMsg deleteTicketType(Integer id) {
+	public ResultMsg deleteHotelType(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "delete from tickettype where id = ?";
-		int num = ticketTypeDao.commonUpdate(sql, id);
+		String sql = "delete from hoteltype where id = ?";
+		int num = hotelTypeDao.commonUpdate(sql, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
@@ -70,9 +69,9 @@ public class TicketTypeServiceImpl extends BaseServiceImpl implements TicketType
 	}
 
 	@Override
-	public List<TicketType> getAllTicketType() {
-		String sql = "select * from tickettype";
-		List<TicketType> list = ticketTypeDao.getList(sql, TicketType.class);
+	public List<HotelType> getAllHotelType(Integer userid) {
+		String sql = "select * from hoteltype where userid = ?";
+		List<HotelType> list = hotelTypeDao.getList(sql, HotelType.class, userid);
 		return list;
 	}
 

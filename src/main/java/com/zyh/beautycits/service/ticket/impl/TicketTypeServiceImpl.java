@@ -26,7 +26,7 @@ public class TicketTypeServiceImpl extends BaseServiceImpl implements TicketType
 		ResultMsg resultMsg = new ResultMsg();
 		StringBuffer sql = new StringBuffer("select * from tickettype tt ");
 		if (StringUtils.isNotBlank(name)) {
-			sql.append("where tt.name like '%").append(name).append("%' ");
+			sql.append(" where tt.name like '%").append(name).append("%' ");
 		}
 		
 		PageInfo<TicketType> pageTicketType = new PageInfo<>();

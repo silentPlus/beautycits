@@ -6,12 +6,27 @@ public class Hotel {
 	private Integer provinceid;
 	private Integer cityid;
 	private Integer areaid;
+	private String area;
 	private Integer hoteltypeid;
-	private Integer format;
+	private String hoteltype;
+	private Integer format;   // 房间类型，0：标准间、1：大床房、2：单人间、3：三人间、4：商务套房、5：豪华套房、6：总统套房、7：海景房
 	private String cost;
 	private String remark;
 	private String createtime;
 	private String updatetime;
+	private String formatname;
+	public String getFormatname() {
+		return formatname;
+	}
+	public void setFormatname(String formatname) {
+		this.formatname = formatname;
+	}
+	public String getHoteltype() {
+		return hoteltype;
+	}
+	public void setHoteltype(String hoteltype) {
+		this.hoteltype = hoteltype;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -53,6 +68,17 @@ public class Hotel {
 	}
 	public void setFormat(Integer format) {
 		this.format = format;
+		switch(format){
+		case 0 : this.formatname = "标准间";break;
+		case 1 : this.formatname = "大床房";break;
+		case 2 : this.formatname = "单人间";break;
+		case 3 : this.formatname = "三人间";break;
+		case 4 : this.formatname = "商务套房";break;
+		case 5 : this.formatname = "豪华套房";break;
+		case 6 : this.formatname = "总统套房";break;
+		case 7 : this.formatname = "海景房";break;
+		default : this.formatname = "";break;
+		}
 	}
 	public String getCost() {
 		return cost;
@@ -78,10 +104,17 @@ public class Hotel {
 	public void setUpdatetime(String updatetime) {
 		this.updatetime = updatetime;
 	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
 	@Override
 	public String toString() {
 		return "Hotel [id=" + id + ", userid=" + userid + ", provinceid=" + provinceid + ", cityid=" + cityid
-				+ ", areaid=" + areaid + ", hoteltypeid=" + hoteltypeid + ", format=" + format + ", cost=" + cost
-				+ ", remark=" + remark + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
+				+ ", areaid=" + areaid + ", area=" + area + ", hoteltypeid=" + hoteltypeid + ", hoteltype=" + hoteltype
+				+ ", format=" + format + ", cost=" + cost + ", remark=" + remark + ", createtime=" + createtime
+				+ ", updatetime=" + updatetime + ", formatname=" + formatname + "]";
 	}
 }

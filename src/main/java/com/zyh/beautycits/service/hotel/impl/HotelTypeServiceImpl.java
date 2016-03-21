@@ -23,19 +23,19 @@ public class HotelTypeServiceImpl extends BaseServiceImpl implements HotelTypeSe
 	@Override
 	public ResultMsg getHotelTypes(Integer currentPage, String name, Integer userid) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuffer sql = new StringBuffer("select * from hoteltype ht where ht.userid = ?");
+		StringBuffer sql = new StringBuffer("select * from hoteltype ht where ht.userid = ? ");
 		if (StringUtils.isNotBlank(name)) {
-			sql.append("ht.name like '%").append(name).append("%' ");
+			sql.append(" and ht.name like '%").append(name).append("%' ");
 		}
 		
-		PageInfo<HotelType> pageTicketType = new PageInfo<>();
-		pageTicketType.setPageSize(ConfigConstants.PAGESIZE);
-		pageTicketType.setCurrentPage(currentPage);
+		PageInfo<HotelType> pageHotelType = new PageInfo<>();
+		pageHotelType.setPageSize(ConfigConstants.PAGESIZE);
+		pageHotelType.setCurrentPage(currentPage);
 		StringBuffer countsql = new StringBuffer("select count(*) from (");
 		countsql.append(sql).append(") m");
-		pageTicketType = hotelTypeDao.getPageModel(pageTicketType, sql, countsql, HotelType.class, userid);
+		pageHotelType = hotelTypeDao.getPageModel(pageHotelType, sql, countsql, HotelType.class, userid);
 		resultMsg.setState(Results.SUCCESS);
-		resultMsg.setMsgEntity(pageTicketType);
+		resultMsg.setMsgEntity(pageHotelType);
 		return resultMsg;
 	}
 

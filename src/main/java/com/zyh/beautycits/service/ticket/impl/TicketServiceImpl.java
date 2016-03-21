@@ -22,7 +22,7 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService{
 	@Override
 	public ResultMsg getTickets(Integer currentPage, String name, Integer star, Integer tickettypeid) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuffer sql = new StringBuffer("select t.*, tt.`name` as tickettype from ticket t, tickettype tt where tt.id = t.tickettypeid ");
+		StringBuffer sql = new StringBuffer("select t.*, tt.`name` as tickettype from ticket t LEFT JOIN tickettype tt on tt.id = t.tickettypeid ");
 		if (StringUtils.isNotBlank(name)) {
 			sql.append(" and t.name like '%").append(name).append("%' ");
 		}

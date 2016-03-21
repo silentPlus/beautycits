@@ -96,17 +96,30 @@
 
     <div class="sidebar-nav">
 	    <ul>
-		    <li><a data-target=".vehicle-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">交通管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".hotel-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">宾馆管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
-			    <ul class="vehicle-menu nav nav-list collapse in">
-		            <li onclick="vehicle();"><a><span class="fa fa-caret-right"></span>交通信息管理</a></li>
+			    <ul class="hotel-menu nav nav-list collapse in">
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>宾馆信息管理</a></li>
+		            <li onclick="hoteltype();"><a><span class="fa fa-caret-right"></span>宾馆类型管理</a></li>
 			    </ul>
 		    </li>
-		    <li><a data-target=".ticket-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">门票管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".restaurant-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">餐饮管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
-			    <ul class="ticket-menu nav nav-list collapse in">
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
-		            <li onclick="tickettype();"><a><span class="fa fa-caret-right"></span>门票类型管理</a></li>
+			    <ul class="restaurant-menu nav nav-list collapse in">
+		            <li onclick="restaurant();"><a><span class="fa fa-caret-right"></span>饭店信息管理</a></li>
+		            <li onclick="restauranttype();"><a><span class="fa fa-caret-right"></span>饭店类型管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".bus-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">车辆管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="bus-menu nav nav-list collapse in">
+		            <li onclick="bus();"><a><span class="fa fa-caret-right"></span>车辆信息管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".guide-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">导游管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="guide-menu nav nav-list collapse in">
+		            <li onclick="guide();"><a><span class="fa fa-caret-right"></span>导游信息管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -115,7 +128,7 @@
     <div class="content">
     	<div class="header">
             
-            <h1 class="page-title">门票信息管理</h1>
+            <h1 class="page-title">宾馆信息管理</h1>
 
         </div>
         <div class="main-content">
@@ -124,31 +137,26 @@
 				<div>
 	            	<table class="table" style="text-align:center;">
 	            		<tr>
-	            			<td width="10%" align="right" style="border-top:none;">名称:</td>
-	            			<td align="left" style="border-top:none;">
-	            				<input type="text" id="name" class="form-control">
-            				</td>
-            				<td width="30%" style="border-top:none;">星级</td>
-	            			<td width="30%" style="border-top:none;">
-	            				<select id="star" class="form-control">
+	            			<td width="10%" align="right" style="border-top:none;">宾馆名称:</td>
+	            			<td width="40%" align="left" style="border-top:none;">
+	            				<select id="hoteltypeid" class="form-control">
 	            					  <option value="" checked="checked">请选择</option>
-						              <option value="1">1</option>
-						              <option value="2">2</option>
-						              <option value="3">3</option>
-						              <option value="4">4</option>
-						              <option value="5">5</option>
+           					    </select>
+            				</td>
+            				<td width="10%" style="border-top:none;">规格</td>
+	            			<td width="40%" style="border-top:none;">
+	            				<select id="format" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+						              <option value="0">标准间</option>
+						              <option value="1">大床房</option>
+						              <option value="2">单人间</option>
+						              <option value="3">三人间</option>
+						              <option value="4">商务套房</option>
+						              <option value="5">豪华套房</option>
+						              <option value="6">总统套房</option>
+						              <option value="7">海景房</option>
 					        	</select>
 	            			</td>
-	            		</tr>
-	            		<tr>
-	            			<td width="10%" align="right" style="border-top:none;">类型名称:</td>
-	            			<td align="left" style="border-top:none;">
-	            				<select id="tickettypeid" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-					        	</select>
-            				</td>
-            				<td width="30%" style="border-top:none;"></td>
-	            			<td width="30%" style="border-top:none;"></td>
 	            		</tr>
 	            		<tr>
 	            			<td rowspan="4" align="right" style="border-top:none;">
@@ -157,37 +165,35 @@
 	            		</tr>
 	            	</table>
             	</div>
-			    <button id = "addTicket" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加门票类型</button>
+			    <button id = "addHotel" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加宾馆信息</button>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
 			
-			  <div id="ticketsTable">
-			  <script id="ticketsTemplateView" type="text/html">
+			  <div id="hotelsTable">
+			  <script id="hotelsTemplateView" type="text/html">
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
 			      <th style="width:3%;text-align: center;">#</th>
-			      <th style="width:20%;text-align: center;">名称</th>
+			      <th style="width:10%;text-align: center;">宾馆名称</th>
+			      <th style="width:10%;text-align: center;">规格</th>
 			      <th style="width:25%;text-align: center;">地址</th>
-			      <th style="width:5%;text-align: center;">星级</th>
-			      <th style="width:10%;text-align: center;">费用</th>
-			      <th style="width:10%;text-align: center;">类型</th>
-			      <th style="width:20%;text-align: center;">备注</th>
-			      <th style="width:5%;text-align: center;">操作</th>
+			      <th style="width:10%;text-align: center;">价格</th>
+			      <th style="width:25%;text-align: center;">备注</th>
+			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  {{ each tickets as ticket i }}
+			  {{ each hotels as hotel i }}
 			    <tr>
 			      <td>{{i + 1}}</td>
-			      <td>{{ticket.name}}</td>
-			      <td>{{ticket.area}}</td>
-				  <td>{{ticket.star}}</td>
-			      <td>{{ticket.cost}}元</td>
-				  <td>{{ticket.tickettype}}</td>
-			      <td>{{ticket.remark}}</td>
-				  <td><a class="deleteModelBtn" ticketid="{{ticket.id}}"><i class="fa fa-trash-o"></i></a></td>
+			      <td>{{hotel.hoteltype}}</td>
+			      <td>{{hotel.formatname}}</td>
+			      <td>{{hotel.area}}</td>
+			      <td>{{hotel.cost}}元</td>
+			      <td>{{hotel.remark}}</td>
+				  <td><a class="deleteModelBtn" hotelid="{{hotel.id}}"><i class="fa fa-trash-o"></i></a></td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -222,25 +228,35 @@
 			</script>
 			</div>
 
-			<div class="modal small fade" id="addTicketModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal small fade" id="addHotelModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" style="width:800px;">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">添加门票信息</h3>
+			            <h3 id="myModalLabel">添加宾馆信息</h3>
 			        </div>
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
 		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">名称</td>
+		            			<td align="right" style="border-top:none;">宾馆名称</td>
 		            			<td align="left" style="border-top:none;">
-		            				<input type="text" id="nname" class="form-control">
-		            			</td>
-		            			<td style="border-top:none;" align="right">类型</td>
-		            			<td style="border-top:none;">
-		            				<select id="ttickettypeid" class="form-control">
+		            				<select id="hhoteltypeid" class="form-control">
 	            					  <option value="" checked="checked">请选择</option>
-					        	</select>
+           					    </select>
+		            			</td>
+		            			<td align="right" style="border-top:none;">规格</td>
+		            			<td style="border-top:none;">
+		            				<select id="fformat" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+						              <option value="0">标准间</option>
+						              <option value="1">大床房</option>
+						              <option value="2">单人间</option>
+						              <option value="3">三人间</option>
+						              <option value="4">商务套房</option>
+						              <option value="5">豪华套房</option>
+						              <option value="6">总统套房</option>
+						              <option value="7">海景房</option>
+					        		</select>
 		            			</td>
 		            		</tr>
 		            		<tr>
@@ -265,23 +281,6 @@
 		            			<td align="left" style="border-top:none;">
 		            				<input type="text" id="cost" class="form-control">
 		            			</td>
-		            			<td style="border-top:none;" align="right">星级</td>
-		            			<td style="border-top:none;">
-		            				<select id="sstar" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-	            					  <option value="1">1</option>
-						              <option value="2">2</option>
-						              <option value="3">3</option>
-						              <option value="4">4</option>
-						              <option value="5">5</option>
-					        	</select>
-		            			</td>
-		            		</tr>
-		            		<tr>
-		            			<td align="right" style="border-top:none;">景点说明</td>
-		            			<td align="left" style="border-top:none;">
-		            				<textarea id="description" class="form-control" ></textarea>
-		            			</td>
 		            			<td style="border-top:none;"></td>
 		            			<td style="border-top:none;"></td>
 		            		</tr>
@@ -297,7 +296,7 @@
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger addTicketBtn" data-dismiss="modal">确定</button>
+			            <button class="btn btn-danger addHotelBtn" data-dismiss="modal">确定</button>
 			        </div>
 			      </div>
 			    </div>
@@ -309,10 +308,10 @@
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除门票信息</h3>
+			            <h3 id="myModalLabel">删除宾馆信息</h3>
 			        </div>
 			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该门票信息?<br>操作不可恢复。</p>
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该宾馆信息?<br>操作不可恢复。</p>
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -325,29 +324,31 @@
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "ticketid" value="" />
+	<input type="hidden" id = "hotelid" value="" />
 
     <script type="text/javascript">
 	    $(function(){
-	    	var ticketsPage = ${ticketsPage};
-	    	var arrayObj = new Array(ticketsPage.totalPage);
-	    	for (var i=0; i<ticketsPage.totalPage; i++){
+			
+			
+	    	var hotelsPage = ${hotelsPage};
+	    	var arrayObj = new Array(hotelsPage.totalPage);
+	    	for (var i=0; i<hotelsPage.totalPage; i++){
 	    		arrayObj[i] = i;
 	    	}
 	    	data = {
-	    			tickets : ticketsPage.pageInfoResult,
-	    			length : ticketsPage.totalRecord,
-	    			currentPage : ticketsPage.currentPage,
-	    			totalPage : ticketsPage.totalPage,
+	    			hotels : hotelsPage.pageInfoResult,
+	    			length : hotelsPage.totalRecord,
+	    			currentPage : hotelsPage.currentPage,
+	    			totalPage : hotelsPage.totalPage,
 	    			list : arrayObj
 	    	};
-	    	var ticketsViewHtml = template("ticketsTemplateView", data);
-	    	$("#ticketsTable").html(ticketsViewHtml);
+	    	var hotelsViewHtml = template("hotelsTemplateView", data);
+	    	$("#hotelsTable").html(hotelsViewHtml);
 	    	
 	    	var listType = ${listType};
 	    	for (i = 0; i < listType.length; i++) {
-	    		$('#tickettypeid').append('<option value="' + listType[i].id + '">'+ listType[i].name + '</option>');
-	    		$('#ttickettypeid').append('<option value="' + listType[i].id + '">'+ listType[i].name + '</option>');
+	    		$('#hoteltypeid').append('<option value="' + listType[i].id + '">'+ listType[i].name + '</option>');
+	    		$('#hhoteltypeid').append('<option value="' + listType[i].id + '">'+ listType[i].name + '</option>');
     		} 
 	    	
 	    	var provinces = ${provinces};
@@ -381,23 +382,26 @@
 	    		}
 	    	});
 	    	
-	    	$("#addTicket").click(function(){
-	    		$("#addTicketModel").modal('show');
+	    	
+	    	$("#addHotel").click(function(){
+	    		$("#addHotelModel").modal('show');
 	    	});
 	    	
-	    	$(".addTicketBtn").on("click", function(){
-	    		var name = $.trim($("#nname").val());
-	    		var remark = $.trim($("#remark").val());
+	    	$(".addHotelBtn").on("click", function(){
+	    		var hoteltypeid = $.trim($("#hhoteltypeid").val());
+	    		var format = $.trim($("#fformat").val());
 	    		var provinceid = $.trim($("#province").val());
 	    		var cityid = $.trim($("#city").val());
 	    		var areaid = $.trim($("#area").val());
-	    		var tickettypeid = $.trim($("#ttickettypeid").val());
 	    		var cost = $.trim($("#cost").val());
-	    		var description = $.trim($("#description").val());
-	    		var star = $.trim($("#sstar").val());
+	    		var remark = $.trim($("#remark").val());
 	    		
-	    		if (name == null || name == '') {
-	    			alert("名称不能为空");
+	    		if (hoteltypeid == null || hoteltypeid == '') {
+	    			alert("请选则宾馆类型");
+	    			return ;
+	    		}
+	    		if (format == null || format == '') {
+	    			alert("请选则宾馆规格");
 	    			return ;
 	    		}
 	    		if (provinceid == null || provinceid == '') {
@@ -424,28 +428,28 @@
 	    		}
 	    		
 	    		$.ajax({
-	    			url : "${ctx}/ticket/addticket.html",
+	    			url : "${ctx}/hotel/addhotel.html",
 	    			async : false,
 	    			type : 'POST',
 	    			cache:false,
 	    			data : {
-	    				name : name,
-	    	    		remark : remark,
+	    				hoteltypeid : hoteltypeid,
+	    	    		format : format,
 	    	    		provinceid : provinceid,
 	    	    		cityid : cityid,
 	    	    		areaid : areaid,
-	    	    		tickettypeid : tickettypeid,
 	    	    		cost : cost,
-	    	    		description : description,
-	    	    		star : star,
+	    	    		remark : remark,
 	    	    		area : area
 	    			},
 	    			dataType : 'json',
 	    			timeout : 15000,
 	    			beforeSend : function() {
-    	    			$("#addTicketTypeModel").modal('hide');
+    	    			$("#addHotelModel").modal('hide');
 	    			},
 	    			complete : function(XMLHttpRequest,textStatus) {
+	    				
+	    				
 	    			},
 	    			success : function(response) {
 	    				var json = eval(response);
@@ -468,17 +472,17 @@
             $('.demo-cancel-click').click(function(){return false;});
         }); */
         $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("ticketid");
-    		$("#ticketid").val(id);
+    		var id = $(this).attr("hotelid");
+    		$("#hotelid").val(id);
     		$("#deleteModal").modal('show');
     	});
     	
 		$("#deleteBtn").click(function(){
     		
-    		var id = $("#ticketid").val();
+    		var id = $("#hotelid").val();
     		
     		$.ajax({
-    			url : "${ctx}/ticket/deleteticket.html",
+    			url : "${ctx}/hotel/deletehotel.html",
     			async : false,
     			type : 'POST',
     			cache:false,
@@ -513,9 +517,9 @@
 	    
 	function dosearch(i){
     		
-    	var name = $.trim($('#name').val());
-    	var star = $.trim($('#star').val());
-    	var tickettypeid = $.trim($('#tickettypeid').val());
+
+		var hoteltypeid = $.trim($("#hoteltypeid").val());
+		var format = $.trim($("#format").val());
     	
     	if (i == null || i == '') {
     		i = 0;
@@ -527,15 +531,14 @@
     		i = parseInt($("#currentPage").val())+1;
     	}
    		$.ajax({
-   			url : "${ctx}/ticket/search.html",
+   			url : "${ctx}/hotel/search.html",
    			async : false,
    			type : 'POST',
    			cache:false,
    			data : {
    				currentPage : i,
-   				name : name,
-   				star : star,
-   				tickettypeid : tickettypeid
+   				hoteltypeid : hoteltypeid,
+   				format : format
    			},
    			dataType : 'json',
    			timeout : 15000,
@@ -543,8 +546,8 @@
    			},
    			complete : function(XMLHttpRequest,textStatus) {
 				$(".deleteModelBtn").on("click", function(){
-		    		var id = $(this).attr("ticketid");
-		    		$("#ticketid").val(id);
+		    		var id = $(this).attr("hotelid");
+		    		$("#hotelid").val(id);
 		    		$("#deleteModal").modal('show');
 		    	});
 				
@@ -560,14 +563,14 @@
    			    		arrayObj[j] = j;
    			    	}
    			    	data = {
-   			    			tickets : result.pageInfoResult,
+   			    			hotels : result.pageInfoResult,
    			    			length : result.totalRecord,
    			    			currentPage : result.currentPage,
    			    			totalPage : result.totalPage,
    			    			list : arrayObj
    			    	};
-   			    	var ticketTypesViewHtml = template("ticketsTemplateView", data);
-   			    	$("#ticketsTable").html(ticketTypesViewHtml);
+   			    	var hotelsViewHtml = template("hotelsTemplateView", data);
+   			    	$("#hotelsTable").html(hotelsViewHtml);
    					
 		    		$("#currentPage").val(i);
                    } else if (1===json.status){
@@ -582,12 +585,21 @@
    		});
    	}
 	
-	function tickettype(){
-		window.location.href = "${ctx}/tickettype/index.html";
+	function hoteltype(){
+		window.location.href = "${ctx}/hoteltype/index.html";
     }
 	
-	function vehicle(){
-		window.location.href = "${ctx}/staff/index.html";
+	function restaurant(){
+		window.location.href = "${ctx}/restaurant/index.html";
+    }
+	function restauranttype(){
+		window.location.href = "${ctx}/restauranttype/index.html";
+    }
+	function bus(){
+		window.location.href = "${ctx}/bus/index.html";
+    }
+	function guide(){
+		window.location.href = "${ctx}/guide/index.html";
     }
 	
 </script>

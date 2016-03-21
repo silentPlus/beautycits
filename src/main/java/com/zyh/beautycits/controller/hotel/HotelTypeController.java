@@ -82,6 +82,8 @@ public class HotelTypeController extends BaseController {
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
+		User user = getSessionUser();
+		hotelType.setUserid(user.getId());
 		ResultMsg resultMsg = hotelTypeService.addHotelType(hotelType);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);

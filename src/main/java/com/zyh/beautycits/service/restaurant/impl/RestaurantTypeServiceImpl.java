@@ -71,7 +71,7 @@ public class RestaurantTypeServiceImpl extends BaseServiceImpl implements Restau
 
 	@Override
 	public List<RestaurantType> getAllRestaurantType(Integer userid) {
-		String sql = "select * from hoteltype where userid = ?";
+		String sql = "select * from restauranttype where userid = ?";
 		List<RestaurantType> list = restaurantTypeDao.getList(sql, RestaurantType.class, userid);
 		return list;
 	}

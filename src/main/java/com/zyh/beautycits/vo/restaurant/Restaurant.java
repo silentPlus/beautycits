@@ -6,11 +6,39 @@ public class Restaurant {
 	private Integer provinceid;
 	private Integer cityid;
 	private Integer areaid;
-	private Integer format;
+	private String area;
+	private Integer restauranttypeid;
+	private String restaurant;
+	private String formatname;
+	private Integer format; // 规格、0：小桌（1~4）、1：中桌（5~8）、2：大桌（>8）
 	private String cost;
 	private String remark;
 	private String createtime;
 	private String updatetime;
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public Integer getRestauranttypeid() {
+		return restauranttypeid;
+	}
+	public void setRestauranttypeid(Integer restauranttypeid) {
+		this.restauranttypeid = restauranttypeid;
+	}
+	public String getRestaurant() {
+		return restaurant;
+	}
+	public void setRestaurant(String restaurant) {
+		this.restaurant = restaurant;
+	}
+	public String getFormatname() {
+		return formatname;
+	}
+	public void setFormatname(String formatname) {
+		this.formatname = formatname;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -46,6 +74,12 @@ public class Restaurant {
 	}
 	public void setFormat(Integer format) {
 		this.format = format;
+		switch(format){
+		case 0 : this.formatname = "小桌（1~4人）";break;
+		case 1 : this.formatname = "中桌（5~8人）";break;
+		case 2 : this.formatname = "大桌（>8人）";break;
+		default : this.formatname = "";break;
+		}
 	}
 	public String getCost() {
 		return cost;
@@ -74,7 +108,8 @@ public class Restaurant {
 	@Override
 	public String toString() {
 		return "Restaurant [id=" + id + ", userid=" + userid + ", provinceid=" + provinceid + ", cityid=" + cityid
-				+ ", areaid=" + areaid + ", format=" + format + ", cost=" + cost + ", remark=" + remark
-				+ ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
+				+ ", areaid=" + areaid + ", area=" + area + ", restauranttypeid=" + restauranttypeid + ", restaurant="
+				+ restaurant + ", formatname=" + formatname + ", format=" + format + ", cost=" + cost + ", remark="
+				+ remark + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
 	}
 }

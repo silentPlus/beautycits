@@ -100,14 +100,14 @@
 		    <li>
 			    <ul class="hotel-menu nav nav-list collapse in">
 		            <li onclick="hotel();"><a><span class="fa fa-caret-right"></span>宾馆信息管理</a></li>
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>宾馆类型管理</a></li>
+		            <li onclick="hoteltype();"><a><span class="fa fa-caret-right"></span>宾馆类型管理</a></li>
 			    </ul>
 		    </li>
 		    <li><a data-target=".restaurant-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">餐饮管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="restaurant-menu nav nav-list collapse in">
 		            <li onclick="restaurant();"><a><span class="fa fa-caret-right"></span>饭店信息管理</a></li>
-		            <li onclick="restauranttype();"><a><span class="fa fa-caret-right"></span>饭店类型管理</a></li>
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>饭店类型管理</a></li>
 			    </ul>
 		    </li>
 		    <li><a data-target=".bus-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">车辆管理<i class="fa fa-collapse"></i></a></li>
@@ -128,7 +128,7 @@
     <div class="content">
     	<div class="header">
             
-            <h1 class="page-title">宾馆类型管理</h1>
+            <h1 class="page-title">饭店类型管理</h1>
 
         </div>
         <div class="main-content">
@@ -151,29 +151,29 @@
 	            		</tr>
 	            	</table>
             	</div>
-			    <button id = "addHotelType" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加宾馆类型</button>
+			    <button id = "addRestaurantType" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加饭店类型</button>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
 			
-			  <div id="hotelTypesTable">
-			  <script id="hotelTypesTemplateView" type="text/html">
+			  <div id="restaurantTypesTable">
+			  <script id="restaurantTypesTemplateView" type="text/html">
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
 			      <th style="width:3%;text-align: center;">#</th>
-			      <th style="width:40%;text-align: center;">宾馆名称</th>
+			      <th style="width:40%;text-align: center;">饭店名称</th>
 			      <th style="width:40%;text-align: center;">星级</th>
 			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  {{ each hotelTypes as hoteltype i }}
+			  {{ each restauranttypes as restauranttype i }}
 			    <tr>
 			      <td>{{i + 1}}</td>
-			      <td>{{hoteltype.name}}</td>
-			      <td>{{hoteltype.star}}</td>
-				  <td><a class="deleteModelBtn" hoteltypeid="{{hoteltype.id}}"><i class="fa fa-trash-o"></i></a></td>
+			      <td>{{restauranttype.name}}</td>
+			      <td>{{restauranttype.star}}</td>
+				  <td><a class="deleteModelBtn" restauranttypeid="{{restauranttype.id}}"><i class="fa fa-trash-o"></i></a></td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -208,12 +208,12 @@
 			</script>
 			</div>
 
-			<div class="modal small fade" id="addHotelTypeModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal small fade" id="addRestaurantTypeModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">添加宾馆类型</h3>
+			            <h3 id="myModalLabel">添加饭店类型</h3>
 			        </div>
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
@@ -238,7 +238,7 @@
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger addHotelTypeBtn" data-dismiss="modal">确定</button>
+			            <button class="btn btn-danger addRestaurantTypeBtn" data-dismiss="modal">确定</button>
 			        </div>
 			      </div>
 			    </div>
@@ -250,10 +250,10 @@
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除宾馆类型</h3>
+			            <h3 id="myModalLabel">删除饭店类型</h3>
 			        </div>
 			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该宾馆类型?<br>操作不可恢复。</p>
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该饭店类型?<br>操作不可恢复。</p>
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -266,43 +266,43 @@
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "hoteltypeid" value="" />
+	<input type="hidden" id = "restauranttypeid" value="" />
 
     <script type="text/javascript">
 	    $(function(){
 			
 			
-	    	var pageHotelTypes = ${pageHotelTypes};
-	    	var arrayObj = new Array(pageHotelTypes.totalPage);
-	    	for (var i=0; i<pageHotelTypes.totalPage; i++){
+	    	var pageRestaurantTypes = ${pageRestaurantTypes};
+	    	var arrayObj = new Array(pageRestaurantTypes.totalPage);
+	    	for (var i=0; i<pageRestaurantTypes.totalPage; i++){
 	    		arrayObj[i] = i;
 	    	}
 	    	data = {
-	    			hotelTypes : pageHotelTypes.pageInfoResult,
-	    			length : pageHotelTypes.totalRecord,
-	    			currentPage : pageHotelTypes.currentPage,
-	    			totalPage : pageHotelTypes.totalPage,
+	    			restauranttypes : pageRestaurantTypes.pageInfoResult,
+	    			length : pageRestaurantTypes.totalRecord,
+	    			currentPage : pageRestaurantTypes.currentPage,
+	    			totalPage : pageRestaurantTypes.totalPage,
 	    			list : arrayObj
 	    	};
-	    	var hotelTypesViewHtml = template("hotelTypesTemplateView", data);
-	    	$("#hotelTypesTable").html(hotelTypesViewHtml);
+	    	var restaurantTypesViewHtml = template("restaurantTypesTemplateView", data);
+	    	$("#restaurantTypesTable").html(restaurantTypesViewHtml);
 	    	
 	    	
-	    	$("#addHotelType").click(function(){
-	    		$("#addHotelTypeModel").modal('show');
+	    	$("#addRestaurantType").click(function(){
+	    		$("#addRestaurantTypeModel").modal('show');
 	    	});
 	    	
-	    	$(".addHotelTypeBtn").on("click", function(){
+	    	$(".addRestaurantTypeBtn").on("click", function(){
 	    		var name = $.trim($("#typename").val());
 	    		var star = $.trim($("#star").val());
 	    		
 	    		if (name == null || name == '') {
-	    			alert("类型名称不能为空");
+	    			alert("饭店名称不能为空");
 	    			return ;
 	    		}
 	    		
 	    		$.ajax({
-	    			url : "${ctx}/hoteltype/addhoteltype.html",
+	    			url : "${ctx}/restauranttype/addrestauranttype.html",
 	    			async : false,
 	    			type : 'POST',
 	    			cache:false,
@@ -313,7 +313,7 @@
 	    			dataType : 'json',
 	    			timeout : 15000,
 	    			beforeSend : function() {
-    	    			$("#addHotelTypeModel").modal('hide');
+    	    			$("#addRestaurantTypeModel").modal('hide');
 	    			},
 	    			complete : function(XMLHttpRequest,textStatus) {
 	    				
@@ -340,17 +340,17 @@
             $('.demo-cancel-click').click(function(){return false;});
         }); */
         $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("hoteltypeid");
-    		$("#hoteltypeid").val(id);
+    		var id = $(this).attr("restauranttypeid");
+    		$("#restauranttypeid").val(id);
     		$("#deleteModal").modal('show');
     	});
     	
 		$("#deleteBtn").click(function(){
     		
-    		var id = $("#hoteltypeid").val();
+    		var id = $("#restauranttypeid").val();
     		
     		$.ajax({
-    			url : "${ctx}/hoteltype/deletehoteltype.html",
+    			url : "${ctx}/restauranttype/deleterestauranttype.html",
     			async : false,
     			type : 'POST',
     			cache:false,
@@ -397,7 +397,7 @@
     		i = parseInt($("#currentPage").val())+1;
     	}
    		$.ajax({
-   			url : "${ctx}/hoteltype/searchtype.html",
+   			url : "${ctx}/restauranttype/searchtype.html",
    			async : false,
    			type : 'POST',
    			cache:false,
@@ -411,8 +411,8 @@
    			},
    			complete : function(XMLHttpRequest,textStatus) {
 				$(".deleteModelBtn").on("click", function(){
-		    		var id = $(this).attr("hoteltypeid");
-		    		$("#hoteltypeid").val(id);
+		    		var id = $(this).attr("restauranttypeid");
+		    		$("#restauranttypeid").val(id);
 		    		$("#deleteModal").modal('show');
 		    	});
 				
@@ -428,14 +428,14 @@
    			    		arrayObj[j] = j;
    			    	}
    			    	data = {
-   			    			hotelTypes : result.pageInfoResult,
+   			    			restauranttypes : result.pageInfoResult,
    			    			length : result.totalRecord,
    			    			currentPage : result.currentPage,
    			    			totalPage : result.totalPage,
    			    			list : arrayObj
    			    	};
-   			    	var hotelTypesViewHtml = template("hotelTypesTemplateView", data);
-   			    	$("#hotelTypesTable").html(hotelTypesViewHtml);
+   			    	var restaurantTypesViewHtml = template("restaurantTypesTemplateView", data);
+   			    	$("#restaurantTypesTable").html(restaurantTypesViewHtml);
    					
 		    		$("#currentPage").val(i);
                    } else if (1===json.status){
@@ -457,8 +457,8 @@
 	function restaurant(){
 		window.location.href = "${ctx}/restaurant/index.html";
     }
-	function restauranttype(){
-		window.location.href = "${ctx}/restauranttype/index.html";
+	function hoteltype(){
+		window.location.href = "${ctx}/hoteltype/index.html";
     }
 	function bus(){
 		window.location.href = "${ctx}/bus/index.html";

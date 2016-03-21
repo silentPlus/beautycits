@@ -2,10 +2,17 @@ package com.zyh.beautycits.vo.restaurant;
 
 public class RestaurantType {
 	private Integer id;
+	private Integer userid;
 	private String name;
 	private Integer star;
 	private String createtiem;
 	private String updatetime;
+	public Integer getUserid() {
+		return userid;
+	}
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -38,7 +45,7 @@ public class RestaurantType {
 	}
 	@Override
 	public String toString() {
-		return "RestaurantType [id=" + id + ", name=" + name + ", star=" + star + ", createtiem=" + createtiem
-				+ ", updatetime=" + updatetime + "]";
+		return "RestaurantType [id=" + id + ", userid=" + userid + ", name=" + name + ", star=" + star + ", createtiem="
+				+ createtiem + ", updatetime=" + updatetime + "]";
 	}
 }

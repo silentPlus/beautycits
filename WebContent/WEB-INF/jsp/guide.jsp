@@ -113,13 +113,13 @@
 		    <li><a data-target=".bus-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">车辆管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="bus-menu nav nav-list collapse in">
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>车辆信息管理</a></li>
+		            <li onclick="bus();"><a><span class="fa fa-caret-right"></span>车辆信息管理</a></li>
 			    </ul>
 		    </li>
 		    <li><a data-target=".guide-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">导游管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="guide-menu nav nav-list collapse in">
-		            <li onclick="guide();"><a><span class="fa fa-caret-right"></span>导游信息管理</a></li>
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>导游信息管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -128,7 +128,7 @@
     <div class="content">
     	<div class="header">
             
-            <h1 class="page-title">车辆信息管理</h1>
+            <h1 class="page-title">导游信息管理</h1>
 
         </div>
         <div class="main-content">
@@ -137,14 +137,9 @@
 				<div>
 	            	<table class="table" style="text-align:center;">
 	            		<tr>
-	            			<td width="10%" align="right" style="border-top:none;">车辆规格:</td>
+	            			<td width="10%" align="right" style="border-top:none;">姓名:</td>
 	            			<td width="40%" align="left" style="border-top:none;">
-	            				<select id="bustype" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-	            					  <option value="0">小型客车</option>
-						              <option value="1">大型客车</option>
-						              <option value="2">双层客车</option>
-           					    </select>
+	            				<input type="text" id="guidename" class="form-control">
             				</td>
             				<td width="10%" style="border-top:none;">是否可用</td>
 	            			<td width="40%" style="border-top:none;">
@@ -162,19 +157,19 @@
 	            		</tr>
 	            	</table>
             	</div>
-			    <button id = "addBus" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加车辆信息</button>
+			    <button id = "addGuide" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加导游信息</button>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
 			
-			  <div id="bussTable">
-			  <script id="bussTemplateView" type="text/html">
+			  <div id="guidesTable">
+			  <script id="guidesTemplateView" type="text/html">
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
 			      <th style="width:3%;text-align: center;">#</th>
-			      <th style="width:20%;text-align: center;">名称</th>
-			      <th style="width:15%;text-align: center;">规格</th>
+			      <th style="width:20%;text-align: center;">姓名</th>
+			      <th style="width:15%;text-align: center;">手机号</th>
 			      <th style="width:10%;text-align: center;">价格</th>
 			      <th style="width:10%;text-align: center;">是否可用</th>
 			      <th style="width:25%;text-align: center;">备注</th>
@@ -182,15 +177,15 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			  {{ each buss as bus i }}
+			  {{ each guides as guide i }}
 			    <tr>
 			      <td>{{i + 1}}</td>
-			      <td>{{bus.name}}</td>
-			      <td>{{bus.type}}</td>
-			      <td>{{bus.cost}}元</td>
-			      <td>{{bus.used}}</td>
-			      <td>{{bus.remark}}</td>
-				  <td><a class="deleteModelBtn" busid="{{bus.id}}"><i class="fa fa-trash-o"></i></a></td>
+			      <td>{{guide.guidename}}</td>
+			      <td>{{guide.telephone}}</td>
+			      <td>{{guide.cost}}元</td>
+			      <td>{{guide.used}}</td>
+			      <td>{{guide.remark}}</td>
+				  <td><a class="deleteModelBtn" guideid="{{guide.id}}"><i class="fa fa-trash-o"></i></a></td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -225,32 +220,27 @@
 			</script>
 			</div>
 
-			<div class="modal small fade" id="addBusModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal small fade" id="addGuideModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" style="width:800px;">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">添加车辆信息</h3>
+			            <h3 id="myModalLabel">添加导游信息</h3>
 			        </div>
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
 		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">名称</td>
-		            			<td width="40%" align="left" style="border-top:none;">
-		            				<input type="text" id="name" class="form-control">
+		            			<td width="25%" align="right" style="border-top:none;">姓名</td>
+		            			<td width="25%" align="left" style="border-top:none;">
+		            				<input type="text" id="gguidename" class="form-control">
 		            			</td>
-		            			<td width="10%" align="right" style="border-top:none;">车辆规格</td>
-		            			<td width="40%" style="border-top:none;">
-		            				<select id="bbustype" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-	            					  <option value="0">小型客车</option>
-						              <option value="1">大型客车</option>
-						              <option value="2">双层客车</option>
-           					    	</select>
+		            			<td width="25%" align="right" style="border-top:none;">手机号</td>
+		            			<td width="25%" style="border-top:none;">
+		            				<input type="text" id="telephone" class="form-control">
 		            			</td>
 		            		</tr>
 		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">费用（单位：元）</td>
+		            			<td align="right" style="border-top:none;">费用（单位：元/天）</td>
 		            			<td align="left" style="border-top:none;">
 		            				<input type="text" id="cost" class="form-control">
 		            			</td>
@@ -269,7 +259,7 @@
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger addBusBtn" data-dismiss="modal">确定</button>
+			            <button class="btn btn-danger addGuideBtn" data-dismiss="modal">确定</button>
 			        </div>
 			      </div>
 			    </div>
@@ -281,10 +271,10 @@
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除车辆信息</h3>
+			            <h3 id="myModalLabel">删除导游信息</h3>
 			        </div>
 			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该车辆信息?<br>操作不可恢复。</p>
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该导游信息?<br>操作不可恢复。</p>
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -297,44 +287,51 @@
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "busid" value="" />
+	<input type="hidden" id = "guideid" value="" />
 
     <script type="text/javascript">
 	    $(function(){
 			
 			
-	    	var bussPage = ${bussPage};
-	    	var arrayObj = new Array(bussPage.totalPage);
-	    	for (var i=0; i<bussPage.totalPage; i++){
+	    	var guidesPage = ${guidesPage};
+	    	var arrayObj = new Array(guidesPage.totalPage);
+	    	for (var i=0; i<guidesPage.totalPage; i++){
 	    		arrayObj[i] = i;
 	    	}
 	    	data = {
-	    			buss : bussPage.pageInfoResult,
-	    			length : bussPage.totalRecord,
-	    			currentPage : bussPage.currentPage,
-	    			totalPage : bussPage.totalPage,
+	    			guides : guidesPage.pageInfoResult,
+	    			length : guidesPage.totalRecord,
+	    			currentPage : guidesPage.currentPage,
+	    			totalPage : guidesPage.totalPage,
 	    			list : arrayObj
 	    	};
-	    	var bussViewHtml = template("bussTemplateView", data);
-	    	$("#bussTable").html(bussViewHtml);
+	    	var guidesViewHtml = template("guidesTemplateView", data);
+	    	$("#guidesTable").html(guidesViewHtml);
 	    	
-	    	$("#addBus").click(function(){
-	    		$("#addBusModel").modal('show');
+	    	$("#addGuide").click(function(){
+	    		$("#addGuideModel").modal('show');
 	    	});
 	    	
-	    	$(".addBusBtn").on("click", function(){
-	    		var name = $.trim($("#name").val());
-	    		var bustype = $.trim($("#bbustype").val());
+	    	$(".addGuideBtn").on("click", function(){
+	    		var guidename = $.trim($("#gguidename").val());
+	    		var telephone = $.trim($("#telephone").val());
 	    		var cost = $.trim($("#cost").val());
 	    		var remark = $.trim($("#remark").val());
 	    		
-	    		if (name == null || name == '') {
+	    		if (guidename == null || guidename == '') {
 	    			alert("名称不能为空");
 	    			return ;
 	    		}
-	    		if (bustype == null || bustype == '') {
-	    			alert("请选则车辆规格");
+	    		if (telephone == null || telephone == '') {
+	    			alert("手机号不能为空");
 	    			return ;
+	    		} else {
+	    			var re = /^1[3|4|5|7|8]\d{9}$/;
+	    		    if(telephone != '' && telephone != null && !(re.test(telephone))){
+	    		      alert('手机号格式错误');
+	    		      $("#telephone").val('');
+	    		      return ;
+	    		    }
 	    		}
     			
     			if (cost == null || cost == '') {
@@ -344,25 +341,26 @@
 	    			var partn =/^[0-9]{0}([0-9]|[.])+$/; 
 	    			if (!partn.test(cost)){
 	    				alert("金额只允许输入数字和小数点");
+	    				$("#cost").val('');
 		    			return ;
 	    			}
 	    		}
 	    		
 	    		$.ajax({
-	    			url : "${ctx}/bus/addbus.html",
+	    			url : "${ctx}/guide/addguide.html",
 	    			async : false,
 	    			type : 'POST',
 	    			cache:false,
 	    			data : {
-	    				name : name,
-	    	    		bustype : bustype,
+	    				guidename : guidename,
+	    	    		telephone : telephone,
 	    	    		cost : cost,
 	    	    		remark : remark
 	    			},
 	    			dataType : 'json',
 	    			timeout : 15000,
 	    			beforeSend : function() {
-    	    			$("#addBusModel").modal('hide');
+    	    			$("#addGuideModel").modal('hide');
 	    			},
 	    			complete : function(XMLHttpRequest,textStatus) {
 	    				
@@ -389,17 +387,17 @@
             $('.demo-cancel-click').click(function(){return false;});
         }); */
         $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("busid");
-    		$("#busid").val(id);
+    		var id = $(this).attr("guidesid");
+    		$("#guideid").val(id);
     		$("#deleteModal").modal('show');
     	});
     	
 		$("#deleteBtn").click(function(){
     		
-    		var id = $("#busid").val();
+    		var id = $("#guideid").val();
     		
     		$.ajax({
-    			url : "${ctx}/bus/deletebus.html",
+    			url : "${ctx}/guide/deleteguide.html",
     			async : false,
     			type : 'POST',
     			cache:false,
@@ -435,7 +433,7 @@
 	function dosearch(i){
     		
 
-		var bustype = $.trim($("#bustype").val());
+		var guidename = $.trim($("#guidename").val());
 		var isused = $.trim($("#isused").val());
     	
     	if (i == null || i == '') {
@@ -448,13 +446,13 @@
     		i = parseInt($("#currentPage").val())+1;
     	}
    		$.ajax({
-   			url : "${ctx}/bus/search.html",
+   			url : "${ctx}/guide/search.html",
    			async : false,
    			type : 'POST',
    			cache:false,
    			data : {
    				currentPage : i,
-   				bustype : bustype,
+   				guidename : guidename,
    				isused : isused
    			},
    			dataType : 'json',
@@ -463,8 +461,8 @@
    			},
    			complete : function(XMLHttpRequest,textStatus) {
 				$(".deleteModelBtn").on("click", function(){
-		    		var id = $(this).attr("busid");
-		    		$("#busid").val(id);
+		    		var id = $(this).attr("guideid");
+		    		$("#guideid").val(id);
 		    		$("#deleteModal").modal('show');
 		    	});
 				
@@ -480,14 +478,14 @@
    			    		arrayObj[j] = j;
    			    	}
    			    	data = {
-   			    			buss : result.pageInfoResult,
+   			    			guides : result.pageInfoResult,
    			    			length : result.totalRecord,
    			    			currentPage : result.currentPage,
    			    			totalPage : result.totalPage,
    			    			list : arrayObj
    			    	};
-   			    	var bussViewHtml = template("bussTemplateView", data);
-   			    	$("#bussTable").html(bussViewHtml);
+   			    	var guidesViewHtml = template("guidesTemplateView", data);
+   			    	$("#guidesTable").html(guidesViewHtml);
    					
 		    		$("#currentPage").val(i);
                    } else if (1===json.status){
@@ -515,8 +513,8 @@
 	function hotel(){
 		window.location.href = "${ctx}/hotel/index.html";
     }
-	function guide(){
-		window.location.href = "${ctx}/guide/index.html";
+	function bus(){
+		window.location.href = "${ctx}/bus/index.html";
     }
 	
 </script>

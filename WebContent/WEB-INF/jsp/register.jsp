@@ -194,7 +194,7 @@
 	    $("#qq").focusout(function() {
 		    var qq = $("#qq").val().trim();
 		    var re = /^[1-9]*[1-9][0-9]*$/;
-		    if(telephone != '' && telephone != null && !(re.test(qq))){
+		    if(qq != '' && qq != null && !(re.test(qq))){
 		      alert('qq号格式错误');
 		      $("#qq").val('');
 		    }

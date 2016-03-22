@@ -12,7 +12,7 @@ public interface GuideService extends BaseService {
 	 * @return
 	 * @return ResultMsg
 	 */
-	public ResultMsg getGuide(Integer currentPage, Integer bustype, Integer isused, Integer userid);
+	public ResultMsg getGuide(Integer currentPage, String guidename, Integer isused, Integer userid);
 	
 	/**
 	 * 

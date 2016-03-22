@@ -7,9 +7,16 @@ public class Guide {
 	private String telephone;
 	private String cost;
 	private Integer isused;
+	private String used;
 	private String remark;
 	private String createtime;
 	private String updatetime;
+	public String getUsed() {
+		return used;
+	}
+	public void setUsed(String used) {
+		this.used = used;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -45,6 +52,11 @@ public class Guide {
 	}
 	public void setIsused(Integer isused) {
 		this.isused = isused;
+		switch(isused){
+		case 0:this.used = "不可用";break;
+		case 1:this.used = "可用";break;
+		default : this.used = "";break;
+		}
 	}
 	public String getRemark() {
 		return remark;
@@ -67,7 +79,7 @@ public class Guide {
 	@Override
 	public String toString() {
 		return "Guide [id=" + id + ", userid=" + userid + ", guidename=" + guidename + ", telephone=" + telephone
-				+ ", cost=" + cost + ", isused=" + isused + ", remark=" + remark + ", createtime=" + createtime
-				+ ", updatetime=" + updatetime + "]";
+				+ ", cost=" + cost + ", isused=" + isused + ", used=" + used + ", remark=" + remark + ", createtime="
+				+ createtime + ", updatetime=" + updatetime + "]";
 	}
 }

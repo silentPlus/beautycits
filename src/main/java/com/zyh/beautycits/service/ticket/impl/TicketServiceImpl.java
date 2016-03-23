@@ -23,22 +23,27 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService{
 	public ResultMsg getTickets(Integer currentPage, String name, Integer star, Integer tickettypeid) {
 		ResultMsg resultMsg = new ResultMsg();
 		StringBuffer sql = new StringBuffer("select t.*, tt.`name` as tickettype from ticket t LEFT JOIN tickettype tt on tt.id = t.tickettypeid ");
+		if (StringUtils.isNotBlank(name) || star != null || tickettypeid != null ) {
+			sql.append("where ");
+		}
+		
 		if (StringUtils.isNotBlank(name)) {
-			sql.append(" and t.name like '%").append(name).append("%' ");
+			sql.append(" t.name like '%").append(name).append("%' and ");
 		}
 		if (star != null) {
-			sql.append(" and t.star = ").append(star);
+			sql.append(" t.star = ").append(star).append(" and ");
 		}
 		if (tickettypeid != null) {
-			sql.append(" and t.tickettypeid = ").append(tickettypeid);
+			sql.append(" t.tickettypeid = ").append(tickettypeid).append(" and ");
 		}
+		String ssql = sql.substring(0, sql.length()-4);
 		
 		PageInfo<Ticket> pageTicket = new PageInfo<>();
 		pageTicket.setPageSize(ConfigConstants.PAGESIZE);
 		pageTicket.setCurrentPage(currentPage);
 		StringBuffer countsql = new StringBuffer("select count(*) from (");
-		countsql.append(sql).append(") m");
-		pageTicket = ticketDao.getPageModel(pageTicket, sql, countsql, Ticket.class);
+		countsql.append(ssql).append(") m");
+		pageTicket = ticketDao.getPageModel(pageTicket, new StringBuffer(ssql), countsql, Ticket.class);
 		resultMsg.setState(Results.SUCCESS);
 		resultMsg.setMsgEntity(pageTicket);
 		return resultMsg;

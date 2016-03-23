@@ -96,30 +96,24 @@
 
     <div class="sidebar-nav">
 	    <ul>
-		    <li><a data-target=".hotel-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">宾馆管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".vehicle-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">交通管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
-			    <ul class="hotel-menu nav nav-list collapse in">
-		            <li onclick="hotel();"><a><span class="fa fa-caret-right"></span>宾馆信息管理</a></li>
-		            <li onclick="hoteltype();"><a><span class="fa fa-caret-right"></span>宾馆类型管理</a></li>
+			    <ul class="vehicle-menu nav nav-list collapse in">
+		            <li onclick="vehicle();"><a><span class="fa fa-caret-right"></span>交通信息管理</a></li>
 			    </ul>
 		    </li>
-		    <li><a data-target=".restaurant-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">餐饮管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".ticket-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">门票管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
-			    <ul class="restaurant-menu nav nav-list collapse in">
-		            <li onclick="restaurant();"><a><span class="fa fa-caret-right"></span>饭店信息管理</a></li>
-		            <li onclick="restauranttype();"><a><span class="fa fa-caret-right"></span>饭店类型管理</a></li>
+			    <ul class="ticket-menu nav nav-list collapse in">
+		            <li onclick="ticket();"><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
+		            <li onclick="tickettype();"><a><span class="fa fa-caret-right"></span>门票类型管理</a></li>
 			    </ul>
 		    </li>
-		    <li><a data-target=".bus-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">车辆管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".line-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">线路管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
-			    <ul class="bus-menu nav nav-list collapse in">
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>车辆信息管理</a></li>
-			    </ul>
-		    </li>
-		    <li><a data-target=".guide-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">导游管理<i class="fa fa-collapse"></i></a></li>
-		    <li>
-			    <ul class="guide-menu nav nav-list collapse in">
-		            <li onclick="guide();"><a><span class="fa fa-caret-right"></span>导游信息管理</a></li>
+			    <ul class="line-menu nav nav-list collapse in">
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>线路类型管理</a></li>
+		            <li onclick="line();"><a><span class="fa fa-caret-right"></span>线路信息管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -128,69 +122,35 @@
     <div class="content">
     	<div class="header">
             
-            <h1 class="page-title">车辆信息管理</h1>
+            <h1 class="page-title">线路类型管理</h1>
 
         </div>
         <div class="main-content">
             
 			<div class="btn-toolbar list-toolbar">
-				<div>
-	            	<table class="table" style="text-align:center;">
-	            		<tr>
-	            			<td width="10%" align="right" style="border-top:none;">车辆规格</td>
-	            			<td width="40%" align="left" style="border-top:none;">
-	            				<select id="bustype" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-	            					  <option value="0">小型客车</option>
-						              <option value="1">大型客车</option>
-						              <option value="2">双层客车</option>
-           					    </select>
-            				</td>
-            				<td width="10%" style="border-top:none;">是否可用</td>
-	            			<td width="40%" style="border-top:none;">
-	            				<select id="isused" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-						              <option value="0">不可用</option>
-						              <option value="1">可用</option>
-					        	</select>
-	            			</td>
-	            		</tr>
-	            		<tr>
-	            			<td rowspan="4" align="right" style="border-top:none;">
-	            				<button onclick="dosearch(1);" class="btn btn-default">查询</button>
-	            			</td>
-	            		</tr>
-	            	</table>
-            	</div>
-			    <button id = "addBus" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加车辆信息</button>
+			    <button id = "addLineType" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加线路类型</button>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
 			
-			  <div id="bussTable">
-			  <script id="bussTemplateView" type="text/html">
+			  <div id="lineTypesTable">
+			  <script id="lineTypesTemplateView" type="text/html">
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
 			      <th style="width:3%;text-align: center;">#</th>
-			      <th style="width:20%;text-align: center;">名称</th>
-			      <th style="width:15%;text-align: center;">规格</th>
-			      <th style="width:10%;text-align: center;">价格</th>
-			      <th style="width:10%;text-align: center;">是否可用</th>
-			      <th style="width:25%;text-align: center;">备注</th>
+			      <th style="width:40%;text-align: center;">类型名称</th>
+			      <th style="width:40%;text-align: center;">备注</th>
 			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  {{ each buss as bus i }}
+			  {{ each linetypes as linetype i }}
 			    <tr>
 			      <td>{{i + 1}}</td>
-			      <td>{{bus.name}}</td>
-			      <td>{{bus.type}}</td>
-			      <td>{{bus.cost}}元</td>
-			      <td>{{bus.used}}</td>
-			      <td>{{bus.remark}}</td>
-				  <td><a class="deleteModelBtn" busid="{{bus.id}}"><i class="fa fa-trash-o"></i></a></td>
+			      <td>{{linetype.name}}</td>
+			      <td>{{linetype.remark}}</td>
+				  <td><a class="deleteModelBtn" linetypeid="{{linetype.id}}"><i class="fa fa-trash-o"></i></a></td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -225,40 +185,25 @@
 			</script>
 			</div>
 
-			<div class="modal small fade" id="addBusModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog" style="width:800px;">
+			<div class="modal small fade" id="addLineTypeModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">添加车辆信息</h3>
+			            <h3 id="myModalLabel">添加线路类型</h3>
 			        </div>
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
 		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">名称</td>
-		            			<td width="40%" align="left" style="border-top:none;">
+		            			<td width="40%" align="right" style="border-top:none;">类型名称</td>
+		            			<td align="left" style="border-top:none;">
 		            				<input type="text" id="name" class="form-control">
 		            			</td>
-		            			<td width="10%" align="right" style="border-top:none;">车辆规格</td>
-		            			<td width="40%" style="border-top:none;">
-		            				<select id="bbustype" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-	            					  <option value="0">小型客车</option>
-						              <option value="1">大型客车</option>
-						              <option value="2">双层客车</option>
-           					    	</select>
-		            			</td>
-		            		</tr>
-		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">费用（单位：元）</td>
-		            			<td align="left" style="border-top:none;">
-		            				<input type="text" id="cost" class="form-control">
-		            			</td>
 		            			<td style="border-top:none;"></td>
 		            			<td style="border-top:none;"></td>
 		            		</tr>
 		            		<tr>
-		            			<td align="right" style="border-top:none;">备注</td>
+		            			<td width="40%" align="right" style="border-top:none;">备注</td>
 		            			<td align="left" style="border-top:none;">
 		            				<textarea id="remark" class="form-control" ></textarea>
 		            			</td>
@@ -269,7 +214,7 @@
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger addBusBtn" data-dismiss="modal">确定</button>
+			            <button class="btn btn-danger addLineTypeBtn" data-dismiss="modal">确定</button>
 			        </div>
 			      </div>
 			    </div>
@@ -281,10 +226,10 @@
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除车辆信息</h3>
+			            <h3 id="myModalLabel">删除线路类型</h3>
 			        </div>
 			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该车辆信息?<br>操作不可恢复。</p>
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该线路类型?<br>操作不可恢复。</p>
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -297,72 +242,54 @@
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "busid" value="" />
+	<input type="hidden" id = "linetypeid" value="" />
 
     <script type="text/javascript">
 	    $(function(){
 			
 			
-	    	var bussPage = ${bussPage};
-	    	var arrayObj = new Array(bussPage.totalPage);
-	    	for (var i=0; i<bussPage.totalPage; i++){
+	    	var lineTypes = ${lineTypes};
+	    	var arrayObj = new Array(lineTypes.totalPage);
+	    	for (var i=0; i<lineTypes.totalPage; i++){
 	    		arrayObj[i] = i;
 	    	}
 	    	data = {
-	    			buss : bussPage.pageInfoResult,
-	    			length : bussPage.totalRecord,
-	    			currentPage : bussPage.currentPage,
-	    			totalPage : bussPage.totalPage,
+	    			linetypes : lineTypes.pageInfoResult,
+	    			length : lineTypes.totalRecord,
+	    			currentPage : lineTypes.currentPage,
+	    			totalPage : lineTypes.totalPage,
 	    			list : arrayObj
 	    	};
-	    	var bussViewHtml = template("bussTemplateView", data);
-	    	$("#bussTable").html(bussViewHtml);
+	    	var lineTypesViewHtml = template("lineTypesTemplateView", data);
+	    	$("#lineTypesTable").html(lineTypesViewHtml);
 	    	
-	    	$("#addBus").click(function(){
-	    		$("#addBusModel").modal('show');
+	    	
+	    	$("#addLineType").click(function(){
+	    		$("#addLineTypeModel").modal('show');
 	    	});
 	    	
-	    	$(".addBusBtn").on("click", function(){
+	    	$(".addLineTypeBtn").on("click", function(){
 	    		var name = $.trim($("#name").val());
-	    		var bustype = $.trim($("#bbustype").val());
-	    		var cost = $.trim($("#cost").val());
 	    		var remark = $.trim($("#remark").val());
 	    		
 	    		if (name == null || name == '') {
-	    			alert("名称不能为空");
+	    			alert("类型名称不能为空");
 	    			return ;
-	    		}
-	    		if (bustype == null || bustype == '') {
-	    			alert("请选则车辆规格");
-	    			return ;
-	    		}
-    			
-    			if (cost == null || cost == '') {
-	    			alert("金额不能为空");
-	    			return ;
-	    		} else {
-	    			var partn =/^[0-9]{0}([0-9]|[.])+$/; 
-	    			if (!partn.test(cost)){
-	    				alert("金额只允许输入数字和小数点");
-		    			return ;
-	    			}
 	    		}
 	    		
 	    		$.ajax({
-	    			url : "${ctx}/bus/addbus.html",
+	    			url : "${ctx}/linetype/addlinetype.html",
 	    			async : false,
 	    			type : 'POST',
 	    			cache:false,
 	    			data : {
 	    				name : name,
-	    	    		bustype : bustype,
-	    	    		cost : cost,
 	    	    		remark : remark
 	    			},
 	    			dataType : 'json',
 	    			timeout : 15000,
 	    			beforeSend : function() {
-    	    			$("#addBusModel").modal('hide');
+    	    			$("#addLineTypeModel").modal('hide');
 	    			},
 	    			complete : function(XMLHttpRequest,textStatus) {
 	    				
@@ -389,17 +316,17 @@
             $('.demo-cancel-click').click(function(){return false;});
         }); */
         $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("busid");
-    		$("#busid").val(id);
+    		var id = $(this).attr("linetypeid");
+    		$("#linetypeid").val(id);
     		$("#deleteModal").modal('show');
     	});
     	
 		$("#deleteBtn").click(function(){
     		
-    		var id = $("#busid").val();
+    		var id = $("#linetypeid").val();
     		
     		$.ajax({
-    			url : "${ctx}/bus/deletebus.html",
+    			url : "${ctx}/linetype/deletelinetype.html",
     			async : false,
     			type : 'POST',
     			cache:false,
@@ -434,10 +361,6 @@
 	    
 	function dosearch(i){
     		
-
-		var bustype = $.trim($("#bustype").val());
-		var isused = $.trim($("#isused").val());
-    	
     	if (i == null || i == '') {
     		i = 0;
     	}
@@ -448,14 +371,12 @@
     		i = parseInt($("#currentPage").val())+1;
     	}
    		$.ajax({
-   			url : "${ctx}/bus/search.html",
+   			url : "${ctx}/linetype/searchtype.html",
    			async : false,
    			type : 'POST',
    			cache:false,
    			data : {
-   				currentPage : i,
-   				bustype : bustype,
-   				isused : isused
+   				currentPage : i
    			},
    			dataType : 'json',
    			timeout : 15000,
@@ -463,8 +384,8 @@
    			},
    			complete : function(XMLHttpRequest,textStatus) {
 				$(".deleteModelBtn").on("click", function(){
-		    		var id = $(this).attr("busid");
-		    		$("#busid").val(id);
+		    		var id = $(this).attr("linetypeid");
+		    		$("#linetypeid").val(id);
 		    		$("#deleteModal").modal('show');
 		    	});
 				
@@ -480,14 +401,14 @@
    			    		arrayObj[j] = j;
    			    	}
    			    	data = {
-   			    			buss : result.pageInfoResult,
+   			    			linetypes : result.pageInfoResult,
    			    			length : result.totalRecord,
    			    			currentPage : result.currentPage,
    			    			totalPage : result.totalPage,
    			    			list : arrayObj
    			    	};
-   			    	var bussViewHtml = template("bussTemplateView", data);
-   			    	$("#bussTable").html(bussViewHtml);
+   			    	var lineTypesViewHtml = template("lineTypesTemplateView", data);
+   			    	$("#lineTypesTable").html(lineTypesViewHtml);
    					
 		    		$("#currentPage").val(i);
                    } else if (1===json.status){
@@ -502,21 +423,18 @@
    		});
    	}
 	
-	function hoteltype(){
-		window.location.href = "${ctx}/hoteltype/index.html";
+	function ticket(){
+		window.location.href = "${ctx}/ticket/index.html";
+    }
+	function tickettype(){
+		window.location.href = "${ctx}/tickettype/index.html";
+    }
+	function line(){
+		window.location.href = "${ctx}/line/index.html";
     }
 	
-	function restaurant(){
-		window.location.href = "${ctx}/restaurant/index.html";
-    }
-	function restauranttype(){
-		window.location.href = "${ctx}/restauranttype/index.html";
-    }
-	function hotel(){
-		window.location.href = "${ctx}/hotel/index.html";
-    }
-	function guide(){
-		window.location.href = "${ctx}/guide/index.html";
+	function vehicle(){
+		window.location.href = "${ctx}/staff/index.html";
     }
 	
 </script>

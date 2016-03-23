@@ -109,6 +109,13 @@
 		            <li onclick="ticketType();"><a><span class="fa fa-caret-right"></span>门票类型管理</a></li>
 			    </ul>
 		    </li>
+		    <li><a data-target=".line-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">线路管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="line-menu nav nav-list collapse in">
+		            <li onclick="linetype();"><a><span class="fa fa-caret-right"></span>线路类型管理</a></li>
+		            <li onclick="line();"><a><span class="fa fa-caret-right"></span>线路信息管理</a></li>
+			    </ul>
+		    </li>
 	    </ul>
     </div>
 
@@ -701,6 +708,13 @@
 	
 	function ticketType(){
 		window.location.href = "${ctx}/tickettype/index.html";
+    }
+	
+	function linetype(){
+		window.location.href = "${ctx}/linetype/index.html";
+    }
+	function line(){
+		window.location.href = "${ctx}/line/index.html";
     }
 </script>
     

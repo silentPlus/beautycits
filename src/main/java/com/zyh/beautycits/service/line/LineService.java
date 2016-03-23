@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.line;
 
+import java.util.List;
+
 import com.zyh.beautycits.service.base.BaseService;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.line.Line;
@@ -31,5 +33,11 @@ public interface LineService extends BaseService {
 	 * 
 	 */
 	public ResultMsg publishLine(Integer id);
+	
+	/**
+	 * 
+	 * getAllLine(获取所有线路信息，旅行社规划线路使用)
+	 */
+	public List<Line> getAllLine();
 
 }

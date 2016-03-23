@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.guide;
 
+import java.util.List;
+
 import com.zyh.beautycits.service.base.BaseService;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.guide.Guide;
@@ -30,4 +32,16 @@ public interface GuideService extends BaseService {
 	 * @return ResultMsg
 	 */
 	public ResultMsg deleteGuide(Integer id);
+	
+	/**
+	 * 
+	 * getAllGuide(获取所有可用导游信息)
+	 */
+	public List<Guide> getAllGuide();
+	
+	/**
+	 * 
+	 * updateGuide(可用不可用操作)
+	 */
+	public ResultMsg updateGuide(Integer id, Integer isused);
 }

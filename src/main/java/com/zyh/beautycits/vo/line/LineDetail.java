@@ -4,13 +4,91 @@ public class LineDetail {
 	private Integer id;
 	private Integer userid;
 	private Integer lineid;
+	private String linename;
 	private Integer govehicleid;
+	private String govehicle;
+	private String backvehicle;
+	private Integer gtype;
+	private Integer btype;
 	private Integer backvehicleid;
 	private String insurance;
 	private Integer guideid;
+	private String guidename;
 	private String remark;
+	private String gocost;
+	private String backcost;
+	private String guidecost;
+	
 	private String createtime;
 	private String updatetime;
+	public String getGocost() {
+		return gocost;
+	}
+	public void setGocost(String gocost) {
+		this.gocost = gocost;
+	}
+	public String getBackcost() {
+		return backcost;
+	}
+	public void setBackcost(String backcost) {
+		this.backcost = backcost;
+	}
+	public String getGuidecost() {
+		return guidecost;
+	}
+	public void setGuidecost(String guidecost) {
+		this.guidecost = guidecost;
+	}
+	public Integer getGtype() {
+		return gtype;
+	}
+	public void setGtype(Integer gtype) {
+		this.gtype = gtype;
+		switch (gtype) {
+		case 1 : this.govehicle = "汽车";break;
+		case 2 : this.govehicle = "火车";break;
+		case 3 : this.govehicle = "飞机";break;
+		case 4 : this.govehicle = "轮船";break;
+		default : this.govehicle = "-";break;
+	}
+	}
+	public Integer getBtype() {
+		return btype;
+	}
+	public void setBtype(Integer btype) {
+		this.btype = btype;
+		switch (btype) {
+		case 1 : this.backvehicle = "汽车";break;
+		case 2 : this.backvehicle = "火车";break;
+		case 3 : this.backvehicle = "飞机";break;
+		case 4 : this.backvehicle = "轮船";break;
+		default : this.backvehicle = "-";break;
+	}
+	}
+	public String getLinename() {
+		return linename;
+	}
+	public void setLinename(String linename) {
+		this.linename = linename;
+	}
+	public String getGovehicle() {
+		return govehicle;
+	}
+	public void setGovehicle(String govehicle) {
+		this.govehicle = govehicle;
+	}
+	public String getBackvehicle() {
+		return backvehicle;
+	}
+	public void setBackvehicle(String backvehicle) {
+		this.backvehicle = backvehicle;
+	}
+	public String getGuidename() {
+		return guidename;
+	}
+	public void setGuidename(String guidename) {
+		this.guidename = guidename;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -73,8 +151,11 @@ public class LineDetail {
 	}
 	@Override
 	public String toString() {
-		return "LineDetail [id=" + id + ", userid=" + userid + ", lineid=" + lineid + ", govehicleid=" + govehicleid
-				+ ", backvehicleid=" + backvehicleid + ", insurance=" + insurance + ", guideid=" + guideid + ", remark="
-				+ remark + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
+		return "LineDetail [id=" + id + ", userid=" + userid + ", lineid=" + lineid + ", linename=" + linename
+				+ ", govehicleid=" + govehicleid + ", govehicle=" + govehicle + ", backvehicle=" + backvehicle
+				+ ", gtype=" + gtype + ", btype=" + btype + ", backvehicleid=" + backvehicleid + ", insurance="
+				+ insurance + ", guideid=" + guideid + ", guidename=" + guidename + ", remark=" + remark + ", gocost="
+				+ gocost + ", backcost=" + backcost + ", guidecost=" + guidecost + ", createtime=" + createtime
+				+ ", updatetime=" + updatetime + "]";
 	}
 }

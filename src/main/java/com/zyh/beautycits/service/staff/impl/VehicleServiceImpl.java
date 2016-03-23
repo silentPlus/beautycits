@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.staff.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -91,6 +93,13 @@ public class VehicleServiceImpl extends BaseServiceImpl implements VehicleServic
 		resultMsg.setState(Results.ERROR);
 		resultMsg.setMsg("操作失败！");
 		return resultMsg;
+	}
+
+	@Override
+	public List<Vehicle> getAllVehicle() {
+		String sql = "select * from vehicle v ORDER BY v.createtime desc ";
+		List<Vehicle> list = vehicleDao.getList(sql, Vehicle.class);
+		return list;
 	}
 
 }

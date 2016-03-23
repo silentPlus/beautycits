@@ -1,4 +1,6 @@
-package com.zyh.beautycits.controller.guide;
+package com.zyh.beautycits.controller.line;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,15 +13,30 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.zyh.beautycits.controller.BaseController;
 import com.zyh.beautycits.service.guide.GuideService;
+import com.zyh.beautycits.service.line.LineDetailService;
+import com.zyh.beautycits.service.line.LineService;
+import com.zyh.beautycits.service.staff.VehicleService;
 import com.zyh.beautycits.vo.JsonPackage;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
 import com.zyh.beautycits.vo.guide.Guide;
+import com.zyh.beautycits.vo.line.Line;
+import com.zyh.beautycits.vo.line.LineDetail;
 import com.zyh.beautycits.vo.user.User;
+import com.zyh.beautycits.vo.vehicle.Vehicle;
 
 @RestController
-@RequestMapping("guide")
-public class GuideController extends BaseController{
+@RequestMapping("linedetail")
+public class LineDetailController extends BaseController {
+	
+	@Autowired
+	private LineService lineService;
+	
+	@Autowired
+	private LineDetailService lineDetailService;
+	
+	@Autowired
+	private VehicleService vehicleService;
 	
 	@Autowired
 	private GuideService guideService;
@@ -38,25 +55,35 @@ public class GuideController extends BaseController{
 		User user = getSessionUser();
 		mav.addObject("user", user);
 		
-		// 获取所有车辆信息
-		ResultMsg resultMsg = guideService.getGuide(1, null, null, user.getId());
+		// 获取所有旅行社参与线路信息
+		ResultMsg resultMsg = lineDetailService.getLineDetails(1, user.getId(), null);
 		if (resultMsg.getState() == Results.ERROR) {
 			return goToErrorPage(resultMsg.getMsg());
 		}
-		mav.addObject("guidesPage", JSON.toJSONString(resultMsg.getMsgEntity()));
+		mav.addObject("lineDetailsPage", JSON.toJSONString(resultMsg.getMsgEntity()));
+		
+		List<Line> listLine = lineService.getAllLine();
+		mav.addObject("listLine", JSON.toJSONString(listLine));
+		
+		List<Vehicle> listVehicle = vehicleService.getAllVehicle();
+		mav.addObject("listLine", JSON.toJSONString(listVehicle));
+		
+		List<Guide> listGuide = guideService.getAllGuide();
+		mav.addObject("listLine", JSON.toJSONString(listGuide));
+		
 		
 		// 一些链接
 		String url_logout = getUrl_BizFunc("logout", "dologout.html");
 		String url_editUser = getUrl_BizFunc("admin", "edituser.html");
 		mav.addObject("url_logout", url_logout);
 		mav.addObject("url_editUser", url_editUser);
-		mav.setViewName("/guide");
+		mav.setViewName("/line_detail");
         return mav;
     }
 	
 	@RequestMapping(value = "/search.html")
     public JsonPackage search(HttpServletRequest request, HttpServletResponse response, Integer currentPage, 
-    		String guidename, Integer isused){
+    		Integer lineid){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -64,9 +91,10 @@ public class GuideController extends BaseController{
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		// 获取登录用户信息
+		
 		User user = getSessionUser();
-		ResultMsg resultMsg =  guideService.getGuide(currentPage, guidename, isused, user.getId());
+		ResultMsg resultMsg =  lineDetailService.getLineDetails(currentPage, user.getId(), lineid);
+		
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());
@@ -76,8 +104,8 @@ public class GuideController extends BaseController{
 		return jsonPackage;
     }
 	
-	@RequestMapping(value = "/addguide.html")
-    public JsonPackage addGuide(HttpServletRequest request, HttpServletResponse response, Guide guide){
+	@RequestMapping(value = "/addlinedetail.html")
+    public JsonPackage addLine(HttpServletRequest request, HttpServletResponse response, LineDetail lineDetail){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -85,10 +113,8 @@ public class GuideController extends BaseController{
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		// 获取登录用户信息
 		User user = getSessionUser();
-		guide.setUserid(user.getId());
-		ResultMsg resultMsg = guideService.saveGuide(guide);
+		ResultMsg resultMsg = lineDetailService.saveLineDetail(lineDetail);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());
@@ -98,8 +124,8 @@ public class GuideController extends BaseController{
 		return jsonPackage;
     }
 	
-	@RequestMapping(value = "/deleteguide.html")
-    public JsonPackage deleteGuide(HttpServletRequest request, HttpServletResponse response,Integer id){
+	@RequestMapping(value = "/deleteline.html")
+    public JsonPackage deleteLine(HttpServletRequest request, HttpServletResponse response,Integer id){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -107,16 +133,16 @@ public class GuideController extends BaseController{
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		ResultMsg resultMsg = guideService.deleteGuide(id);
+		ResultMsg resultMsg = lineService.deleteLine(id);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());
 		}
 		return jsonPackage;
     }
-	
-	@RequestMapping(value = "/updateguide.html")
-    public JsonPackage updateGuide(HttpServletRequest request, HttpServletResponse response,Integer id, Integer isused){
+
+	@RequestMapping(value = "/publishline.html")
+    public JsonPackage publishLine(HttpServletRequest request, HttpServletResponse response,Integer id){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -124,7 +150,7 @@ public class GuideController extends BaseController{
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		ResultMsg resultMsg = guideService.updateGuide(id, isused);
+		ResultMsg resultMsg = lineService.publishLine(id);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());

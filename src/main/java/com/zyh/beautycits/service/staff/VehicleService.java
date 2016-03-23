@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.staff;
 
+import java.util.List;
+
 import com.zyh.beautycits.service.base.BaseService;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.vehicle.Vehicle;
@@ -35,5 +37,11 @@ public interface VehicleService extends BaseService{
 	 * @return ResultMsg
 	 */
 	public ResultMsg deleteVehicle(Integer id);
+	
+	/**
+	 * 
+	 * getAllVehicle(获取所有交通信息)
+	 */
+	public List<Vehicle> getAllVehicle();
 	
 }

@@ -185,7 +185,10 @@
 			      <td>{{guide.cost}}元</td>
 			      <td>{{guide.used}}</td>
 			      <td>{{guide.remark}}</td>
-				  <td><a class="deleteModelBtn" guideid="{{guide.id}}"><i class="fa fa-trash-o"></i></a></td>
+				  <td>
+					<a class="updateModelBtn" guideid="{{guide.id}}" isused="{{guide.isused}}" ><i class="fa fa-pencil"></i></a>
+					<a class="deleteModelBtn" guideid="{{guide.id}}"><i class="fa fa-trash-o"></i></a>
+				  </td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -284,10 +287,29 @@
 			    </div>
 			</div>
 			
+			<div class="modal small fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="myModalLabel">锁定/解锁导游</h3>
+			        </div>
+			        <div class="modal-body">
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定锁定/解锁该导游?<br>锁定后导游不可用</p>
+			        </div>
+			        <div class="modal-footer">
+			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+			            <button id="updateBtn" class="btn btn-danger" data-dismiss="modal">确定</button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
+			
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
 	<input type="hidden" id = "guideid" value="" />
+	<input type="hidden" id = "guideisused" value="" />
 
     <script type="text/javascript">
 	    $(function(){
@@ -387,7 +409,7 @@
             $('.demo-cancel-click').click(function(){return false;});
         }); */
         $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("guidesid");
+    		var id = $(this).attr("guideid");
     		$("#guideid").val(id);
     		$("#deleteModal").modal('show');
     	});
@@ -425,7 +447,57 @@
     				window.location.reload();
     			}
     		});
-	});
+		});
+		
+		$(".updateModelBtn").on("click", function(){
+    		var id = $(this).attr("guideid");
+    		$("#guideid").val(id);
+    		var isused = $(this).attr("isused");
+    		$("#guideisused").val(isused);
+    		$("#updateModal").modal('show');
+    	});
+    	
+		$("#updateBtn").click(function(){
+    		
+    		var id = $("#guideid").val();
+    		var isused = $("#guideisused").val();
+    		if (isused == 0) {
+    			isused = 1;
+    		} else {
+    			isused = 0;
+    		}
+    		
+    		$.ajax({
+    			url : "${ctx}/guide/updateguide.html",
+    			async : false,
+    			type : 'POST',
+    			cache:false,
+    			data : {
+    				id : id,
+    				isused : isused
+    			},
+    			dataType : 'json',
+    			timeout : 15000,
+    			beforeSend : function() {
+    	    		$("#deleteModal").modal('hide');
+    			},
+    			complete : function(XMLHttpRequest,textStatus) {
+    			},
+    			success : function(response) {
+    				var json = eval(response);
+    				if (0===json.status){
+    					alert("操作成功！")
+                    } else if (1===json.status){
+                        alert(json.message);
+                    }
+    				window.location.reload();
+    			},
+    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+    				window.location.reload();
+    			}
+    		});
+		});
     });
 	    
 	    
@@ -464,6 +536,14 @@
 		    		var id = $(this).attr("guideid");
 		    		$("#guideid").val(id);
 		    		$("#deleteModal").modal('show');
+		    	});
+				
+				$(".updateModelBtn").on("click", function(){
+		    		var id = $(this).attr("guideid");
+		    		$("#guideid").val(id);
+		    		var isused = $(this).attr("isused");
+		    		$("#guideisused").val(isused);
+		    		$("#updateModal").modal('show');
 		    	});
 				
    			},

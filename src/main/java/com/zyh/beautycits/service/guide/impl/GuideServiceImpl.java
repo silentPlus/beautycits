@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.guide.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,27 @@ public class GuideServiceImpl extends BaseServiceImpl implements GuideService{
 		ResultMsg resultMsg = new ResultMsg();
 		String sql = "delete from guide where id = ?";
 		int num = guideDao.commonUpdate(sql, id);
+		if (num == 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+
+	@Override
+	public List<Guide> getAllGuide() {
+		String sql = "select * from guide g where g.isused = 1 ORDER BY l.createtime desc ";
+		List<Guide> list = guideDao.getList(sql, Guide.class);
+		return list;
+	}
+
+	@Override
+	public ResultMsg updateGuide(Integer id, Integer isused) {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "update guide g set g.isused = ?, g.updatetime = now() where g.id = ?";
+		int num = guideDao.commonUpdate(sql, isused, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;

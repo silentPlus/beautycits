@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.line.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,7 +86,7 @@ public class LineServiceImpl extends BaseServiceImpl implements LineService{
 	@Override
 	public ResultMsg publishLine(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "update line l set l.ispublish = 1, u.updatetime = now() where l.id = ?";
+		String sql = "update line l set l.ispublish = 1, l.updatetime = now() where l.id = ?";
 		int num = lineDao.commonUpdate(sql, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
@@ -93,6 +95,13 @@ public class LineServiceImpl extends BaseServiceImpl implements LineService{
 		resultMsg.setState(Results.ERROR);
 		resultMsg.setMsg("操作失败！");
 		return resultMsg;
+	}
+
+	@Override
+	public List<Line> getAllLine() {
+		String sql = "select * from line l where l.deleteflg = 0 ORDER BY l.createtime desc ";
+		List<Line> list = lineDao.getList(sql, Line.class);
+		return list;
 	}
 
 }

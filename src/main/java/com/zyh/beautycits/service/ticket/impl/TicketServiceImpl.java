@@ -36,7 +36,10 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService{
 		if (tickettypeid != null) {
 			sql.append(" t.tickettypeid = ").append(tickettypeid).append(" and ");
 		}
-		String ssql = sql.substring(0, sql.length()-4);
+		String ssql = sql.toString();
+		if (StringUtils.isNotBlank(name) || star != null || tickettypeid != null ) {
+			ssql = sql.substring(0, sql.length()-4);
+		}
 		
 		PageInfo<Ticket> pageTicket = new PageInfo<>();
 		pageTicket.setPageSize(ConfigConstants.PAGESIZE);

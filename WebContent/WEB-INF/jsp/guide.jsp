@@ -122,6 +122,13 @@
 		            <li onclick=""><a><span class="fa fa-caret-right"></span>导游信息管理</a></li>
 			    </ul>
 		    </li>
+		    <li><a data-target=".line-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">线路管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="line-menu nav nav-list collapse in">
+		            <li onclick="linedetail();"><a><span class="fa fa-caret-right"></span>线路规划管理</a></li>
+		            <li onclick="innerquote();"><a><span class="fa fa-caret-right"></span>线路报价管理</a></li>
+			    </ul>
+		    </li>
 	    </ul>
     </div>
 
@@ -596,7 +603,12 @@
 	function bus(){
 		window.location.href = "${ctx}/bus/index.html";
     }
-	
+	function linedetail(){
+		window.location.href = "${ctx}/linedetail/index.html";
+    }
+	function innerquote(){
+		window.location.href = "${ctx}/innerquote/index.html";
+    }
 </script>
     
   

@@ -50,7 +50,11 @@ public class VehicleServiceImpl extends BaseServiceImpl implements VehicleServic
 		if (dprovinceid != null) {
 			sql.append("v.dprovinceid = ").append(dprovinceid).append(" and ");
 		}
-		String ssql = sql.substring(0, sql.length()-4);
+		String ssql = sql.toString();
+		if (vehicletype != null || oareaid != null || ocityid != null || oprovinceid != null || dareaid != null 
+				|| dcityid != null || dprovinceid != null) {
+			ssql = sql.substring(0, sql.length()-4);
+		}
 		
 		PageInfo<Vehicle> pageVehicle = new PageInfo<>();
 		pageVehicle.setPageSize(ConfigConstants.PAGESIZE);

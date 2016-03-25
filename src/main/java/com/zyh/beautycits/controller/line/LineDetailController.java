@@ -66,10 +66,10 @@ public class LineDetailController extends BaseController {
 		mav.addObject("listLine", JSON.toJSONString(listLine));
 		
 		List<Vehicle> listVehicle = vehicleService.getAllVehicle();
-		mav.addObject("listLine", JSON.toJSONString(listVehicle));
+		mav.addObject("listVehicle", JSON.toJSONString(listVehicle));
 		
 		List<Guide> listGuide = guideService.getAllGuide();
-		mav.addObject("listLine", JSON.toJSONString(listGuide));
+		mav.addObject("listGuide", JSON.toJSONString(listGuide));
 		
 		
 		// 一些链接
@@ -114,6 +114,7 @@ public class LineDetailController extends BaseController {
 			return jsonPackage;
 		}
 		User user = getSessionUser();
+		lineDetail.setUserid(user.getId());
 		ResultMsg resultMsg = lineDetailService.saveLineDetail(lineDetail);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
@@ -124,8 +125,8 @@ public class LineDetailController extends BaseController {
 		return jsonPackage;
     }
 	
-	@RequestMapping(value = "/deleteline.html")
-    public JsonPackage deleteLine(HttpServletRequest request, HttpServletResponse response,Integer id){
+	@RequestMapping(value = "/deletelinedetail.html")
+    public JsonPackage deleteLineDetail(HttpServletRequest request, HttpServletResponse response,Integer id){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -133,7 +134,7 @@ public class LineDetailController extends BaseController {
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		ResultMsg resultMsg = lineService.deleteLine(id);
+		ResultMsg resultMsg = lineDetailService.deleteLineDetail(id);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());
@@ -141,7 +142,7 @@ public class LineDetailController extends BaseController {
 		return jsonPackage;
     }
 
-	@RequestMapping(value = "/publishline.html")
+	/*@RequestMapping(value = "/publishline.html")
     public JsonPackage publishLine(HttpServletRequest request, HttpServletResponse response,Integer id){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
@@ -156,5 +157,5 @@ public class LineDetailController extends BaseController {
 			jsonPackage.setMessage(resultMsg.getMsg());
 		}
 		return jsonPackage;
-    }
+    }*/
 }

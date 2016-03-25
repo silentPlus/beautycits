@@ -99,7 +99,7 @@
 		    <li><a data-target=".hotel-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">宾馆管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="hotel-menu nav nav-list collapse in">
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>宾馆信息管理</a></li>
+		            <li onclick="hotel();"><a><span class="fa fa-caret-right"></span>宾馆信息管理</a></li>
 		            <li onclick="hoteltype();"><a><span class="fa fa-caret-right"></span>宾馆类型管理</a></li>
 			    </ul>
 		    </li>
@@ -125,7 +125,7 @@
 		    <li><a data-target=".line-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">线路管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="line-menu nav nav-list collapse in">
-		            <li onclick="linedetail();"><a><span class="fa fa-caret-right"></span>线路规划管理</a></li>
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>线路规划管理</a></li>
 		            <li onclick="innerquote();"><a><span class="fa fa-caret-right"></span>线路报价管理</a></li>
 			    </ul>
 		    </li>
@@ -135,7 +135,7 @@
     <div class="content">
     	<div class="header">
             
-            <h1 class="page-title">宾馆信息管理</h1>
+            <h1 class="page-title">线路规划管理</h1>
 
         </div>
         <div class="main-content">
@@ -144,25 +144,14 @@
 				<div>
 	            	<table class="table" style="text-align:center;">
 	            		<tr>
-	            			<td width="10%" align="right" style="border-top:none;">宾馆名称:</td>
+	            			<td width="10%" align="right" style="border-top:none;">线路名称</td>
 	            			<td width="40%" align="left" style="border-top:none;">
-	            				<select id="hoteltypeid" class="form-control">
+	            				<select id="lineid" class="form-control">
 	            					  <option value="" checked="checked">请选择</option>
            					    </select>
             				</td>
-            				<td width="10%" style="border-top:none;">规格</td>
-	            			<td width="40%" style="border-top:none;">
-	            				<select id="format" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-						              <option value="0">标准间</option>
-						              <option value="1">大床房</option>
-						              <option value="2">单人间</option>
-						              <option value="3">三人间</option>
-						              <option value="4">商务套房</option>
-						              <option value="5">豪华套房</option>
-						              <option value="6">总统套房</option>
-						              <option value="7">海景房</option>
-					        	</select>
+            				<td style="border-top:none;"></td>
+	            			<td style="border-top:none;">
 	            			</td>
 	            		</tr>
 	            		<tr>
@@ -172,35 +161,35 @@
 	            		</tr>
 	            	</table>
             	</div>
-			    <button id = "addHotel" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加宾馆信息</button>
+			    <button id = "addLineDetail" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加线路规划</button>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
 			
-			  <div id="hotelsTable">
-			  <script id="hotelsTemplateView" type="text/html">
+			  <div id="lineDetailsTable">
+			  <script id="lineDetailsTemplateView" type="text/html">
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
 			      <th style="width:3%;text-align: center;">#</th>
-			      <th style="width:10%;text-align: center;">宾馆名称</th>
-			      <th style="width:10%;text-align: center;">规格</th>
-			      <th style="width:25%;text-align: center;">地址</th>
-			      <th style="width:10%;text-align: center;">价格</th>
+			      <th style="width:25%;text-align: center;">线路名称</th>
+			      <th style="width:10%;text-align: center;">去时交通</th>
+			      <th style="width:10%;text-align: center;">回时交通</th>
+			      <th style="width:10%;text-align: center;">导游姓名</th>
 			      <th style="width:25%;text-align: center;">备注</th>
 			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  {{ each hotels as hotel i }}
+			  {{ each lineDetails as lineDetail i }}
 			    <tr>
 			      <td>{{i + 1}}</td>
-			      <td>{{hotel.hoteltype}}</td>
-			      <td>{{hotel.formatname}}</td>
-			      <td>{{hotel.area}}</td>
-			      <td>{{hotel.cost}}元</td>
-			      <td>{{hotel.remark}}</td>
-				  <td><a class="deleteModelBtn" hotelid="{{hotel.id}}"><i class="fa fa-trash-o"></i></a></td>
+			      <td>{{lineDetail.linename}}</td>
+			      <td>{{lineDetail.govehicle}}</td>
+			      <td>{{lineDetail.backvehicle}}</td>
+			      <td>{{lineDetail.guidename}}元</td>
+			      <td>{{lineDetail.remark}}</td>
+				  <td><a class="deleteModelBtn" lineDetailid="{{lineDetail.id}}"><i class="fa fa-trash-o"></i></a></td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -235,58 +224,46 @@
 			</script>
 			</div>
 
-			<div class="modal small fade" id="addHotelModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal small fade" id="addlineDetailModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" style="width:800px;">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">添加宾馆信息</h3>
+			            <h3 id="myModalLabel">添加线路规划</h3>
 			        </div>
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
 		            		<tr>
-		            			<td align="right" style="border-top:none;">宾馆名称</td>
+		            			<td align="right" style="border-top:none;">线路</td>
 		            			<td align="left" style="border-top:none;">
-		            				<select id="hhoteltypeid" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-           					    </select>
+		            				<select id="llineid" class="form-control">
+	            					  <option value="" cost="" checked="checked">请选择</option>
+           					    	</select>
 		            			</td>
-		            			<td align="right" style="border-top:none;">规格</td>
+		            			<td align="right" style="border-top:none;">导游</td>
 		            			<td style="border-top:none;">
-		            				<select id="fformat" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-						              <option value="0">标准间</option>
-						              <option value="1">大床房</option>
-						              <option value="2">单人间</option>
-						              <option value="3">三人间</option>
-						              <option value="4">商务套房</option>
-						              <option value="5">豪华套房</option>
-						              <option value="6">总统套房</option>
-						              <option value="7">海景房</option>
+		            				<select id="guideid" class="form-control">
+	            					  <option value="" cost="" checked="checked">请选择</option>
 					        		</select>
 		            			</td>
 		            		</tr>
 		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">地址:</td>
-		            			<td width="30%" align="left" style="border-top:none;">
-		            				<select id="province" class="form-control" ">
-		            					  <option value="" code="" checked="checked">请选择</option>
+		            			<td width="10%" align="right" style="border-top:none;">去时交通</td>
+		            			<td width="40%" align="left" style="border-top:none;">
+		            				<select id="govehicleid" class="form-control" ">
+		            					  <option value="" cost="" checked="checked">请选择</option>
 						        	</select>
-					        	<td width="30%" align="left" style="border-top:none;">
-						        	<select id="city" class="form-control">
-		            					  <option value="" code="" checked="checked">请选择</option>
-						        	</select>
-						        </td>
-						        <td width="30%" align="left" style="border-top:none;">
-						        	<select id="area" class="form-control">
-		            					  <option value="" code="" checked="checked">请选择</option>
+					        	<td width="10%" align="left" style="border-top:none;">回时交通</td>
+						        <td width="40%" align="left" style="border-top:none;">
+		            				<select id="backvehicleid" class="form-control" ">
+		            					  <option value="" cost="" checked="checked">请选择</option>
 						        	</select>
 		            			</td>
 		            		</tr>
 		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">费用（单位：元）</td>
+		            			<td width="10%" align="right" style="border-top:none;">保险费用（单位：元/人）</td>
 		            			<td align="left" style="border-top:none;">
-		            				<input type="text" id="cost" class="form-control">
+		            				<input type="text" id="insurance" class="form-control">
 		            			</td>
 		            			<td style="border-top:none;"></td>
 		            			<td style="border-top:none;"></td>
@@ -303,7 +280,7 @@
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger addHotelBtn" data-dismiss="modal">确定</button>
+			            <button class="btn btn-danger addLineDetailBtn" data-dismiss="modal">确定</button>
 			        </div>
 			      </div>
 			    </div>
@@ -315,10 +292,10 @@
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除宾馆信息</h3>
+			            <h3 id="myModalLabel">删除线路规划信息</h3>
 			        </div>
 			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该宾馆信息?<br>操作不可恢复。</p>
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该线路规划信息?<br>操作不可恢复。</p>
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -331,100 +308,75 @@
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "hotelid" value="" />
+	<input type="hidden" id = "linedetailid" value="" />
 
     <script type="text/javascript">
 	    $(function(){
 			
 			
-	    	var hotelsPage = ${hotelsPage};
-	    	var arrayObj = new Array(hotelsPage.totalPage);
-	    	for (var i=0; i<hotelsPage.totalPage; i++){
+	    	var lineDetailsPage = ${lineDetailsPage};
+	    	var arrayObj = new Array(lineDetailsPage.totalPage);
+	    	for (var i=0; i<lineDetailsPage.totalPage; i++){
 	    		arrayObj[i] = i;
 	    	}
 	    	data = {
-	    			hotels : hotelsPage.pageInfoResult,
-	    			length : hotelsPage.totalRecord,
-	    			currentPage : hotelsPage.currentPage,
-	    			totalPage : hotelsPage.totalPage,
+	    			lineDetails : lineDetailsPage.pageInfoResult,
+	    			length : lineDetailsPage.totalRecord,
+	    			currentPage : lineDetailsPage.currentPage,
+	    			totalPage : lineDetailsPage.totalPage,
 	    			list : arrayObj
 	    	};
-	    	var hotelsViewHtml = template("hotelsTemplateView", data);
-	    	$("#hotelsTable").html(hotelsViewHtml);
+	    	var lineDetailsViewHtml = template("lineDetailsTemplateView", data);
+	    	$("#lineDetailsTable").html(lineDetailsViewHtml);
 	    	
-	    	var listType = ${listType};
-	    	for (i = 0; i < listType.length; i++) {
-	    		$('#hoteltypeid').append('<option value="' + listType[i].id + '">'+ listType[i].name + '</option>');
-	    		$('#hhoteltypeid').append('<option value="' + listType[i].id + '">'+ listType[i].name + '</option>');
+	    	var listLine = ${listLine};
+	    	for (i = 0; i < listLine.length; i++) {
+	    		$('#lineid').append('<option value="' + listLine[i].id + '">'+ listLine[i].name + '</option>');
+	    		$('#llineid').append('<option value="' + listLine[i].id + '">'+ listLine[i].name + '</option>');
+    		} 
+	    	var listVehicle = ${listVehicle};
+	    	for (i = 0; i < listVehicle.length; i++) {
+	    		$('#govehicleid').append('<option value="' + listVehicle[i].id + '" cost="' + listVehicle[i].cost + '">'+ listVehicle[i].origin + "--" + listVehicle[i].destination + '</option>');
+	    		$('#backvehicleid').append('<option value="' + listVehicle[i].id + '" cost="' + listVehicle[i].cost + '">'+ listVehicle[i].origin + "--" + listVehicle[i].destination + '</option>');
+    		} 
+	    	var listGuide = ${listGuide};
+	    	for (i = 0; i < listGuide.length; i++) {
+	    		$('#guideid').append('<option value="' + listGuide[i].id + '" cost="' + listGuide[i].cost + '">'+ listGuide[i].guidename + '</option>');
     		} 
 	    	
-	    	var provinces = ${provinces};
-	    	var citys = ${citys};
-	    	var areas = ${areas};
-	    	for (i = 0; i < provinces.length; i++) {
-	    		$('#province').append('<option value="' + provinces[i].id + '" code="' + provinces[i].code + '">'+ provinces[i].name + '</option>');
-    		} 
-	    	$("#province").change(function(){
-	    		var code = $("#province").find("option:selected").attr("code");
-	    		//console.log(code);
-	    		if (code != null && code != ''){
-	    			var cit = citys[code];
-	    			//console.log(cit);
-	    			$('#city').html('<option value="" code="" checked="checked">请选择</option>'); 
-	    			$('#area').html('<option value="" code="" checked="checked">请选择</option>');
-	    			for (var i = 0; i < cit.length; i++) { 
-	    				//console.log(cit[i]);
-	    				$('#city').append('<option value="' + cit[i].id + '" code="' + cit[i].code + '">'+ cit[i].name + '</option>');
-	    			}
-	    		}
-	    	});
-	    	$("#city").change(function(){
-	    		var code = $("#city").find("option:selected").attr("code");
-	    		if (code != null && code != ''){
-	    			var are = areas[code];
-	    			$('#area').html('<option value="" code="" checked="checked">请选择</option>'); 
-	    			for (var i = 0; i < are.length; i++) { 
-	    				$('#area').append('<option value="' + are[i].id + '" code="' + are[i].code + '">'+ are[i].name + '</option>');
-	    			}
-	    		}
+	    	$("#addLineDetail").click(function(){
+	    		$("#addLineDetailModel").modal('show');
 	    	});
 	    	
-	    	
-	    	$("#addHotel").click(function(){
-	    		$("#addHotelModel").modal('show');
-	    	});
-	    	
-	    	$(".addHotelBtn").on("click", function(){
-	    		var hoteltypeid = $.trim($("#hhoteltypeid").val());
-	    		var format = $.trim($("#fformat").val());
-	    		var provinceid = $.trim($("#province").val());
-	    		var cityid = $.trim($("#city").val());
-	    		var areaid = $.trim($("#area").val());
-	    		var cost = $.trim($("#cost").val());
+	    	$(".addLineDetailBtn").on("click", function(){
+	    		var lineid = $.trim($("#llineid").val());
+	    		var guideid = $.trim($("#guideid").val());
+	    		var govehicleid = $.trim($("#govehicleid").val());
+	    		var backvehicleid = $.trim($("#backvehicleid").val());
+	    		var insurance = $.trim($("#insurance").val());
 	    		var remark = $.trim($("#remark").val());
+	    		var gocost = $("#govehicleid").find("option:selected").attr("cost");
+	    		var backcost = $("#backvehicleid").find("option:selected").attr("cost");
+	    		var guidecost = $("#guideid").find("option:selected").attr("cost");
 	    		
-	    		if (hoteltypeid == null || hoteltypeid == '') {
-	    			alert("请选则宾馆类型");
+	    		if (lineid == null || lineid == '') {
+	    			alert("请选则线路");
 	    			return ;
 	    		}
-	    		if (format == null || format == '') {
-	    			alert("请选则宾馆规格");
+	    		if (guideid == null || guideid == '') {
+	    			alert("请选则导游");
 	    			return ;
 	    		}
-	    		if (provinceid == null || provinceid == '') {
-	    			alert("请选择地址");
+	    		if (govehicleid == null || govehicleid == '') {
+	    			alert("请选择去时交通");
 	    			return ;
 	    		}
-	    		var area = $("#province").find("option:selected").text();
-	    		if (cityid != null && cityid != ''){
-	    			area += $("#city").find("option:selected").text();
+	    		if (backvehicleid == null || backvehicleid == '') {
+	    			alert("请选择回时交通");
+	    			return ;
 	    		}
-    			if (areaid != null && areaid != ''){
-    				area += $("#area").find("option:selected").text();
-    			}
-    			
-    			if (cost == null || cost == '') {
-	    			alert("金额不能为空");
+    			if (insurance == null || insurance == '') {
+	    			alert("保险金额不能为空");
 	    			return ;
 	    		} else {
 	    			var partn =/^[0-9]{0}([0-9]|[.])+$/; 
@@ -435,24 +387,25 @@
 	    		}
 	    		
 	    		$.ajax({
-	    			url : "${ctx}/hotel/addhotel.html",
+	    			url : "${ctx}/linedetail/addlinedetail.html",
 	    			async : false,
 	    			type : 'POST',
 	    			cache:false,
 	    			data : {
-	    				hoteltypeid : hoteltypeid,
-	    	    		format : format,
-	    	    		provinceid : provinceid,
-	    	    		cityid : cityid,
-	    	    		areaid : areaid,
-	    	    		cost : cost,
+	    				lineid : lineid,
+	    	    		guideid : guideid,
+	    	    		govehicleid : govehicleid,
+	    	    		backvehicleid : backvehicleid,
+	    	    		insurance : insurance,
 	    	    		remark : remark,
-	    	    		area : area
+	    	    		gocost : gocost,
+	    	    		backcost : backcost,
+	    	    		guidecost : guidecost
 	    			},
 	    			dataType : 'json',
 	    			timeout : 15000,
 	    			beforeSend : function() {
-    	    			$("#addHotelModel").modal('hide');
+    	    			$("#addLineDetailModel").modal('hide');
 	    			},
 	    			complete : function(XMLHttpRequest,textStatus) {
 	    				
@@ -479,17 +432,17 @@
             $('.demo-cancel-click').click(function(){return false;});
         }); */
         $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("hotelid");
-    		$("#hotelid").val(id);
+    		var id = $(this).attr("linedetailid");
+    		$("#linedetailid").val(id);
     		$("#deleteModal").modal('show');
     	});
     	
 		$("#deleteBtn").click(function(){
     		
-    		var id = $("#hotelid").val();
+    		var id = $("#linedetailid").val();
     		
     		$.ajax({
-    			url : "${ctx}/hotel/deletehotel.html",
+    			url : "${ctx}/linedetail/deletelinedetail.html",
     			async : false,
     			type : 'POST',
     			cache:false,
@@ -525,8 +478,7 @@
 	function dosearch(i){
     		
 
-		var hoteltypeid = $.trim($("#hoteltypeid").val());
-		var format = $.trim($("#format").val());
+		var lineid = $.trim($("#lineid").val());
     	
     	if (i == null || i == '') {
     		i = 0;
@@ -538,14 +490,13 @@
     		i = parseInt($("#currentPage").val())+1;
     	}
    		$.ajax({
-   			url : "${ctx}/hotel/search.html",
+   			url : "${ctx}/linedetail/search.html",
    			async : false,
    			type : 'POST',
    			cache:false,
    			data : {
    				currentPage : i,
-   				hoteltypeid : hoteltypeid,
-   				format : format
+   				lineid : lineid
    			},
    			dataType : 'json',
    			timeout : 15000,
@@ -553,8 +504,8 @@
    			},
    			complete : function(XMLHttpRequest,textStatus) {
 				$(".deleteModelBtn").on("click", function(){
-		    		var id = $(this).attr("hotelid");
-		    		$("#hotelid").val(id);
+		    		var id = $(this).attr("linedetailid");
+		    		$("#linedetailid").val(id);
 		    		$("#deleteModal").modal('show');
 		    	});
 				
@@ -570,14 +521,14 @@
    			    		arrayObj[j] = j;
    			    	}
    			    	data = {
-   			    			hotels : result.pageInfoResult,
+   			    			lineDetails : result.pageInfoResult,
    			    			length : result.totalRecord,
    			    			currentPage : result.currentPage,
    			    			totalPage : result.totalPage,
    			    			list : arrayObj
    			    	};
-   			    	var hotelsViewHtml = template("hotelsTemplateView", data);
-   			    	$("#hotelsTable").html(hotelsViewHtml);
+   			    	var lineDetailsViewHtml = template("lineDetailsTemplateView", data);
+   			    	$("#lineDetailsTable").html(lineDetailsViewHtml);
    					
 		    		$("#currentPage").val(i);
                    } else if (1===json.status){
@@ -608,12 +559,13 @@
 	function guide(){
 		window.location.href = "${ctx}/guide/index.html";
     }
-	function linedetail(){
-		window.location.href = "${ctx}/linedetail/index.html";
+	function hotel(){
+		window.location.href = "${ctx}/hotel/index.html";
     }
 	function innerquote(){
 		window.location.href = "${ctx}/innerquote/index.html";
     }
+	
 </script>
     
   

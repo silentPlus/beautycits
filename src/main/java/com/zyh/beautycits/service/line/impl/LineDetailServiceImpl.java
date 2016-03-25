@@ -32,7 +32,11 @@ public class LineDetailServiceImpl extends BaseServiceImpl implements LineDetail
 		pageLineDetail.setCurrentPage(currentPage);
 		StringBuffer countsql = new StringBuffer("select count(*) from (");
 		countsql.append(sql).append(") m");
+		try{
 		pageLineDetail = lineDetailDao.getPageModel(pageLineDetail, sql, countsql, LineDetail.class, userid);
+		}catch(Exception e){
+			System.out.println(e.toString());
+		}
 		resultMsg.setState(Results.SUCCESS);
 		resultMsg.setMsgEntity(pageLineDetail);
 		return resultMsg;

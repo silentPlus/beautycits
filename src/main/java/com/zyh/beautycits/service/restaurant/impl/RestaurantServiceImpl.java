@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.restaurant.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +71,13 @@ public class RestaurantServiceImpl extends BaseServiceImpl implements Restaurant
 		resultMsg.setState(Results.ERROR);
 		resultMsg.setMsg("操作失败！");
 		return resultMsg;
+	}
+
+	@Override
+	public List<Restaurant> getAllRestaurant(Integer userid) {
+		String sql = "select * from restaurant r where r.userid = ? ORDER BY r.createtime desc ";
+		List<Restaurant> list = restaurantDao.getList(sql, Restaurant.class);
+		return list;
 	}
 
 }

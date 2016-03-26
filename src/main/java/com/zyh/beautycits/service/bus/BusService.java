@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.bus;
 
+import java.util.List;
+
 import com.zyh.beautycits.service.base.BaseService;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.bus.Bus;
@@ -33,4 +35,10 @@ public interface BusService extends BaseService{
 	 * @return ResultMsg
 	 */
 	public ResultMsg deleteBus(Integer id);
+	
+	/**
+	 * 
+	 * getAllBus(获取所有车辆信息)
+	 */
+	public List<Bus> getAllBus(Integer userid);
 }

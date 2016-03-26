@@ -38,7 +38,7 @@
 
     <logger name="com.zyh.beautycits" level="error" additivity="true">
         <appender-ref ref="file" />
-        <!-- <appender-ref ref="STDOUT" /> -->
+        <appender-ref ref="STDOUT" />
     </logger>
     
     <root level="error">

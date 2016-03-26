@@ -37,7 +37,7 @@ public interface GuideService extends BaseService {
 	 * 
 	 * getAllGuide(获取所有可用导游信息)
 	 */
-	public List<Guide> getAllGuide();
+	public List<Guide> getAllGuide(Integer userid);
 	
 	/**
 	 * 

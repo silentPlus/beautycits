@@ -125,7 +125,7 @@
 		    <li><a data-target=".line-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">线路管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="line-menu nav nav-list collapse in">
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>线路规划管理</a></li>
+		            <li onclick="linedetail();"><a><span class="fa fa-caret-right"></span>线路规划管理</a></li>
 		            <li onclick="innerquote();"><a><span class="fa fa-caret-right"></span>线路报价管理</a></li>
 			    </ul>
 		    </li>
@@ -135,7 +135,9 @@
     <div class="content">
     	<div class="header">
             
-            <h1 class="page-title">线路规划管理</h1>
+            <h1 class="page-title">
+            	<button onclick="back();" class="btn btn-default">&#xe611;返回</button>线路日程安排
+            </h1>
 
         </div>
         <div class="main-content">
@@ -145,125 +147,103 @@
 	            	<table class="table" style="text-align:center;">
 	            		<tr>
 	            			<td width="10%" align="right" style="border-top:none;">线路名称</td>
-	            			<td width="40%" align="left" style="border-top:none;">
-	            				<select id="lineid" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-           					    </select>
-            				</td>
-            				<td style="border-top:none;"></td>
-	            			<td style="border-top:none;">
-	            			</td>
+	            			<td align="left" style="border-top:none;">${ linename }</td>
 	            		</tr>
 	            		<tr>
-	            			<td rowspan="4" align="right" style="border-top:none;">
-	            				<button onclick="dosearch(1);" class="btn btn-default">查询</button>
-	            			</td>
+	            			<td align="right" style="border-top:none;">天数</td>
+	            			<td align="left" style="border-top:none;"><span id="day">${ day }</span></td>
 	            		</tr>
 	            	</table>
             	</div>
-			    <button id = "addLineDetail" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加线路规划</button>
+            	<div align="right">
+			    	<button id = "addSchedule" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加日程安排</button>
+		  		</div>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
 			
-			  <div id="lineDetailsTable">
-			  <script id="lineDetailsTemplateView" type="text/html">
+			  <div id="schedulesTable">
+			  <script id="schedulesTemplateView" type="text/html">
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
-			      <th style="width:3%;text-align: center;">#</th>
-			      <th style="width:25%;text-align: center;">线路名称</th>
-			      <th style="width:10%;text-align: center;">去时交通</th>
-			      <th style="width:10%;text-align: center;">回时交通</th>
-			      <th style="width:10%;text-align: center;">导游姓名</th>
+			      <th style="width:3%;text-align: center;">天数</th>
+			      <th style="width:10%;text-align: center;">宾馆</th>
+			      <th style="width:10%;text-align: center;">早饭</th>
+			      <th style="width:10%;text-align: center;">午饭</th>
+			      <th style="width:10%;text-align: center;">晚饭</th>
+			      <th style="width:10%;text-align: center;">用车</th>
 			      <th style="width:25%;text-align: center;">备注</th>
 			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  {{ each lineDetails as lineDetail i }}
+			  {{ each schedules as schedule i }}
 			    <tr>
-			      <td>{{i + 1}}</td>
-			      <td>{{lineDetail.linename}}</td>
-			      <td>{{lineDetail.govehicle}}</td>
-			      <td>{{lineDetail.backvehicle}}</td>
-			      <td>{{lineDetail.guidename}}</td>
-			      <td>{{lineDetail.remark}}</td>
-				  <td><a class="deleteModelBtn" lineDetailid="{{lineDetail.id}}"><i class="fa fa-trash-o"></i></a></td>
+			      <td>{{schedule.day}}</td>
+			      <td>{{schedule.hotel}}</td>
+			      <td>{{schedule.morestaurant}}</td>
+			      <td>{{schedule.lurestaurant}}</td>
+			      <td>{{schedule.direstaurant}}</td>
+			      <td>{{schedule.bus}}</td>
+			      <td>{{schedule.remark}}</td>
+				  <td><a class="deleteModelBtn" scheduleid="{{schedule.id}}"><i class="fa fa-trash-o"></i></a></td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
 			</table>
-			
-			{{if length != 0}}
-			<div align = "right">
-			<ul class="pagination">
-				{{ if currentPage == 1 }}
-  				<li><a style="display:none;">&laquo;</a></li>
-				{{ /if }}
-				{{ if currentPage != 1 }}
-  				<li><a onclick="javascript:dosearch(-1)">&laquo;</a></li>
-				{{ /if }}
-				{{ each list as val i }}
-				{{ if currentPage == i+1 }}
-  				<li><a style="color:#444;">{{i+1}}</a></li>
-				{{ /if}}
-				{{ if currentPage != i+1 }}
-  				<li><a onclick="javascript:dosearch({{i+1}})">{{i+1}}</a></li>
-				{{ /if}}
-				{{ /each }}
-				{{ if currentPage == totalPage }}
-  				<li><a style="display:none;">&raquo;</a></li>
-				{{ /if }}
-				{{ if currentPage != totalPage }}
-  				<li><a onclick="javascript:dosearch(-2)">&raquo;</a></li>
-				{{ /if }}
-			</ul> 
-			</div>
-			{{/if}}
 			</script>
 			</div>
 
-			<div class="modal small fade" id="addlineDetailModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal small fade" id="addScheduleModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" style="width:800px;">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">添加线路规划</h3>
+			            <h3 id="myModalLabel">添加日程安排</h3>
 			        </div>
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
 		            		<tr>
-		            			<td align="right" style="border-top:none;">线路</td>
 		            			<td align="left" style="border-top:none;">
-		            				<select id="llineid" class="form-control">
-	            					  <option value="" cost="" checked="checked">请选择</option>
-           					    	</select>
+		            				第<input type="text" id="dday" class="form-control">天
 		            			</td>
-		            			<td align="right" style="border-top:none;">导游</td>
-		            			<td style="border-top:none;">
-		            				<select id="guideid" class="form-control">
-	            					  <option value="" cost="" checked="checked">请选择</option>
-					        		</select>
-		            			</td>
+		            			<td style="border-top:none;"></td>
+		            			<td style="border-top:none;"></td>
+		            			<td style="border-top:none;"></td>
 		            		</tr>
 		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">去时交通</td>
+		            			<td width="10%" align="right" style="border-top:none;">住宿</td>
 		            			<td width="40%" align="left" style="border-top:none;">
-		            				<select id="govehicleid" class="form-control" ">
+		            				<select id="hotelid" class="form-control" ">
 		            					  <option value="" cost="" checked="checked">请选择</option>
 						        	</select>
-					        	<td width="10%" align="left" style="border-top:none;">回时交通</td>
+					        	<td width="10%" align="right" style="border-top:none;">用车</td>
 						        <td width="40%" align="left" style="border-top:none;">
-		            				<select id="backvehicleid" class="form-control" ">
+		            				<select id="busid" class="form-control" ">
 		            					  <option value="" cost="" checked="checked">请选择</option>
 						        	</select>
 		            			</td>
 		            		</tr>
 		            		<tr>
-		            			<td width="10%" align="right" style="border-top:none;">保险费用（单位：元/人）</td>
+		            			<td width="10%" align="right" style="border-top:none;">早饭</td>
+		            			<td width="40%" align="left" style="border-top:none;">
+		            				<select id="morestaurantid" class="form-control" ">
+		            					  <option value="" cost="" checked="checked">请选择</option>
+						        	</select>
+					        	<td width="10%" align="right" style="border-top:none;">午饭</td>
+						        <td width="40%" align="left" style="border-top:none;">
+		            				<select id="lurestaurantid" class="form-control" ">
+		            					  <option value="" cost="" checked="checked">请选择</option>
+						        	</select>
+		            			</td>
+		            		</tr>
+		            		<tr>
+		            			<td align="right" style="border-top:none;">晚饭</td>
 		            			<td align="left" style="border-top:none;">
-		            				<input type="text" id="insurance" class="form-control">
+		            				<select id="direstaurantid" class="form-control" ">
+		            					  <option value="" cost="" checked="checked">请选择</option>
+						        	</select>
 		            			</td>
 		            			<td style="border-top:none;"></td>
 		            			<td style="border-top:none;"></td>
@@ -280,7 +260,7 @@
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger addLineDetailBtn" data-dismiss="modal">确定</button>
+			            <button class="btn btn-danger addScheduleBtn" data-dismiss="modal">确定</button>
 			        </div>
 			      </div>
 			    </div>
@@ -292,10 +272,10 @@
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除线路规划信息</h3>
+			            <h3 id="myModalLabel">删除日程安排</h3>
 			        </div>
 			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该线路规划信息?<br>操作不可恢复。</p>
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该日程安排信息?<br>操作不可恢复。</p>
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -308,36 +288,25 @@
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "linedetailid" value="" />
+	<input type="hidden" id = "linedetailid" value="${ linedetailid }" />
 
     <script type="text/javascript">
 	    $(function(){
 			
-	    	var lineDetailsPage = ${lineDetailsPage};
-	    	var arrayObj = new Array(lineDetailsPage.totalPage);
-	    	for (var i=0; i<lineDetailsPage.totalPage; i++){
-	    		arrayObj[i] = i;
-	    	}
-	    	data = {
-	    			lineDetails : lineDetailsPage.pageInfoResult,
-	    			length : lineDetailsPage.totalRecord,
-	    			currentPage : lineDetailsPage.currentPage,
-	    			totalPage : lineDetailsPage.totalPage,
-	    			list : arrayObj
-	    	};
-	    	var lineDetailsViewHtml = template("lineDetailsTemplateView", data);
-	    	$("#lineDetailsTable").html(lineDetailsViewHtml);
+	    	var schedules = ${schedules};
+	    	var SchedulesViewHtml = template("SchedulesTemplateView", schedules);
+	    	$("#SchedulesTable").html(SchedulesViewHtml);
 	    	
-	    	var listLine = ${listLine};
-	    	for (i = 0; i < listLine.length; i++) {
-	    		$('#lineid').append('<option value="' + listLine[i].id + '">'+ listLine[i].name + '</option>');
-	    		$('#llineid').append('<option value="' + listLine[i].id + '">'+ listLine[i].name + '</option>');
+	    	var listHotel = ${listHotel};
+	    	for (i = 0; i < listHotel.length; i++) {
+	    		$('#hotelid').append('<option value="' + listHotel[i].id + '" cost="' + listHotel[i].cost + '">'+ listHotel[i].hoteltype + '</option>');
     		} 
-	    	var listVehicle = ${listVehicle};
-	    	for (i = 0; i < listVehicle.length; i++) {
-	    		$('#govehicleid').append('<option value="' + listVehicle[i].id + '" cost="' + listVehicle[i].cost + '">'+ listVehicle[i].origin + "--" + listVehicle[i].destination + '</option>');
-	    		$('#backvehicleid').append('<option value="' + listVehicle[i].id + '" cost="' + listVehicle[i].cost + '">'+ listVehicle[i].origin + "--" + listVehicle[i].destination + '</option>');
+	    	var listBus = ${listBus};
+	    	for (i = 0; i < listBus.length; i++) {
+	    		$('#busid').append('<option value="' + listBus[i].id + '" cost="' + listBus[i].cost + '">' + listBus[i].name + '</option>');
     		} 
+	    	
+	    	// 后面的还没有修改
 	    	var listGuide = ${listGuide};
 	    	for (i = 0; i < listGuide.length; i++) {
 	    		$('#guideid').append('<option value="' + listGuide[i].id + '" cost="' + listGuide[i].cost + '">'+ listGuide[i].guidename + '</option>');
@@ -564,6 +533,9 @@
 	function innerquote(){
 		window.location.href = "${ctx}/innerquote/index.html";
     }
+	function linedetail(){
+		window.location.href = "${ctx}/linedetail/index.html";
+	}
 	
 </script>
     

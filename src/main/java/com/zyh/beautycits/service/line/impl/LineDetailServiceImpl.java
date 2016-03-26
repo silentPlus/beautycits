@@ -1,6 +1,9 @@
 package com.zyh.beautycits.service.line.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.zyh.beautycits.constats.ConfigConstants;
 import com.zyh.beautycits.dao.JdbcBaseDao;
@@ -11,6 +14,7 @@ import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
 import com.zyh.beautycits.vo.line.LineDetail;
 
+@Service("lineDetailService")
 public class LineDetailServiceImpl extends BaseServiceImpl implements LineDetailService{
 	
 	@Autowired
@@ -62,7 +66,7 @@ public class LineDetailServiceImpl extends BaseServiceImpl implements LineDetail
 	@Override
 	public ResultMsg deleteLineDetail(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "update linedetail ld set ld.deleteflag = 1, ld.updatetime = now() where ld.id = ?";
+		String sql = "update linedetail ld set ld.deleteflg = 1, ld.updatetime = now() where ld.id = ?";
 		int num = lineDetailDao.commonUpdate(sql, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
@@ -71,6 +75,13 @@ public class LineDetailServiceImpl extends BaseServiceImpl implements LineDetail
 		resultMsg.setState(Results.ERROR);
 		resultMsg.setMsg("操作失败！");
 		return resultMsg;
+	}
+
+	@Override
+	public Map<String, Object> getLineSchedul(Integer id) {
+		String sql = "select l.name as linename, l.day from linedetail ld LEFT JOIN line l on l.id = ld.lineid where ld.id = ?";
+		Map<String, Object> map = lineDetailDao.getMap(sql, id);
+		return map;
 	}
 
 }

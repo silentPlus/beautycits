@@ -59,6 +59,7 @@ public class BaseClass {
      * goToErrorPage:service返回结果为错误时，可以直接用此方法跳转到错误页面返回错误信息. <br/>
      */
     public ModelAndView goToErrorPage(String errorMsg) {
+    	logger.error(errorMsg);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("errorMsg", errorMsg);
         return new ModelAndView("login", map);

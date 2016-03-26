@@ -42,7 +42,7 @@ public class LineDetailController extends BaseController {
 	private GuideService guideService;
 	
 	@RequestMapping(value = "/index.html")
-    public ModelAndView index(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+    public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -68,7 +68,7 @@ public class LineDetailController extends BaseController {
 		List<Vehicle> listVehicle = vehicleService.getAllVehicle();
 		mav.addObject("listVehicle", JSON.toJSONString(listVehicle));
 		
-		List<Guide> listGuide = guideService.getAllGuide();
+		List<Guide> listGuide = guideService.getAllGuide(user.getId());
 		mav.addObject("listGuide", JSON.toJSONString(listGuide));
 		
 		
@@ -142,20 +142,4 @@ public class LineDetailController extends BaseController {
 		return jsonPackage;
     }
 
-	/*@RequestMapping(value = "/publishline.html")
-    public JsonPackage publishLine(HttpServletRequest request, HttpServletResponse response,Integer id){
-		JsonPackage jsonPackage = new JsonPackage();
-		// 判断是否登录
-		if (!isLogin()) {
-			jsonPackage.setStatus(1);
-			jsonPackage.setMessage("请先登录");
-			return jsonPackage;
-		}
-		ResultMsg resultMsg = lineService.publishLine(id);
-		if (resultMsg.getState() == Results.ERROR) {
-			jsonPackage.setStatus(1);
-			jsonPackage.setMessage(resultMsg.getMsg());
-		}
-		return jsonPackage;
-    }*/
 }

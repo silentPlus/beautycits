@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.bus.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +69,13 @@ public class BusServiceImpl extends BaseServiceImpl implements BusService{
 		resultMsg.setState(Results.ERROR);
 		resultMsg.setMsg("操作失败！");
 		return resultMsg;
+	}
+
+	@Override
+	public List<Bus> getAllBus(Integer userid) {
+		String sql = "select * from bus b where b.isused = 1 and b.userid = ? ORDER BY b.createtime desc ";
+		List<Bus> list = busDao.getList(sql, Bus.class);
+		return list;
 	}
 
 }

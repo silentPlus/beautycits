@@ -73,8 +73,8 @@ public class GuideServiceImpl extends BaseServiceImpl implements GuideService{
 	}
 
 	@Override
-	public List<Guide> getAllGuide() {
-		String sql = "select * from guide g where g.isused = 1 ORDER BY l.createtime desc ";
+	public List<Guide> getAllGuide(Integer userid) {
+		String sql = "select * from guide g where g.isused = 1 and g.userid = ? ORDER BY g.createtime desc ";
 		List<Guide> list = guideDao.getList(sql, Guide.class);
 		return list;
 	}

@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.line;
 
+import java.util.Map;
+
 import com.zyh.beautycits.service.base.BaseService;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.line.LineDetail;
@@ -24,5 +26,9 @@ public interface LineDetailService extends BaseService{
 	 */
 	public ResultMsg deleteLineDetail(Integer id);
 
-
+	/**
+	 * 
+	 * getLineSchedul(获取线路名称和天数，日程安排时使用)
+	 */
+	public Map<String, Object> getLineSchedul(Integer id);
 }

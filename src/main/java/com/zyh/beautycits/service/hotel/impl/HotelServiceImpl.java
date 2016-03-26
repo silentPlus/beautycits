@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.hotel.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +71,13 @@ public class HotelServiceImpl extends BaseServiceImpl implements HotelService{
 		resultMsg.setState(Results.ERROR);
 		resultMsg.setMsg("操作失败！");
 		return resultMsg;
+	}
+
+	@Override
+	public List<Hotel> getAllHotel(Integer userid) {
+		String sql = "select * from hotel h where h.userid = ? ORDER BY h.createtime desc ";
+		List<Hotel> list = hotelDao.getList(sql, Hotel.class);
+		return list;
 	}
 
 }

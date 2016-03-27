@@ -306,16 +306,18 @@
 	    		$('#busid').append('<option value="' + listBus[i].id + '" cost="' + listBus[i].cost + '">' + listBus[i].name + '</option>');
     		} 
 	    	
-	    	// 后面的还没有修改
-	    	var listGuide = ${listGuide};
-	    	for (i = 0; i < listGuide.length; i++) {
-	    		$('#guideid').append('<option value="' + listGuide[i].id + '" cost="' + listGuide[i].cost + '">'+ listGuide[i].guidename + '</option>');
+	    	var listRestaurant = ${listRestaurant};
+	    	for (i = 0; i < listRestaurant.length; i++) {
+	    		$('#morestaurant').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + '</option>');
+	    		$('#lurestaurant').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + '</option>');
+	    		$('#direstaurant').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + '</option>');
     		} 
 	    	
-	    	$("#addLineDetail").click(function(){
-		    	$("#addlineDetailModel").modal("show");
+	    	$("#addSchedule").click(function(){
+		    	$("#addSchedulModel").modal("show");
 	    	});
-	    	
+
+	    	// 后面的还没有修改
 	    	$(".addLineDetailBtn").on("click", function(){
 	    		var lineid = $.trim($("#llineid").val());
 	    		var guideid = $.trim($("#guideid").val());

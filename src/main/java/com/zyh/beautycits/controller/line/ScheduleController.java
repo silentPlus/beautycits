@@ -50,7 +50,7 @@ public class ScheduleController extends BaseController {
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, Integer linedetailid) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		// 判断是否登录
-		if (!isLogin() && linedetailid != null) {
+		if (!isLogin() || linedetailid == null) {
 			String url_login = getUrl_BizFunc("login", "index.html");
 			mav.setViewName("redirect:"+url_login);
 			return mav;

@@ -189,7 +189,10 @@
 			      <td>{{lineDetail.backvehicle}}</td>
 			      <td>{{lineDetail.guidename}}</td>
 			      <td>{{lineDetail.remark}}</td>
-				  <td><a class="deleteModelBtn" lineDetailid="{{lineDetail.id}}"><i class="fa fa-trash-o"></i></a></td>
+				  <td>
+					<a class="scheduleModelBtn" lineDetailid="{{lineDetail.id}}"><i class="fa fa-pencil"></i></a>
+				    <a class="deleteModelBtn" lineDetailid="{{lineDetail.id}}"><i class="fa fa-trash-o"></i></a>
+				  </td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -343,6 +346,11 @@
 	    		$('#guideid').append('<option value="' + listGuide[i].id + '" cost="' + listGuide[i].cost + '">'+ listGuide[i].guidename + '</option>');
     		} 
 	    	
+	    	$(".scheduleModelBtn").click(function(){
+		    	var linedetailid = $(this).attr("linedetailid");
+		    	window.location.href = "${ctx}/schedule/index.html?linedetailid=" + linedetailid;
+	    	});
+	    	
 	    	$("#addLineDetail").click(function(){
 		    	$("#addlineDetailModel").modal("show");
 	    	});
@@ -364,14 +372,6 @@
 	    		}
 	    		if (guideid == null || guideid == '') {
 	    			alert("请选则导游");
-	    			return ;
-	    		}
-	    		if (govehicleid == null || govehicleid == '') {
-	    			alert("请选择去时交通");
-	    			return ;
-	    		}
-	    		if (backvehicleid == null || backvehicleid == '') {
-	    			alert("请选择回时交通");
 	    			return ;
 	    		}
     			if (insurance == null || insurance == '') {
@@ -507,7 +507,10 @@
 		    		$("#linedetailid").val(id);
 		    		$("#deleteModal").modal('show');
 		    	});
-				
+				$(".scheduleModelBtn").click(function(){
+			    	var linedetailid = $(this).attr("linedetailid");
+			    	window.location.href = "${ctx}/schedule/index.html?linedetailid=" + linedetailid;
+		    	});
    			},
    			success : function(response) {
    				var json = eval(response);

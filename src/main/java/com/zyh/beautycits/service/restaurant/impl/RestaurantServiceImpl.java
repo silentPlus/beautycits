@@ -75,8 +75,8 @@ public class RestaurantServiceImpl extends BaseServiceImpl implements Restaurant
 
 	@Override
 	public List<Restaurant> getAllRestaurant(Integer userid) {
-		String sql = "select * from restaurant r where r.userid = ? ORDER BY r.createtime desc ";
-		List<Restaurant> list = restaurantDao.getList(sql, Restaurant.class);
+		String sql = "select r.*, rt.name as restaurant from restaurant r LEFT JOIN restauranttype rt on rt.id = r.restauranttypeid where r.userid = ?  ORDER BY r.createtime desc ";
+		List<Restaurant> list = restaurantDao.getList(sql, Restaurant.class, userid);
 		return list;
 	}
 

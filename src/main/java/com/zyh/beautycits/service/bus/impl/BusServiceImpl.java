@@ -74,7 +74,7 @@ public class BusServiceImpl extends BaseServiceImpl implements BusService{
 	@Override
 	public List<Bus> getAllBus(Integer userid) {
 		String sql = "select * from bus b where b.isused = 1 and b.userid = ? ORDER BY b.createtime desc ";
-		List<Bus> list = busDao.getList(sql, Bus.class);
+		List<Bus> list = busDao.getList(sql, Bus.class, userid);
 		return list;
 	}
 

@@ -134,9 +134,9 @@
 
     <div class="content">
     	<div class="header">
-            
+            <button onclick="javascript:history.back(-1);" class="btn btn-primary"><i class="fa fa-arrow-left"></i>&nbsp;返回</button><br><br>
             <h1 class="page-title">
-            	<button onclick="back();" class="btn btn-default">&#xe611;返回</button>线路日程安排
+            	线路日程安排
             </h1>
 
         </div>
@@ -146,12 +146,12 @@
 				<div>
 	            	<table class="table" style="text-align:center;">
 	            		<tr>
-	            			<td width="10%" align="right" style="border-top:none;">线路名称</td>
+	            			<td width="20%" align="right" style="border-top:none;">线路名称</td>
 	            			<td align="left" style="border-top:none;">${ linename }</td>
 	            		</tr>
 	            		<tr>
 	            			<td align="right" style="border-top:none;">天数</td>
-	            			<td align="left" style="border-top:none;"><span id="day">${ day }</span></td>
+	            			<td align="left" style="border-top:none;">${ day }天</td>
 	            		</tr>
 	            	</table>
             	</div>
@@ -167,13 +167,13 @@
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
-			      <th style="width:3%;text-align: center;">天数</th>
+			      <th style="width:10%;text-align: center;">天数</th>
 			      <th style="width:10%;text-align: center;">宾馆</th>
 			      <th style="width:10%;text-align: center;">早饭</th>
 			      <th style="width:10%;text-align: center;">午饭</th>
 			      <th style="width:10%;text-align: center;">晚饭</th>
 			      <th style="width:10%;text-align: center;">用车</th>
-			      <th style="width:25%;text-align: center;">备注</th>
+			      <th style="width:20%;text-align: center;">备注</th>
 			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
@@ -187,7 +187,10 @@
 			      <td>{{schedule.direstaurant}}</td>
 			      <td>{{schedule.bus}}</td>
 			      <td>{{schedule.remark}}</td>
-				  <td><a class="deleteModelBtn" scheduleid="{{schedule.id}}"><i class="fa fa-trash-o"></i></a></td>
+				  <td>
+				    <a class="ticketModelBtn" scheduleid="{{schedule.id}}"><i class="fa fa-pencil"></i></a>
+				    <a class="deleteModelBtn" scheduleid="{{schedule.id}}"><i class="fa fa-trash-o"></i></a>
+				  </td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -205,11 +208,13 @@
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
 		            		<tr>
-		            			<td align="left" style="border-top:none;">
-		            				第<input type="text" id="dday" class="form-control">天
+		            			<td align=right style="border-top:none;">
+		            				第
 		            			</td>
-		            			<td style="border-top:none;"></td>
-		            			<td style="border-top:none;"></td>
+		            			<td align="left" width="10%" style="border-top:none;">
+		            				<input style="width:20%" type="text" id="dday">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;天
+		            			</td>
+		            			<td align="left" style="border-top:none;"></td>
 		            			<td style="border-top:none;"></td>
 		            		</tr>
 		            		<tr>
@@ -285,97 +290,219 @@
 			    </div>
 			</div>
 			
+			<div class="modal small fade" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" style="width:400px;">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="myModalLabel">添加门票安排</h3>
+			        </div>
+			        <div class="modal-body">
+			            <div id="ticketsTable">
+		  				<script id="ticketsTemplateView" type="text/html">
+							<table class="table" style="text-align:center;">
+			  					<thead>
+			    					<tr>
+			     	 					<th style="text-align: center;">门票</th>
+			      						<th style="text-align: center;">操作</th>
+			    					</tr>
+			  					</thead>
+			  					<tbody>
+			  					{{ each result as scheduleTicket i }}
+			    					<tr>
+			      						<td>{{scheduleTicket.ticket}}</td>
+				  						<td>
+				    						<a class="deleteTicketModelBtn" scheduleTicketid="{{scheduleTicket.id}}"><i class="fa fa-trash-o"></i></a>
+				  						</td>
+			    					</tr>
+			  					{{ /each }}
+			  					</tbody>
+							</table>
+							<div>
+	            				<table class="table" style="text-align:center;">
+									<tr>
+		            					<td width="40%" align="right" style="border-top:none;">新增门票</td>
+		            					<td align="left" style="border-top:none;">
+		            						<select style="40%" id="ticketid" class="form-control" ">
+		            					  		<option value="" cost="" checked="checked">请选择</option>
+						        			</select>
+										</td>
+		            				</tr>
+	            				</table>
+            				</div>
+						</script>
+						</div>
+			        </div>
+			        <div class="modal-footer">
+			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+			            <button id="addTicketBtn" class="btn btn-danger" data-dismiss="modal">保存</button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
+			
         </div>
     </div>
-	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "linedetailid" value="${ linedetailid }" />
+	<input type="hidden" id = "day" value="${ day }" />
+	<input type="hidden" id = "scheduleid" value="" />
+	<input type="hidden" id = "scheduleTicketid" value="" />
 
     <script type="text/javascript">
 	    $(function(){
 			
 	    	var schedules = ${schedules};
-	    	var SchedulesViewHtml = template("SchedulesTemplateView", schedules);
-	    	$("#SchedulesTable").html(SchedulesViewHtml);
+	    	var data = {
+	    			schedules : schedules
+	    	};
+	    	var SchedulesViewHtml = template("schedulesTemplateView", data);
+	    	$("#schedulesTable").html(SchedulesViewHtml);
 	    	
 	    	var listHotel = ${listHotel};
 	    	for (i = 0; i < listHotel.length; i++) {
-	    		$('#hotelid').append('<option value="' + listHotel[i].id + '" cost="' + listHotel[i].cost + '">'+ listHotel[i].hoteltype + '</option>');
+	    		$('#hotelid').append('<option value="' + listHotel[i].id + '" cost="' + listHotel[i].cost + '">'+ listHotel[i].hoteltype + "--" + listHotel[i].formatname + '</option>');
     		} 
 	    	var listBus = ${listBus};
 	    	for (i = 0; i < listBus.length; i++) {
-	    		$('#busid').append('<option value="' + listBus[i].id + '" cost="' + listBus[i].cost + '">' + listBus[i].name + '</option>');
+	    		$('#busid').append('<option value="' + listBus[i].id + '" cost="' + listBus[i].cost + '">' + listBus[i].name + "--" + listBus[i].type + '</option>');
     		} 
 	    	
 	    	var listRestaurant = ${listRestaurant};
 	    	for (i = 0; i < listRestaurant.length; i++) {
-	    		$('#morestaurant').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + '</option>');
-	    		$('#lurestaurant').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + '</option>');
-	    		$('#direstaurant').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + '</option>');
+	    		$('#morestaurantid').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + "--" + listRestaurant[i].formatname + '</option>');
+	    		$('#lurestaurantid').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + "--" + listRestaurant[i].formatname + '</option>');
+	    		$('#direstaurantid').append('<option value="' + listRestaurant[i].id + '" cost="' + listRestaurant[i].cost + '">'+ listRestaurant[i].restaurant + "--" + listRestaurant[i].formatname + '</option>');
     		} 
 	    	
-	    	$("#addSchedule").click(function(){
-		    	$("#addSchedulModel").modal("show");
-	    	});
-
-	    	// 后面的还没有修改
-	    	$(".addLineDetailBtn").on("click", function(){
-	    		var lineid = $.trim($("#llineid").val());
-	    		var guideid = $.trim($("#guideid").val());
-	    		var govehicleid = $.trim($("#govehicleid").val());
-	    		var backvehicleid = $.trim($("#backvehicleid").val());
-	    		var insurance = $.trim($("#insurance").val());
-	    		var remark = $.trim($("#remark").val());
-	    		var gocost = $("#govehicleid").find("option:selected").attr("cost");
-	    		var backcost = $("#backvehicleid").find("option:selected").attr("cost");
-	    		var guidecost = $("#guideid").find("option:selected").attr("cost");
-	    		
-	    		if (lineid == null || lineid == '') {
-	    			alert("请选则线路");
-	    			return ;
-	    		}
-	    		if (guideid == null || guideid == '') {
-	    			alert("请选则导游");
-	    			return ;
-	    		}
-	    		if (govehicleid == null || govehicleid == '') {
-	    			alert("请选择去时交通");
-	    			return ;
-	    		}
-	    		if (backvehicleid == null || backvehicleid == '') {
-	    			alert("请选择回时交通");
-	    			return ;
-	    		}
-    			if (insurance == null || insurance == '') {
-	    			alert("保险金额不能为空");
-	    			return ;
-	    		} else {
-	    			var partn =/^[0-9]{0}([0-9]|[.])+$/; 
-	    			if (!partn.test(insurance)){
-	    				alert("金额只允许输入数字和小数点");
-		    			return ;
-	    			}
-	    		}
-	    		
-	    		$.ajax({
-	    			url : "${ctx}/linedetail/addlinedetail.html",
+	    	$(".ticketModelBtn").click(function(){
+		    	
+		    	var scheduleid = $(this).attr("scheduleid");
+		    	$("#scheduleid").val(scheduleid);
+		    	$.ajax({
+	    			url : "${ctx}/scheduleticket/index.html",
 	    			async : false,
 	    			type : 'POST',
 	    			cache:false,
 	    			data : {
-	    				lineid : lineid,
-	    	    		guideid : guideid,
-	    	    		govehicleid : govehicleid,
-	    	    		backvehicleid : backvehicleid,
-	    	    		insurance : insurance,
-	    	    		remark : remark,
-	    	    		gocost : gocost,
-	    	    		backcost : backcost,
-	    	    		guidecost : guidecost
+	    				scheduleid : scheduleid
 	    			},
 	    			dataType : 'json',
 	    			timeout : 15000,
 	    			beforeSend : function() {
-    	    			$("#addLineDetailModel").modal('hide');
+	    			},
+	    			complete : function(XMLHttpRequest,textStatus) {
+	    				$(".deleteTicketModelBtn").on("click", function(){
+	    		    		var id = $(this).attr("scheduleTicketid");
+	    		    		
+	    		    		$.ajax({
+	    		    			url : "${ctx}/scheduleticket/deletescheduleticket.html",
+	    		    			async : false,
+	    		    			type : 'POST',
+	    		    			cache:false,
+	    		    			data : {
+	    		    				id : id
+	    		    			},
+	    		    			dataType : 'json',
+	    		    			timeout : 15000,
+	    		    			beforeSend : function() {
+	    		    			},
+	    		    			complete : function(XMLHttpRequest,textStatus) {
+	    		    			},
+	    		    			success : function(response) {
+	    		    				var json = eval(response);
+	    		    				if (0===json.status){
+	    		    					alert("删除成功！")
+	    		                    } else if (1===json.status){
+	    		                        alert(json.message);
+	    		                    }
+	    		    				window.location.reload();
+	    		    			},
+	    		    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    		    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    		    				window.location.reload();
+	    		    			}
+	    		    		});
+	    		    	});
+	    			},
+	    			success : function(response) {
+	    				var json = eval(response);
+	    				if (0===json.status){
+	    					var ScheduleTicketsViewHtml = template("ticketsTemplateView", json);
+	    			    	$("#ticketsTable").html(ScheduleTicketsViewHtml);
+	    			    	
+	    					var tickets = json.listTicket;
+	    					for (i = 0; i < tickets.length; i++) {
+	    			    		$('#ticketid').append('<option value="' + tickets[i].id + '" cost="' + tickets[i].cost + '">' + tickets[i].name + "--" + tickets[i].tickettype + '</option>');
+	    		    		} 
+	    			    	
+	    					$("#ticketModal").modal("show");
+	                    } else if (1===json.status){
+	                        alert(json.message);
+		    				window.location.reload();
+	                    }
+	    			},
+	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+	    				window.location.reload();
+	    			}
+	    		});
+	    	});
+	    	
+	    	$("#addSchedule").click(function(){
+		    	$("#addScheduleModel").modal("show");
+	    	});
+
+	    	// 后面的还没有修改
+	    	$(".addScheduleBtn").on("click", function(){
+	    		var dday = $.trim($("#dday").val());
+	    		var hotelid = $.trim($("#hotelid").val());
+	    		var busid = $.trim($("#busid").val());
+	    		var morestaurantid = $.trim($("#morestaurantid").val());
+	    		var lurestaurantid = $.trim($("#lurestaurantid").val());
+	    		var direstaurantid = $.trim($("#direstaurantid").val());
+	    		var hotelcost = $("#hotelid").find("option:selected").attr("cost");
+	    		var buscost = $("#busid").find("option:selected").attr("cost");
+	    		var mocost = $("#morestaurantid").find("option:selected").attr("cost");
+	    		var luckcost = $("#lurestaurantid").find("option:selected").attr("cost");
+	    		var dicost = $("#direstaurantid").find("option:selected").attr("cost");
+	    		
+	    		if (dday == null || dday == '') {
+	    			alert("请填写天数");
+	    			return ;
+	    		} else {
+	    			var partn =/^[0-9]*[1-9][0-9]*$/; 
+	    			if (!partn.test(dday)){
+	    				alert("天数只允许输入整数");
+		    			return ;
+	    			}
+	    			var day = $("#day").val();
+	    			if (day < dday){
+	    				alert("不能超过最大天数");
+		    			return ;
+	    			}
+	    		}
+	    		$.ajax({
+	    			url : "${ctx}/schedule/addschedule.html",
+	    			async : false,
+	    			type : 'POST',
+	    			cache:false,
+	    			data : {
+	    				linedetailid : '${ linedetailid }',
+	    				day : dday,
+	    	    		hotelid : hotelid,
+	    	    		busid : busid,
+	    	    		morestaurantid : morestaurantid,
+	    	    		lurestaurantid : lurestaurantid,
+	    	    		direstaurantid : direstaurantid,
+	    	    		hotelcost : hotelcost,
+	    	    		buscost : buscost,
+	    	    		mocost : mocost,
+	    	    		luckcost : luckcost,
+	    	    		dicost : dicost
+	    			},
+	    			dataType : 'json',
+	    			timeout : 15000,
+	    			beforeSend : function() {
+    	    			$("#addScheduleModel").modal('hide');
 	    			},
 	    			complete : function(XMLHttpRequest,textStatus) {
 	    				
@@ -402,17 +529,17 @@
             $('.demo-cancel-click').click(function(){return false;});
         }); */
         $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("linedetailid");
-    		$("#linedetailid").val(id);
+    		var id = $(this).attr("scheduleid");
+    		$("#scheduleid").val(id);
     		$("#deleteModal").modal('show');
     	});
     	
 		$("#deleteBtn").click(function(){
     		
-    		var id = $("#linedetailid").val();
+    		var id = $("#scheduleid").val();
     		
     		$.ajax({
-    			url : "${ctx}/linedetail/deletelinedetail.html",
+    			url : "${ctx}/schedule/deleteschedule.html",
     			async : false,
     			type : 'POST',
     			cache:false,
@@ -440,79 +567,52 @@
     				window.location.reload();
     			}
     		});
-	});
+		});
+		
+		
+		$("#addTicketBtn").on("click", function(){
+
+    		var ticketid = $.trim($("#ticketid").val());
+    		var ticketcost = $("#ticketid").find("option:selected").attr("cost");
+    		if (ticketid == null || ticketid == ''){
+    			return;
+    		}
+    		var scheduleid = $("#scheduleid").val();
+    		
+    		$.ajax({
+    			url : "${ctx}/scheduleticket/addscheduleticket.html",
+    			async : false,
+    			type : 'POST',
+    			cache:false,
+    			data : {
+    				scheduleid : scheduleid,
+    				ticketid : ticketid,
+    				ticketcost : ticketcost
+    			},
+    			dataType : 'json',
+    			timeout : 15000,
+    			beforeSend : function() {
+    			},
+    			complete : function(XMLHttpRequest,textStatus) {
+    			},
+    			success : function(response) {
+    				var json = eval(response);
+    				if (0===json.status){
+    					alert("保存成功！")
+                    } else if (1===json.status){
+                        alert(json.message);
+                    }
+    				window.location.reload();
+    			},
+    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+    				window.location.reload();
+    			}
+    		});
+    	});
+    	
     });
 	    
-	    
-	    
-	function dosearch(i){
-    		
-
-		var lineid = $.trim($("#lineid").val());
-    	
-    	if (i == null || i == '') {
-    		i = 0;
-    	}
-    	if (i == -1) {
-    		i = parseInt($("#currentPage").val())-1;
-    	}
-    	if (i == -2) {
-    		i = parseInt($("#currentPage").val())+1;
-    	}
-   		$.ajax({
-   			url : "${ctx}/linedetail/search.html",
-   			async : false,
-   			type : 'POST',
-   			cache:false,
-   			data : {
-   				currentPage : i,
-   				lineid : lineid
-   			},
-   			dataType : 'json',
-   			timeout : 15000,
-   			beforeSend : function() {
-   			},
-   			complete : function(XMLHttpRequest,textStatus) {
-				$(".deleteModelBtn").on("click", function(){
-		    		var id = $(this).attr("linedetailid");
-		    		$("#linedetailid").val(id);
-		    		$("#deleteModal").modal('show');
-		    	});
-				
-   			},
-   			success : function(response) {
-   				var json = eval(response);
-   				if (0===json.status){
-   					
-   					var result = json.result; 
-   					
-   			    	var arrayObj = new Array(result.totalPage);
-   			    	for (var j=0; j<result.totalPage; j++){
-   			    		arrayObj[j] = j;
-   			    	}
-   			    	data = {
-   			    			lineDetails : result.pageInfoResult,
-   			    			length : result.totalRecord,
-   			    			currentPage : result.currentPage,
-   			    			totalPage : result.totalPage,
-   			    			list : arrayObj
-   			    	};
-   			    	var lineDetailsViewHtml = template("lineDetailsTemplateView", data);
-   			    	$("#lineDetailsTable").html(lineDetailsViewHtml);
-   					
-		    		$("#currentPage").val(i);
-                   } else if (1===json.status){
-                       alert(json.message);
-      				   window.location.reload();
-                   }
-   			},
-   			error : function(XMLHttpRequest, textStatus, errorThrown) {
-   				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-   				window.location.reload();
-   			}
-   		});
-   	}
-	
 	function hoteltype(){
 		window.location.href = "${ctx}/hoteltype/index.html";
     }

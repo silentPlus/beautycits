@@ -75,8 +75,8 @@ public class HotelServiceImpl extends BaseServiceImpl implements HotelService{
 
 	@Override
 	public List<Hotel> getAllHotel(Integer userid) {
-		String sql = "select * from hotel h where h.userid = ? ORDER BY h.createtime desc ";
-		List<Hotel> list = hotelDao.getList(sql, Hotel.class);
+		String sql = "select h.*, ht.name as hoteltype from hotel h left join hoteltype ht on ht.id = h.hoteltypeid where h.userid = ? ORDER BY h.createtime desc ";
+		List<Hotel> list = hotelDao.getList(sql, Hotel.class, userid);
 		return list;
 	}
 

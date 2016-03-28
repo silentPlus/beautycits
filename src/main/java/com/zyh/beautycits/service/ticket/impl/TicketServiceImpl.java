@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.ticket.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,6 +83,13 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService{
 		resultMsg.setState(Results.ERROR);
 		resultMsg.setMsg("操作失败！");
 		return resultMsg;
+	}
+
+	@Override
+	public List<Ticket> getAllTicket() {
+		String sql = "select t.*, tt.`name` as tickettype from ticket t LEFT JOIN tickettype tt on tt.id = t.tickettypeid ";
+		List<Ticket> list = ticketDao.getList(sql, Ticket.class);
+		return list;
 	}
 
 }

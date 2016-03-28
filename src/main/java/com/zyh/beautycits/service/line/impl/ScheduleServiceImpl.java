@@ -3,6 +3,7 @@ package com.zyh.beautycits.service.line.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.zyh.beautycits.dao.JdbcBaseDao;
 import com.zyh.beautycits.service.base.impl.BaseServiceImpl;
@@ -11,6 +12,7 @@ import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
 import com.zyh.beautycits.vo.line.Schedule;
 
+@Service("scheduleService")
 public class ScheduleServiceImpl extends BaseServiceImpl implements ScheduleService {
 	
 	@Autowired
@@ -54,8 +56,13 @@ public class ScheduleServiceImpl extends BaseServiceImpl implements ScheduleServ
 	@Override
 	public ResultMsg deleteSchedule(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "delete from `schedule` where id = ?";
+		// 先删除日程安排包含的门票信息
+		String sql = "delete from scheduleticket where scheduleid = ?";
 		int num = scheduleDao.commonUpdate(sql, id);
+		
+		// 后再删除日程安排信息
+		sql = "delete from `schedule` where id = ?";
+		num = scheduleDao.commonUpdate(sql, id);
 		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;

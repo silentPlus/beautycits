@@ -1,7 +1,9 @@
 package com.zyh.beautycits.service.line.impl;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,11 +52,21 @@ public class LineDetailServiceImpl extends BaseServiceImpl implements LineDetail
 	public ResultMsg saveLineDetail(LineDetail lineDetail) {
 		ResultMsg resultMsg = new ResultMsg();
 		StringBuilder sql = new StringBuilder("INSERT into linedetail(userid, lineid, govehicleid, backvehicleid, insurance, guideid, gocost, backcost, guidecost, remark, createtime) ");
-		sql.append("values(?,?,?,?,?,?,?,?,?,?,now())");
+		sql.append("values(:userid,:lineid,:govehicleid,:backvehicleid,:insurance,:guideid,:gocost,:backcost,:guidecost,:remark,now())");
 		sql.trimToSize();
-		int num = lineDetailDao.commonUpdate(sql.toString(), lineDetail.getUserid(), lineDetail.getLineid(), lineDetail.getGovehicleid(), lineDetail.getBackvehicleid(),lineDetail.getInsurance(),
-				lineDetail.getGuideid(), lineDetail.getGocost(), lineDetail.getBackcost(), lineDetail.getGuidecost(), lineDetail.getRemark());
-		if (num == 1) {
+		Number num = lineDetailDao.updateByBeanForkey(sql.toString(), lineDetail, "id");
+		if (num != null) {
+			// 新增对内报价数据
+			BigDecimal gocost = new BigDecimal(StringUtils.isBlank(lineDetail.getGocost())?"0":lineDetail.getGocost());
+			BigDecimal backcost = new BigDecimal(StringUtils.isBlank(lineDetail.getBackcost())?"0":lineDetail.getBackcost());
+			BigDecimal guidecost = new BigDecimal(StringUtils.isBlank(lineDetail.getGuidecost())?"0":lineDetail.getGuidecost());
+			BigDecimal insurance = new BigDecimal(StringUtils.isBlank(lineDetail.getInsurance())?"0":lineDetail.getInsurance());
+			BigDecimal cost = gocost.add(backcost).add(guidecost).add(insurance);
+			String ssql = "INSERT INTO innerquote(lineid, linedetailid, primecost, createtime) VALUES(?,?,?,now())";
+			int count = lineDetailDao.commonUpdate(ssql,lineDetail.getLineid(), num, cost.toString());
+			if (count != 1) {
+				logger.error("保存对内报价失败！sql:" + ssql + ", lineid:" + lineDetail.getLineid() + ", linedetailid:" + num + ", cost:" + cost);
+			}
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
 		}
@@ -69,6 +81,11 @@ public class LineDetailServiceImpl extends BaseServiceImpl implements LineDetail
 		String sql = "update linedetail ld set ld.deleteflg = 1, ld.updatetime = now() where ld.id = ?";
 		int num = lineDetailDao.commonUpdate(sql, id);
 		if (num == 1) {
+			sql = "delete from innerquote where linedetailid = ?";
+			num = lineDetailDao.commonUpdate(sql, id);
+			if (num != 1) {
+				logger.error("删除对内报价失败！sql:" + sql + ", linedetailid:" + id);
+			}
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
 		}

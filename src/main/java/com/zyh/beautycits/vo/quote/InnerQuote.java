@@ -10,6 +10,21 @@ public class InnerQuote {
 	private String remark;
 	private String createtime;
 	private String updatetime;
+	private Integer isquote;
+	
+	private String linename;
+	public Integer getIsquote() {
+		return isquote;
+	}
+	public void setIsquote(Integer isquote) {
+		this.isquote = isquote;
+	}
+	public String getLinename() {
+		return linename;
+	}
+	public void setLinename(String linename) {
+		this.linename = linename;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -68,6 +83,7 @@ public class InnerQuote {
 	public String toString() {
 		return "InnerQuote [id=" + id + ", lineid=" + lineid + ", linedetailid=" + linedetailid + ", primecost="
 				+ primecost + ", offercost=" + offercost + ", grossprofit=" + grossprofit + ", remark=" + remark
-				+ ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
+				+ ", createtime=" + createtime + ", updatetime=" + updatetime + ", isquote=" + isquote + ", linename="
+				+ linename + "]";
 	}
 }

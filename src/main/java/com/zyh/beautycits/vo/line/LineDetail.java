@@ -44,26 +44,34 @@ public class LineDetail {
 	}
 	public void setGtype(Integer gtype) {
 		this.gtype = gtype;
-		switch (gtype) {
-		case 1 : this.govehicle = "汽车";break;
-		case 2 : this.govehicle = "火车";break;
-		case 3 : this.govehicle = "飞机";break;
-		case 4 : this.govehicle = "轮船";break;
-		default : this.govehicle = "-";break;
-	}
+		if (gtype != null) {
+			switch (gtype) {
+			case 1 : this.govehicle = "汽车";break;
+			case 2 : this.govehicle = "火车";break;
+			case 3 : this.govehicle = "飞机";break;
+			case 4 : this.govehicle = "轮船";break;
+			default : this.govehicle = "-";break;
+			}
+		} else {
+			this.govehicle = "-";
+		}
 	}
 	public Integer getBtype() {
 		return btype;
 	}
 	public void setBtype(Integer btype) {
 		this.btype = btype;
-		switch (btype) {
-		case 1 : this.backvehicle = "汽车";break;
-		case 2 : this.backvehicle = "火车";break;
-		case 3 : this.backvehicle = "飞机";break;
-		case 4 : this.backvehicle = "轮船";break;
-		default : this.backvehicle = "-";break;
-	}
+		if (btype != null) {
+			switch (btype) {
+			case 1 : this.backvehicle = "汽车";break;
+			case 2 : this.backvehicle = "火车";break;
+			case 3 : this.backvehicle = "飞机";break;
+			case 4 : this.backvehicle = "轮船";break;
+			default : this.backvehicle = "-";break;
+			}
+		} else {
+			this.backvehicle = "-";
+		}
 	}
 	public String getLinename() {
 		return linename;

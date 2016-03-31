@@ -15,5 +15,11 @@ public interface InnerQuoteService extends BaseService{
 	 * 
 	 * updateInnerQuote(修改报价单)
 	 */
-	public ResultMsg updateInnerQuote(Integer id);
+	public ResultMsg updateInnerQuote(Integer id, String offercost, String grossprofit, String remark);
+	
+	/**
+	 * 
+	 * quoter(报价操作)
+	 */
+	public ResultMsg quoter(Integer id);
 }

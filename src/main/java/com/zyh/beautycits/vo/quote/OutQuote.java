@@ -10,7 +10,14 @@ public class OutQuote {
 	private String grossprofitrate;
 	private String remark;
 	private String createtime;
-	private String updatetime;
+	private String updatetime;	
+	private String linename;
+	public String getLinename() {
+		return linename;
+	}
+	public void setLinename(String linename) {
+		this.linename = linename;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -76,6 +83,6 @@ public class OutQuote {
 		return "OutQuote [id=" + id + ", lineid=" + lineid + ", linedetailid=" + linedetailid + ", primecost="
 				+ primecost + ", offercost=" + offercost + ", grossprofit=" + grossprofit + ", grossprofitrate="
 				+ grossprofitrate + ", remark=" + remark + ", createtime=" + createtime + ", updatetime=" + updatetime
-				+ "]";
+				+ ", linename=" + linename + "]";
 	}
 }

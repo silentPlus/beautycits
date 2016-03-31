@@ -49,7 +49,7 @@ public class ScheduleTicketServiceImpl extends BaseServiceImpl implements Schedu
 			Map<String, Object> map = scheduleTicketDao.getMap(ssql, scheduleid);
 			Integer linedetailid = Integer.valueOf(map.get("linedetailid").toString());
 			BigDecimal cost = new BigDecimal(map.get("primecost").toString()).add(ticketcost);
-			ssql = "update innerquote set primecost = ? where linedetailid = ?";
+			ssql = "update innerquote set primecost = ?, updatetime = now() where linedetailid = ?";
 			num = innerQuoteDao.commonUpdate(ssql, cost.toString(), linedetailid);
 			if (num != 1) {
 				logger.error("更新对内报价失败！sql:" + ssql + ", linedetailid:" + linedetailid + ", cost:" + cost);
@@ -72,7 +72,7 @@ public class ScheduleTicketServiceImpl extends BaseServiceImpl implements Schedu
 		Integer linedetailid = Integer.valueOf(map.get("linedetailid").toString());
 		BigDecimal cost = new BigDecimal(map.get("primecost").toString());
 		cost = cost.subtract(ticketcost);
-		sql = "update innerquote set primecost = ? where linedetailid = ?";
+		sql = "update innerquote set primecost = ?, updatetime = now() where linedetailid = ?";
 		int num = innerQuoteDao.commonUpdate(sql, cost.toString(), linedetailid);
 		if (num != 1) {
 			logger.error("更新对内报价失败！sql:" + sql + ", linedetailid:" + linedetailid + ", cost:" + cost);

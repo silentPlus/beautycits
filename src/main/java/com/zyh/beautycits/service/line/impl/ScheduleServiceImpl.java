@@ -66,7 +66,7 @@ public class ScheduleServiceImpl extends BaseServiceImpl implements ScheduleServ
 			String ssql = "select * from innerquote where linedetailid = ?";
 			InnerQuote innerQuote = innerQuoteDao.getJavaBean(ssql, InnerQuote.class, linedetailid);
 			BigDecimal cost = new BigDecimal(innerQuote.getPrimecost()).add(hotelcost).add(buscost).add(mocost).add(lucost).add(dicost);
-			ssql = "update innerquote set primecost = ? where linedetailid = ?";
+			ssql = "update innerquote set primecost = ?, updatetime = now() where linedetailid = ?";
 			num = innerQuoteDao.commonUpdate(ssql, cost.toString(), linedetailid);
 			if (num != 1) {
 				logger.error("更新对内报价失败！sql:" + ssql + ", linedetailid:" + linedetailid + ", cost:" + cost);
@@ -101,7 +101,7 @@ public class ScheduleServiceImpl extends BaseServiceImpl implements ScheduleServ
 		BigDecimal lucost = new BigDecimal(StringUtils.isBlank(map.get("lucost").toString())?"0":map.get("lucost").toString());
 		BigDecimal dicost = new BigDecimal(StringUtils.isBlank(map.get("dicost").toString())?"0":map.get("dicost").toString());
 		cost = cost.subtract(hotelcost).subtract(buscost).subtract(mocost).subtract(lucost).subtract(dicost);
-		sql = "update innerquote set primecost = ? where linedetailid = ?";
+		sql = "update innerquote set primecost = ?, updatetime = now() where linedetailid = ?";
 		int num = innerQuoteDao.commonUpdate(sql, cost.toString(), linedetailid);
 		if (num != 1) {
 			logger.error("更新对内报价失败！sql:" + sql + ", linedetailid:" + linedetailid + ", cost:" + cost);

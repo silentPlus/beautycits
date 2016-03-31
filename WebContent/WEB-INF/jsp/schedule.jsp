@@ -462,7 +462,7 @@
 	    		var hotelcost = $("#hotelid").find("option:selected").attr("cost");
 	    		var buscost = $("#busid").find("option:selected").attr("cost");
 	    		var mocost = $("#morestaurantid").find("option:selected").attr("cost");
-	    		var luckcost = $("#lurestaurantid").find("option:selected").attr("cost");
+	    		var lucost = $("#lurestaurantid").find("option:selected").attr("cost");
 	    		var dicost = $("#direstaurantid").find("option:selected").attr("cost");
 	    		
 	    		if (dday == null || dday == '') {
@@ -496,7 +496,7 @@
 	    	    		hotelcost : hotelcost,
 	    	    		buscost : buscost,
 	    	    		mocost : mocost,
-	    	    		luckcost : luckcost,
+	    	    		lucost : lucost,
 	    	    		dicost : dicost
 	    			},
 	    			dataType : 'json',

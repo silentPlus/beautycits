@@ -66,7 +66,7 @@ public class ScheduleTicketServiceImpl extends BaseServiceImpl implements Schedu
 	public ResultMsg deleteScheduleTicket(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
 		// 先更新对内报价表信息
-		String sql = "select * from scheduleticket st LEFT JOIN schedule s LEFT JOIN linedetail ld LEFT JOIN innerquote i on i.linedetailid = ld.id on ld.id = s.linedetailid  on s.id = st.scheduleid LEFT JOIN where st.id = ?";
+		String sql = "select * from scheduleticket st LEFT JOIN schedule s LEFT JOIN linedetail ld LEFT JOIN innerquote i on i.linedetailid = ld.id on ld.id = s.linedetailid  on s.id = st.scheduleid where st.id = ?";
 		Map<String, Object> map = scheduleTicketDao.getMap(sql, id);
 		BigDecimal ticketcost = new BigDecimal(StringUtils.isBlank(map.get("ticketcost").toString())?"0":map.get("ticketcost").toString());
 		Integer linedetailid = Integer.valueOf(map.get("linedetailid").toString());

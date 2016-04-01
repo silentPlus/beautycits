@@ -112,14 +112,14 @@
 		    <li><a data-target=".line-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">线路管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="line-menu nav nav-list collapse in">
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>线路类型管理</a></li>
+		            <li onclick="linetype();"><a><span class="fa fa-caret-right"></span>线路类型管理</a></li>
 		            <li onclick="line();"><a><span class="fa fa-caret-right"></span>线路信息管理</a></li>
 			    </ul>
 		    </li>
 		    <li><a data-target=".quote-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">报价管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="quote-menu nav nav-list collapse in">
-		            <li onclick="quote();"><a><span class="fa fa-caret-right"></span>报价信息管理</a></li>
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>报价信息管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -128,35 +128,62 @@
     <div class="content">
     	<div class="header">
             
-            <h1 class="page-title">线路类型管理</h1>
+            <h1 class="page-title">线路报价管理</h1>
 
         </div>
         <div class="main-content">
             
 			<div class="btn-toolbar list-toolbar">
-			    <button id = "addLineType" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加线路类型</button>
+				<div>
+	            	<table class="table" style="text-align:center;">
+	            		<tr>
+	            			<td width="10%" align="right" style="border-top:none;">线路名称</td>
+	            			<td width="40%" align="left" style="border-top:none;">
+	            				<select id="lineid" class="form-control">
+	            					  <option value="" checked="checked">请选择</option>
+           					    </select>
+            				</td>
+            				<td style="border-top:none;"></td>
+	            			<td style="border-top:none;">
+	            			</td>
+	            		</tr>
+	            		<tr>
+	            			<td rowspan="4" align="right" style="border-top:none;">
+	            				<button onclick="dosearch(1);" class="btn btn-default">查询</button>
+	            			</td>
+	            		</tr>
+	            	</table>
+            	</div>
 		  		<div class="btn-group">
 		  		</div>
 			</div>
 			
-			  <div id="lineTypesTable">
-			  <script id="lineTypesTemplateView" type="text/html">
+			  <div id="outQuotesTable">
+			  <script id="outQuotesTemplateView" type="text/html">
 			  <table class="table" style="text-align:center;">
 			  <thead>
 			    <tr>
 			      <th style="width:3%;text-align: center;">#</th>
-			      <th style="width:40%;text-align: center;">类型名称</th>
-			      <th style="width:40%;text-align: center;">备注</th>
+			      <th style="width:25%;text-align: center;">线路名称</th>
+			      <th style="width:10%;text-align: center;">旅行社报价(单位:元)</th>
+			      <th style="width:10%;text-align: center;">对外报价(单位:元)</th>
+			      <th style="width:10%;text-align: center;">毛利(单位:元)</th>
+			      <th style="width:25%;text-align: center;">备注</th>
 			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  {{ each linetypes as linetype i }}
+			  {{ each outQuotes as outQuote i }}
 			    <tr>
 			      <td>{{i + 1}}</td>
-			      <td>{{linetype.name}}</td>
-			      <td>{{linetype.remark}}</td>
-				  <td><a class="deleteModelBtn" linetypeid="{{linetype.id}}"><i class="fa fa-trash-o"></i></a></td>
+			      <td>{{outQuote.linename}}</td>
+			      <td>{{outQuote.primecost}}</td>
+			      <td>{{outQuote.offercost}}</td>
+			      <td>{{outQuote.grossprofit}}</td>
+			      <td>{{outQuote.remark}}</td>
+				  <td> 
+					<a class="offerModelBtn" primecost="{{outQuote.primecost}}" outQuoteid="{{outQuote.id}}"><i class="fa fa-pencil"></i></a>
+				  </td>
 			    </tr>
 			  {{ /each }}
 			  </tbody>
@@ -191,25 +218,33 @@
 			</script>
 			</div>
 
-			<div class="modal small fade" id="addLineTypeModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal small fade" id="offerModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			        <div class="modal-header">
 			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">添加线路类型</h3>
+			            <h3 id="myModalLabel">提交对外报价</h3>
 			        </div>
 			        <div class="modal-body">
 			            <table class="table" style="text-align:center;">
-		            		<tr>
-		            			<td width="40%" align="right" style="border-top:none;">类型名称</td>
+			            	<tr>
+		            			<td width="50%" align="right" style="border-top:none;">旅行社报价(单位:元)</td>
 		            			<td align="left" style="border-top:none;">
-		            				<input type="text" id="name" class="form-control">
+		            				<input type="text" id="primecost" class="form-control" readonly="true">
 		            			</td>
 		            			<td style="border-top:none;"></td>
 		            			<td style="border-top:none;"></td>
 		            		</tr>
 		            		<tr>
-		            			<td width="40%" align="right" style="border-top:none;">备注</td>
+		            			<td width="50%" align="right" style="border-top:none;">对外报价(单位:元)</td>
+		            			<td align="left" style="border-top:none;">
+		            				<input type="text" id="offercost" class="form-control">
+		            			</td>
+		            			<td style="border-top:none;"></td>
+		            			<td style="border-top:none;"></td>
+		            		</tr>
+		            		<tr>
+		            			<td align="right" style="border-top:none;">备注</td>
 		            			<td align="left" style="border-top:none;">
 		            				<textarea id="remark" class="form-control" ></textarea>
 		            			</td>
@@ -220,26 +255,7 @@
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger addLineTypeBtn" data-dismiss="modal">确定</button>
-			        </div>
-			      </div>
-			    </div>
-			</div>
-			
-
-			<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			        <div class="modal-header">
-			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除线路类型</h3>
-			        </div>
-			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该线路类型?<br>操作不可恢复。</p>
-			        </div>
-			        <div class="modal-footer">
-			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button id="deleteBtn" class="btn btn-danger" data-dismiss="modal">删除</button>
+			            <button class="btn btn-danger offerBtn" data-dismiss="modal">确定</button>
 			        </div>
 			      </div>
 			    </div>
@@ -248,108 +264,84 @@
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "linetypeid" value="" />
+	<input type="hidden" id = "outQuoteid" value="" />
 
     <script type="text/javascript">
 	    $(function(){
 			
-			
-	    	var lineTypes = ${lineTypes};
-	    	var arrayObj = new Array(lineTypes.totalPage);
-	    	for (var i=0; i<lineTypes.totalPage; i++){
+	    	var outQuotesPage = ${outQuotesPage};
+	    	var arrayObj = new Array(outQuotesPage.totalPage);
+	    	for (var i=0; i<outQuotesPage.totalPage; i++){
 	    		arrayObj[i] = i;
 	    	}
 	    	data = {
-	    			linetypes : lineTypes.pageInfoResult,
-	    			length : lineTypes.totalRecord,
-	    			currentPage : lineTypes.currentPage,
-	    			totalPage : lineTypes.totalPage,
+	    			outQuotes : outQuotesPage.pageInfoResult,
+	    			length : outQuotesPage.totalRecord,
+	    			currentPage : outQuotesPage.currentPage,
+	    			totalPage : outQuotesPage.totalPage,
 	    			list : arrayObj
 	    	};
-	    	var lineTypesViewHtml = template("lineTypesTemplateView", data);
-	    	$("#lineTypesTable").html(lineTypesViewHtml);
+	    	var outQuotesViewHtml = template("outQuotesTemplateView", data);
+	    	$("#outQuotesTable").html(outQuotesViewHtml);
 	    	
-	    	
-	    	$("#addLineType").click(function(){
-	    		$("#addLineTypeModel").modal('show');
-	    	});
-	    	
-	    	$(".addLineTypeBtn").on("click", function(){
-	    		var name = $.trim($("#name").val());
-	    		var remark = $.trim($("#remark").val());
-	    		
-	    		if (name == null || name == '') {
-	    			alert("类型名称不能为空");
-	    			return ;
-	    		}
-	    		
-	    		$.ajax({
-	    			url : "${ctx}/linetype/addlinetype.html",
-	    			async : false,
-	    			type : 'POST',
-	    			cache:false,
-	    			data : {
-	    				name : name,
-	    	    		remark : remark
-	    			},
-	    			dataType : 'json',
-	    			timeout : 15000,
-	    			beforeSend : function() {
-    	    			$("#addLineTypeModel").modal('hide');
-	    			},
-	    			complete : function(XMLHttpRequest,textStatus) {
-	    				
-	    				
-	    			},
-	    			success : function(response) {
-	    				var json = eval(response);
-	    				if (0===json.status){
-	    					alert("添加成功");
-	                    } else if (1===json.status){
-	                        alert(json.message);
-	                    }
-	    				window.location.reload();
-	    			},
-	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
-	    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-	    				window.location.reload();
-	    			}
-	    		});
-	    	});
+	    	var listLine = ${listLine};
+	    	for (i = 0; i < listLine.length; i++) {
+	    		$('#lineid').append('<option value="' + listLine[i].id + '">'+ listLine[i].name + '</option>');
+    		} 
 	    	
         $("[rel=tooltip]").tooltip();
     /*     $(function() {
             $('.demo-cancel-click').click(function(){return false;});
         }); */
-        $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("linetypeid");
-    		$("#linetypeid").val(id);
-    		$("#deleteModal").modal('show');
+        $(".offerModelBtn").on("click", function(){
+    		var id = $(this).attr("outQuoteid");
+    		var primecost = $(this).attr("primecost");
+    		$("#outQuoteid").val(id);
+    		$("#primecost").val(primecost);
+    		$("#offerModel").modal('show');
     	});
     	
-		$("#deleteBtn").click(function(){
+		$(".offerBtn").click(function(){
     		
-    		var id = $("#linetypeid").val();
+    		var id = $("#outQuoteid").val();
+    		var offercost = $.trim($("#offercost").val());
+    		var remark = $.trim($("#remark").val());
+    		var primecost = $.trim($("#primecost").val());
+    		var grossprofit = offercost-primecost;
+    		
+    		if (offercost == null || offercost == ''){
+    			alert("对外报价不能为空");
+    			return ; 
+    		} else {
+    			var partn =/^[0-9]{0}([0-9]|[.])+$/; 
+    			if (!partn.test(offercost)){
+    				alert("金额只允许输入数字和小数点");
+	    			return ;
+    			}
+    		}
     		
     		$.ajax({
-    			url : "${ctx}/linetype/deletelinetype.html",
+    			url : "${ctx}/outquote/offercost.html",
     			async : false,
     			type : 'POST',
     			cache:false,
     			data : {
-    				id : id
+    				id : id,
+    				grossprofit : grossprofit,
+    				offercost : offercost,
+    				remark : remark
     			},
     			dataType : 'json',
     			timeout : 15000,
     			beforeSend : function() {
-    	    		$("#deleteModal").modal('hide');
+    	    		$("#offerModel").modal('hide');
     			},
     			complete : function(XMLHttpRequest,textStatus) {
     			},
     			success : function(response) {
     				var json = eval(response);
     				if (0===json.status){
-    					alert("删除成功！")
+    					alert("修改成功！")
                     } else if (1===json.status){
                         alert(json.message);
                     }
@@ -360,13 +352,17 @@
     				window.location.reload();
     			}
     		});
-	});
+		});
+		
     });
 	    
 	    
 	    
 	function dosearch(i){
     		
+
+		var lineid = $.trim($("#lineid").val());
+    	
     	if (i == null || i == '') {
     		i = 0;
     	}
@@ -377,24 +373,27 @@
     		i = parseInt($("#currentPage").val())+1;
     	}
    		$.ajax({
-   			url : "${ctx}/linetype/searchtype.html",
+   			url : "${ctx}/outquote/search.html",
    			async : false,
    			type : 'POST',
    			cache:false,
    			data : {
-   				currentPage : i
+   				currentPage : i,
+   				lineid : lineid
    			},
    			dataType : 'json',
    			timeout : 15000,
    			beforeSend : function() {
    			},
    			complete : function(XMLHttpRequest,textStatus) {
-				$(".deleteModelBtn").on("click", function(){
-		    		var id = $(this).attr("linetypeid");
-		    		$("#linetypeid").val(id);
-		    		$("#deleteModal").modal('show');
-		    	});
-				
+   				$(".offerModelBtn").on("click", function(){
+   		    		var id = $(this).attr("innerQuoteid");
+   		    		var primecost = $(this).attr("primecost");
+   		    		$("#innerQuoteid").val(id);
+   		    		$("#primecost").val(primecost);
+   		    		$("#offerModel").modal('show');
+   		    	});
+   				
    			},
    			success : function(response) {
    				var json = eval(response);
@@ -407,14 +406,14 @@
    			    		arrayObj[j] = j;
    			    	}
    			    	data = {
-   			    			linetypes : result.pageInfoResult,
+   			    			outQuotes : result.pageInfoResult,
    			    			length : result.totalRecord,
    			    			currentPage : result.currentPage,
    			    			totalPage : result.totalPage,
    			    			list : arrayObj
    			    	};
-   			    	var lineTypesViewHtml = template("lineTypesTemplateView", data);
-   			    	$("#lineTypesTable").html(lineTypesViewHtml);
+   			    	var outQuotesViewHtml = template("outQuotesTemplateView", data);
+   			    	$("#outQuotesTable").html(outQuotesViewHtml);
    					
 		    		$("#currentPage").val(i);
                    } else if (1===json.status){
@@ -435,15 +434,15 @@
 	function tickettype(){
 		window.location.href = "${ctx}/tickettype/index.html";
     }
-	function line(){
-		window.location.href = "${ctx}/line/index.html";
+	function linetype(){
+		window.location.href = "${ctx}/linetype/index.html";
     }
 	
 	function vehicle(){
 		window.location.href = "${ctx}/staff/index.html";
     }
-	function quote(){
-		window.location.href = "${ctx}/outquote/index.html";
+	function line(){
+		window.location.href = "${ctx}/line/index.html";
     }
 	
 </script>

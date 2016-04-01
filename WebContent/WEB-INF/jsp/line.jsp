@@ -116,6 +116,12 @@
 		            <li onclick=""><a><span class="fa fa-caret-right"></span>线路信息管理</a></li>
 			    </ul>
 		    </li>
+		    <li><a data-target=".quote-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">报价管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="quote-menu nav nav-list collapse in">
+		            <li onclick="quote();"><a><span class="fa fa-caret-right"></span>报价信息管理</a></li>
+			    </ul>
+		    </li>
 	    </ul>
     </div>
 
@@ -608,6 +614,9 @@
 	
 	function vehicle(){
 		window.location.href = "${ctx}/staff/index.html";
+    }
+	function quote(){
+		window.location.href = "${ctx}/outquote/index.html";
     }
 	
 </script>

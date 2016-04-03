@@ -11,20 +11,22 @@ import com.zyh.beautycits.service.line.LineShowService;
 import com.zyh.beautycits.vo.PageInfo;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
-import com.zyh.beautycits.vo.line.Line;
+import com.zyh.beautycits.vo.line.LineShow;
 
 @Service("lineShowService")
 public class LineShowServiceImpl extends BaseServiceImpl implements LineShowService{
 
 	@Autowired
-	private JdbcBaseDao<Line> lineDao;
+	private JdbcBaseDao<LineShow> lineShowDao;
 	
 	@Override
 	public ResultMsg getLinesShow(Integer currentPage, String name, Integer lineTypeid) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuffer sql = new StringBuffer("SELECT l.*, lt.name as linetype from line l LEFT JOIN linetype lt on lt.id = l.linetypeid ");
-		sql.append(" where l.deleteflg = 0 and l.ispublish = 1");
-		
+		StringBuffer sql = new StringBuffer("select l.`name` as linename, l.`day` as day, lt.`name` as linetype, gv.vehicletype as govehicleid, bv.vehicletype as backvehicleid, l.updatetime as publishtime from linedetail ld ");
+		sql.append("LEFT JOIN line l LEFT JOIN linetype lt on lt.id = l.linetypeid on l.id = ld.lineid ");
+		sql.append("LEFT JOIN vehicle gv on gv.id = ld.govehicleid ");
+		sql.append("LEFT JOIN vehicle bv on bv.id = ld.backvehicleid ");
+		sql.append("where l.deleteflg = 0 and l.ispublish = 1 ");
 		if (StringUtils.isNotBlank(name)) {
 			sql.append("and l.name like '%").append(name).append("%' ");
 		}
@@ -32,14 +34,14 @@ public class LineShowServiceImpl extends BaseServiceImpl implements LineShowServ
 			sql.append("and l.linetypeid = ").append(lineTypeid);
 		}
 		
-		PageInfo<Line> pageLine = new PageInfo<>();
-		pageLine.setPageSize(ConfigConstants.PAGESIZE);
-		pageLine.setCurrentPage(currentPage);
+		PageInfo<LineShow> pageLineShow = new PageInfo<>();
+		pageLineShow.setPageSize(ConfigConstants.PAGESIZE);
+		pageLineShow.setCurrentPage(currentPage);
 		StringBuffer countsql = new StringBuffer("select count(*) from (");
 		countsql.append(sql).append(") m");
-		pageLine = lineDao.getPageModel(pageLine, sql, countsql, Line.class);
+		pageLineShow = lineShowDao.getPageModel(pageLineShow, sql, countsql, LineShow.class);
 		resultMsg.setState(Results.SUCCESS);
-		resultMsg.setMsgEntity(pageLine);
+		resultMsg.setMsgEntity(pageLineShow);
 		return resultMsg;
 	}
 

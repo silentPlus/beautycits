@@ -387,9 +387,9 @@
    			},
    			complete : function(XMLHttpRequest,textStatus) {
    				$(".offerModelBtn").on("click", function(){
-   		    		var id = $(this).attr("innerQuoteid");
+   		    		var id = $(this).attr("outQuoteid");
    		    		var primecost = $(this).attr("primecost");
-   		    		$("#innerQuoteid").val(id);
+   		    		$("#outQuoteid").val(id);
    		    		$("#primecost").val(primecost);
    		    		$("#offerModel").modal('show');
    		    	});

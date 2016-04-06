@@ -45,4 +45,17 @@ public class LineShowServiceImpl extends BaseServiceImpl implements LineShowServ
 		return resultMsg;
 	}
 
+	@Override
+	public LineShow getLineDetail(Integer linedetailid) {
+		ResultMsg resultMsg = new ResultMsg();
+		StringBuffer sql = new StringBuffer("select l.`name` as linename, l.`day` as day, lt.`name` as linetype, gv.vehicletype as govehicleid, bv.vehicletype as backvehicleid, l.updatetime as publishtime from linedetail ld ");
+		sql.append("LEFT JOIN line l LEFT JOIN linetype lt on lt.id = l.linetypeid on l.id = ld.lineid ");
+		sql.append("LEFT JOIN vehicle gv on gv.id = ld.govehicleid ");
+		sql.append("LEFT JOIN vehicle bv on bv.id = ld.backvehicleid ");
+		sql.append("where ld=? ");
+		LineShow lineShow = lineShowDao.getJavaBean(sql.toString(), LineShow.class, linedetailid);
+		
+		return lineShow;
+	}
+
 }

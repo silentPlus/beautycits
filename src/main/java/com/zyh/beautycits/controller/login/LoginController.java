@@ -60,7 +60,7 @@ public class LoginController extends BaseController{
 		String url;
 		if (user.getUsertype() == 0) {
 			// 游客登录，跳转主页
-			url = getUrl_BizFunc("", "");
+			url = getUrl_BizFunc("lineshow", "index.html");
 			jsonPackage.setResult(url);
 			return jsonPackage;
 		}

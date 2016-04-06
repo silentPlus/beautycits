@@ -18,6 +18,7 @@ import com.zyh.beautycits.vo.JsonPackage;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
 import com.zyh.beautycits.vo.line.LineType;
+import com.zyh.beautycits.vo.user.User;
 
 @RestController
 @RequestMapping("lineshow")
@@ -32,7 +33,14 @@ public class LineShowController extends BaseController {
 	@RequestMapping(value = "/index.html")
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		// 判断是否登录
+		if (isLogin()) {
+			// 获取登录用户信息
+			User user = getSessionUser();
+			mav.addObject("user", user);
+		}
 		
+				
 		// 获取线路信息
 		ResultMsg resultMsg = lineShowService.getLinesShow(1, null, null);
 		if (resultMsg.getState() == Results.ERROR) {
@@ -43,6 +51,11 @@ public class LineShowController extends BaseController {
 		List<LineType> listLineType = lineTypeService.getAllLineType();
 		mav.addObject("listLineType", JSON.toJSONString(listLineType));
 		
+		// 一些链接
+		String url_logout = getUrl_BizFunc("logout", "dologout.html");
+		String url_editUser = getUrl_BizFunc("admin", "edituser.html");
+		mav.addObject("url_logout", url_logout);
+		mav.addObject("url_editUser", url_editUser);
 		mav.setViewName("/line_show");
         return mav;
     }

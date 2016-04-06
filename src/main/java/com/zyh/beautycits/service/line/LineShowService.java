@@ -2,6 +2,7 @@ package com.zyh.beautycits.service.line;
 
 import com.zyh.beautycits.service.base.BaseService;
 import com.zyh.beautycits.vo.ResultMsg;
+import com.zyh.beautycits.vo.line.LineShow;
 
 public interface LineShowService extends BaseService{
 	/**
@@ -10,4 +11,10 @@ public interface LineShowService extends BaseService{
 	 * @date 2016年3月23日 上午10:21:21
 	 */
 	public ResultMsg getLinesShow(Integer currentPage, String name, Integer lineTypeid);
+	
+	/**
+	 * 
+	 * getLineDetail(获取线路详细信息)
+	 */
+	public LineShow getLineDetail(Integer linedetailid);
 }

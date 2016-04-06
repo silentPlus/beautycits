@@ -38,6 +38,10 @@
         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
             color: #fff;
         }
+        .content{
+        	border-left: none;
+        	margin-right: 240px;
+        }
     </style>
 
     <script type="text/javascript">
@@ -75,21 +79,31 @@
         </div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
-          <ul id="main-menu" class="nav navbar-nav navbar-right">
-            <li class="dropdown hidden-xs">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> ${ user.username }
-                    <i class="fa fa-caret-down"></i>
-                </a>
-
-              <ul class="dropdown-menu">
-                <li><a tabindex="-1" href="${ url_editUser }">修改资料</a></li>
-                <li class="divider"></li>
-                <li><a tabindex="-1" href="${ url_logout }">注销</a></li>
-              </ul>
-            </li>
-          </ul>
-
+        	<c:if test="${user != null }">
+	          <ul id="main-menu" class="nav navbar-nav navbar-right">
+	            <li class="dropdown hidden-xs">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> ${ user.username }
+	                    <i class="fa fa-caret-down"></i>
+	                </a>
+	
+	              <ul class="dropdown-menu">
+	                <li><a tabindex="-1" href="${ url_editUser }">修改资料</a></li>
+	                <li class="divider"></li>
+	                <li><a tabindex="-1" href="${ url_logout }">注销</a></li>
+	              </ul>
+	            </li>
+	          </ul>
+			</c:if>
+			<c:if test="${user == null }">
+			  <ul onclick="login();"  id="main-menu" class="nav navbar-nav navbar-right">
+	            <li class="dropdown hidden-xs">
+	                <a class="dropdown-toggle" data-toggle="dropdown">
+                   		登录
+	                </a>
+	            </li>
+	          </ul>
+			</c:if>
         </div>
     </div>
     
@@ -102,13 +116,13 @@
 	            		<tr>
 	            			<td width="10%" align="right" style="border-top:none;">线路类型</td>
 	            			<td width="40%" align="left" style="border-top:none;">
-	            				<select id="linetypeid" class="form-control">
+	            				<select id="llinetypeid" class="form-control">
 	            					  <option value="" checked="checked">请选择</option>
            					    </select>
             				</td>
-            				<td style="border-top:none;">线路名称</td>
-	            			<td style="border-top:none;">
-	            				<input id="linename" />
+            				<td align="right" style="border-top:none;">线路名称</td>
+	            			<td align="left" style="border-top:none;">
+	            				<input id="linename" class="form-control" />
 	            			</td>
 	            		</tr>
 	            		<tr>
@@ -125,24 +139,30 @@
 			  <div id="lineShowsTable">
 			  <script id="lineShowsTemplateView" type="text/html">
 			  <div id="lineShow">
+				<table width="100%">
 			  {{ each lineShows as lineShow i }}
-			    <div class="post-summary">
-					<h3 style="margin-top:0px;">
-						<a href="">{{lineShow.linename}}</a>
-					</h>
-					<p class="text-sm">发布时间：{{lineShow.publishtime}}</p>
-					<p>
-						{{lineShow.linetype}}--{{lineShow.day}}天
-					</p>
-					<p>
-						去时交通：{{lineShow.govehicle}}天<br>
-						回时交通：{{lineShow.backvehicle}}天
-					</p>
-					<p>
-						<a class="btn btn-default btn-sm" href="">了解更多</a>
-					</p>
-				</div>
+				<tr>
+					<td style="border-bottom: 1px solid;padding-top:5px;">
+			    	  <div class="post-summary">
+						<h3 style="margin-top:0px;">
+							<a href="">{{lineShow.linetype}}--{{lineShow.linename}}</a>
+						</h2>
+						<p class="text-sm">发布时间：{{lineShow.publishtime}}</p>
+						<p>
+							天数：{{lineShow.day}}天
+						</p>
+						<p>
+							去时交通：{{lineShow.govehicle}}<br>
+							回时交通：{{lineShow.backvehicle}}
+						</p>
+						<p>
+							<a class="btn btn-default btn-sm" href="">了解更多</a>
+						</p>
+					  </div>
+					</td>
+				</tr>
 			  {{ /each }}
+				</table>
 			  </div>
 			
 			{{if length != 0}}
@@ -217,7 +237,7 @@
 	    	
 	    	var listLineType = ${listLineType};
 	    	for (i = 0; i < listLineType.length; i++) {
-	    		$('#linetypeid').append('<option value="' + listLineType[i].id + '">'+ listLineType[i].name + '</option>');
+	    		$('#llinetypeid').append('<option value="' + listLineType[i].id + '">'+ listLineType[i].name + '</option>');
     		} 
 	    	
 	    	$(".scheduleModelBtn").click(function(){
@@ -277,7 +297,8 @@
 	function dosearch(i){
     		
 
-		var lineid = $.trim($("#lineid").val());
+		var linetypeid = $.trim($("#llinetypeid").val());
+		var linename = $.trim($("#linename").val());
     	
     	if (i == null || i == '') {
     		i = 0;
@@ -295,7 +316,8 @@
    			cache:false,
    			data : {
    				currentPage : i,
-   				lineid : lineid
+   				linetypeid : linetypeid,
+   				linename : linename
    			},
    			dataType : 'json',
    			timeout : 15000,
@@ -335,6 +357,10 @@
    			}
    		});
    	}
+	
+	function login(){
+		window.location.href = "${ctx}/login/index.html";
+	}
 	
 </script>
     

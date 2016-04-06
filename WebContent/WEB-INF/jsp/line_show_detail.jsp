@@ -207,124 +207,19 @@
 				return	map[id];
 			});
         $("[rel=tooltip]").tooltip();
-    /*     $(function() {
-            $('.demo-cancel-click').click(function(){return false;});
-        }); */
-        $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("linedetailid");
-    		$("#linedetailid").val(id);
-    		$("#deleteModal").modal('show');
-    	});
-    	
-		$("#deleteBtn").click(function(){
-    		
-    		var id = $("#linedetailid").val();
-    		
-    		$.ajax({
-    			url : "${ctx}/linedetail/deletelinedetail.html",
-    			async : false,
-    			type : 'POST',
-    			cache:false,
-    			data : {
-    				id : id
-    			},
-    			dataType : 'json',
-    			timeout : 15000,
-    			beforeSend : function() {
-    	    		$("#deleteModal").modal('hide');
-    			},
-    			complete : function(XMLHttpRequest,textStatus) {
-    			},
-    			success : function(response) {
-    				var json = eval(response);
-    				if (0===json.status){
-    					alert("删除成功！")
-                    } else if (1===json.status){
-                        alert(json.message);
-                    }
-    				window.location.reload();
-    			},
-    			error : function(XMLHttpRequest, textStatus, errorThrown) {
-    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-    				window.location.reload();
-    			}
-    		});
-	});
-    });
 	    
-	    
-	    
-	function dosearch(i){
-    		
-
-		var linetypeid = $.trim($("#llinetypeid").val());
-		var linename = $.trim($("#linename").val());
-    	
-    	if (i == null || i == '') {
-    		i = 0;
-    	}
-    	if (i == -1) {
-    		i = parseInt($("#currentPage").val())-1;
-    	}
-    	if (i == -2) {
-    		i = parseInt($("#currentPage").val())+1;
-    	}
-   		$.ajax({
-   			url : "${ctx}/lineshow/search.html",
-   			async : false,
-   			type : 'POST',
-   			cache:false,
-   			data : {
-   				currentPage : i,
-   				linetypeid : linetypeid,
-   				linename : linename
-   			},
-   			dataType : 'json',
-   			timeout : 15000,
-   			beforeSend : function() {
-   			},
-   			complete : function(XMLHttpRequest,textStatus) {
-   			},
-   			success : function(response) {
-   				var json = eval(response);
-   				if (0===json.status){
-   					
-   					var result = json.result; 
-   					
-   			    	var arrayObj = new Array(result.totalPage);
-   			    	for (var j=0; j<result.totalPage; j++){
-   			    		arrayObj[j] = j;
-   			    	}
-   			    	data = {
-   			    			lineShows : result.pageInfoResult,
-   			    			length : result.totalRecord,
-   			    			currentPage : result.currentPage,
-   			    			totalPage : result.totalPage,
-   			    			list : arrayObj
-   			    	};
-   			    	var lineShowsViewHtml = template("lineShowsTemplateView", data);
-   			    	$("#lineShowsTable").html(lineShowsViewHtml);
-   					
-		    		$("#currentPage").val(i);
-                   } else if (1===json.status){
-                       alert(json.message);
-      				   window.location.reload();
-                   }
-   			},
-   			error : function(XMLHttpRequest, textStatus, errorThrown) {
-   				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-   				window.location.reload();
-   			}
-   		});
-   	}
-	
-	function login(){
-		window.location.href = "${ctx}/login/index.html";
-	}
-	
-	function back(){
-		window.history.back();
-	}
+	    });
+		function login(){
+			window.location.href = "${ctx}/login/index.html";
+		}
+		
+		function back(){
+			window.history.back();
+		}
+		
+		function baoming(id){
+			window.location.href = "${ctx}/travelquote/index.html?linedetailid=" + id;
+		}
 	
 </script>
     

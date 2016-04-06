@@ -195,24 +195,6 @@
 			</script>
 			</div>
 
-			<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			        <div class="modal-header">
-			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除线路规划信息</h3>
-			        </div>
-			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该线路规划信息?<br>操作不可恢复。</p>
-			        </div>
-			        <div class="modal-footer">
-			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button id="deleteBtn" class="btn btn-danger" data-dismiss="modal">删除</button>
-			        </div>
-			      </div>
-			    </div>
-			</div>
-			
         </div>
     </div>
 	<input type="hidden" id = "currentPage" value="1" />
@@ -241,56 +223,10 @@
 	    		$('#llinetypeid').append('<option value="' + listLineType[i].id + '">'+ listLineType[i].name + '</option>');
     		} 
 	    	
-	    	$(".scheduleModelBtn").click(function(){
-		    	var linedetailid = $(this).attr("linedetailid");
-		    	window.location.href = "${ctx}/schedule/index.html?linedetailid=" + linedetailid;
-	    	});
-	    	
-	    	
         $("[rel=tooltip]").tooltip();
     /*     $(function() {
             $('.demo-cancel-click').click(function(){return false;});
         }); */
-        $(".deleteModelBtn").on("click", function(){
-    		var id = $(this).attr("linedetailid");
-    		$("#linedetailid").val(id);
-    		$("#deleteModal").modal('show');
-    	});
-    	
-		$("#deleteBtn").click(function(){
-    		
-    		var id = $("#linedetailid").val();
-    		
-    		$.ajax({
-    			url : "${ctx}/linedetail/deletelinedetail.html",
-    			async : false,
-    			type : 'POST',
-    			cache:false,
-    			data : {
-    				id : id
-    			},
-    			dataType : 'json',
-    			timeout : 15000,
-    			beforeSend : function() {
-    	    		$("#deleteModal").modal('hide');
-    			},
-    			complete : function(XMLHttpRequest,textStatus) {
-    			},
-    			success : function(response) {
-    				var json = eval(response);
-    				if (0===json.status){
-    					alert("删除成功！")
-                    } else if (1===json.status){
-                        alert(json.message);
-                    }
-    				window.location.reload();
-    			},
-    			error : function(XMLHttpRequest, textStatus, errorThrown) {
-    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-    				window.location.reload();
-    			}
-    		});
-	});
     });
 	    
 	    
@@ -326,6 +262,9 @@
    			complete : function(XMLHttpRequest,textStatus) {
    				function getDetail(id) {
    					window.location.href = "${ctx}/lineshow/detail.html?linedetailid=" + id;
+   				}
+   				function baoming(id){
+   					window.location.href = "${ctx}/travelquote/index.html?linedetailid=" + id;
    				}
    			},
    			success : function(response) {

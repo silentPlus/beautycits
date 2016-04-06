@@ -3,8 +3,8 @@ package com.zyh.beautycits.vo.quote;
 public class TravelQuote {
 	private Integer id;
 	private Integer userid;
-	private Integer lineid;
-	private String cost;
+	private Integer linedetailid;
+	private Integer iscost;
 	private String remark;
 	private String createtime;
 	private String updatetime;
@@ -20,17 +20,17 @@ public class TravelQuote {
 	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
-	public Integer getLineid() {
-		return lineid;
+	public Integer getLinedetailid() {
+		return linedetailid;
 	}
-	public void setLineid(Integer lineid) {
-		this.lineid = lineid;
+	public void setLinedetailid(Integer linedetailid) {
+		this.linedetailid = linedetailid;
 	}
-	public String getCost() {
-		return cost;
+	public Integer getIscost() {
+		return iscost;
 	}
-	public void setCost(String cost) {
-		this.cost = cost;
+	public void setIscost(Integer iscost) {
+		this.iscost = iscost;
 	}
 	public String getRemark() {
 		return remark;
@@ -52,7 +52,7 @@ public class TravelQuote {
 	}
 	@Override
 	public String toString() {
-		return "TravelQuote [id=" + id + ", userid=" + userid + ", lineid=" + lineid + ", cost=" + cost + ", remark="
-				+ remark + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
+		return "TravelQuote [id=" + id + ", userid=" + userid + ", linedetailid=" + linedetailid + ", iscost=" + iscost
+				+ ", remark=" + remark + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
 	}
 }

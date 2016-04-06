@@ -1,6 +1,7 @@
 package com.zyh.beautycits.controller.line;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,10 @@ import com.zyh.beautycits.service.line.LineTypeService;
 import com.zyh.beautycits.vo.JsonPackage;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
+import com.zyh.beautycits.vo.line.LineShow;
 import com.zyh.beautycits.vo.line.LineType;
+import com.zyh.beautycits.vo.line.Schedule;
+import com.zyh.beautycits.vo.line.ScheduleTicket;
 import com.zyh.beautycits.vo.user.User;
 
 @RestController
@@ -74,5 +78,34 @@ public class LineShowController extends BaseController {
 		}
 		jsonPackage.setResult(resultMsg.getMsgEntity());
 		return jsonPackage;
+    }
+	
+	@RequestMapping(value = "/detail.html")
+    public ModelAndView detail(HttpServletRequest request, HttpServletResponse response, Integer linedetailid) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		// 判断是否登录
+		if (isLogin()) {
+			// 获取登录用户信息
+			User user = getSessionUser();
+			mav.addObject("user", user);
+		}
+				
+		// 获取线路信息
+		LineShow lineShow = lineShowService.getLineDetail(linedetailid);
+		mav.addObject("lineShow", lineShow);
+		
+		List<Schedule> listSchedule = lineShowService.getSchedule(linedetailid);
+		mav.addObject("listSchedule", JSON.toJSONString(listSchedule));
+		
+		Map<Integer, List<ScheduleTicket>> map = lineShowService.getTicket(linedetailid);
+		mav.addObject("mapTicket", JSON.toJSONString(map));
+		
+		// 一些链接
+		String url_logout = getUrl_BizFunc("logout", "dologout.html");
+		String url_editUser = getUrl_BizFunc("admin", "edituser.html");
+		mav.addObject("url_logout", url_logout);
+		mav.addObject("url_editUser", url_editUser);
+		mav.setViewName("/line_show_detail");
+        return mav;
     }
 }

@@ -109,25 +109,31 @@
     
     <div class="content">
         <div class="main-content">
-            
+            <button onclick="back();" class="btn btn-default">返回</button>
 			<div class="btn-toolbar list-toolbar">
 				<div>
 	            	<table class="table" style="text-align:center;">
 	            		<tr>
-	            			<td width="10%" align="right" style="border-top:none;">线路类型</td>
-	            			<td width="40%" align="left" style="border-top:none;">
-	            				<select id="llinetypeid" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-           					    </select>
+	            			<td width="25%" align="left" style="border-top:none;">
+	            				${lineShow.linetype}--${lineShow.linename}
             				</td>
-            				<td align="right" style="border-top:none;">线路名称</td>
+	            			<td width="25%" align="left" style="border-top:none;">
+	            				天数：${lineShow.day}天
+            				</td>
+           				</tr>
+           				<tr>
+            				<td align="left" style="border-top:none;">
+            					去时交通：${lineShow.govehicle}
+            				</td>
 	            			<td align="left" style="border-top:none;">
-	            				<input id="linename" class="form-control" />
+	            				回时交通：${lineShow.backvehicle}
 	            			</td>
 	            		</tr>
 	            		<tr>
-	            			<td rowspan="4" align="right" style="border-top:none;">
-	            				<button onclick="dosearch(1);" class="btn btn-default">查询</button>
+	            			<td style="border-top:none;">
+	            			</td>
+	            			<td style="border-top:none;">
+	            				<button onclick="baoming(${lineShow.id});" class="btn btn-default">报名</button>
 	            			</td>
 	            		</tr>
 	            	</table>
@@ -136,28 +142,40 @@
 		  		</div>
 			</div>
 			
-			  <div id="lineShowsTable">
-			  <script id="lineShowsTemplateView" type="text/html">
+			  <div id="lineShowDetailsTable">
+			  <script id="lineShowDetailsTemplateView" type="text/html">
 			  <div id="lineShow">
 				<table width="100%">
-			  {{ each lineShows as lineShow i }}
+			  {{ each listSchedule as schedule i }}
 				<tr>
 					<td style="border-bottom: 1px solid;padding-top:5px;">
 			    	  <div class="post-summary">
-						<h2 style="margin-top:0px;">
-							<a onclick="getDetail({{lineShow.id}});">{{lineShow.linetype}}--{{lineShow.linename}}</a>
-						</h2>
-						<p class="text-sm">发布时间：{{lineShow.publishtime}}</p>
+						<h3 style="margin-top:0px;">
+							第{{schedule.day}}天
+						</h3>
 						<p>
-							天数：{{lineShow.day}}天
+							{{ if schedule.morestaurant != null && schedule.morestaurant != '' }}
+							早饭：{{schedule.morestaurant}}<br>
+							{{/if}}
+							{{ if schedule.lurestaurant != null && schedule.lurestaurant != '' }}
+							午饭：{{schedule.lurestaurant}}<br>
+							{{/if}}
+							{{ if schedule.direstaurant != null && schedule.direstaurant != '' }}
+							晚饭：{{schedule.direstaurant}}<br>
+							{{/if}}
 						</p>
 						<p>
-							去时交通：{{lineShow.govehicle}}<br>
-							回时交通：{{lineShow.backvehicle}}
+							{{ if schedule.hotel != null && schedule.hotel != '' }}
+							住宿：{{schedule.hotel}}<br>
+							{{/if}}
+							{{ if schedule.bus != null && schedule.bus != '' }}
+							用车：{{schedule.bus}}
+							{{/if}}
 						</p>
 						<p>
-							<a class="btn btn-default btn-sm" onclick="getDetail({{lineShow.id}});">了解更多</a>
-							<a class="btn btn-default btn-sm" onclick="baoming({{lineShow.id}});">报名</a>
+						{{ each mapTicket[schedule.id] as scheduleTicket }}
+							门票：{{scheduleTicket.ticket}}
+						{{/each}}
 						</p>
 					  </div>
 					</td>
@@ -166,87 +184,28 @@
 				</table>
 			  </div>
 			
-			{{if length != 0}}
-			<div align = "right">
-			<ul class="pagination">
-				{{ if currentPage == 1 }}
-  				<li><a style="display:none;">&laquo;</a></li>
-				{{ /if }}
-				{{ if currentPage != 1 }}
-  				<li><a onclick="javascript:dosearch(-1)">&laquo;</a></li>
-				{{ /if }}
-				{{ each list as val i }}
-				{{ if currentPage == i+1 }}
-  				<li><a style="color:#444;">{{i+1}}</a></li>
-				{{ /if}}
-				{{ if currentPage != i+1 }}
-  				<li><a onclick="javascript:dosearch({{i+1}})">{{i+1}}</a></li>
-				{{ /if}}
-				{{ /each }}
-				{{ if currentPage == totalPage }}
-  				<li><a style="display:none;">&raquo;</a></li>
-				{{ /if }}
-				{{ if currentPage != totalPage }}
-  				<li><a onclick="javascript:dosearch(-2)">&raquo;</a></li>
-				{{ /if }}
-			</ul> 
-			</div>
-			{{/if}}
 			</script>
 			</div>
 
-			<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			        <div class="modal-header">
-			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">删除线路规划信息</h3>
-			        </div>
-			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定删除该线路规划信息?<br>操作不可恢复。</p>
-			        </div>
-			        <div class="modal-footer">
-			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button id="deleteBtn" class="btn btn-danger" data-dismiss="modal">删除</button>
-			        </div>
-			      </div>
-			    </div>
-			</div>
-			
         </div>
     </div>
-	<input type="hidden" id = "currentPage" value="1" />
-	<input type="hidden" id = "linetypeid" value="" />
+	<input type="hidden" id = "linedetailid" value="${lineShow.id }" />
 
     <script type="text/javascript">
 	    $(function(){
 			
-	    	var lineShowsPage = ${lineShowsPage};
-	    	var arrayObj = new Array(lineShowsPage.totalPage);
-	    	for (var i=0; i<lineShowsPage.totalPage; i++){
-	    		arrayObj[i] = i;
-	    	}
+	    	var listSchedule = ${listSchedule};
+	    	var mapTicket = ${mapTicket};
 	    	data = {
-	    			lineShows : lineShowsPage.pageInfoResult,
-	    			length : lineShowsPage.totalRecord,
-	    			currentPage : lineShowsPage.currentPage,
-	    			totalPage : lineShowsPage.totalPage,
-	    			list : arrayObj
+	    			listSchedule : listSchedule,
+	    			mapTicket : mapTicket
 	    	};
-	    	var lineShowsViewHtml = template("lineShowsTemplateView", data);
-	    	$("#lineShowsTable").html(lineShowsViewHtml);
-	    	
-	    	var listLineType = ${listLineType};
-	    	for (i = 0; i < listLineType.length; i++) {
-	    		$('#llinetypeid').append('<option value="' + listLineType[i].id + '">'+ listLineType[i].name + '</option>');
-    		} 
-	    	
-	    	$(".scheduleModelBtn").click(function(){
-		    	var linedetailid = $(this).attr("linedetailid");
-		    	window.location.href = "${ctx}/schedule/index.html?linedetailid=" + linedetailid;
-	    	});
-	    	
-	    	
+	    	console.log(data);
+	    	var lineShowDetailsViewHtml = template("lineShowDetailsTemplateView", data);
+	    	$("#lineShowDetailsTable").html(lineShowDetailsViewHtml);
+	    	template.helper('getTicketList', function (map,id) {
+				return	map[id];
+			});
         $("[rel=tooltip]").tooltip();
     /*     $(function() {
             $('.demo-cancel-click').click(function(){return false;});
@@ -297,6 +256,7 @@
 	    
 	function dosearch(i){
     		
+
 		var linetypeid = $.trim($("#llinetypeid").val());
 		var linename = $.trim($("#linename").val());
     	
@@ -324,9 +284,6 @@
    			beforeSend : function() {
    			},
    			complete : function(XMLHttpRequest,textStatus) {
-   				function getDetail(id) {
-   					window.location.href = "${ctx}/lineshow/detail.html?linedetailid=" + id;
-   				}
    			},
    			success : function(response) {
    				var json = eval(response);
@@ -361,16 +318,12 @@
    		});
    	}
 	
-	function getDetail(id) {
-		window.location.href = "${ctx}/lineshow/detail.html?linedetailid=" + id;
-	}
-	
 	function login(){
 		window.location.href = "${ctx}/login/index.html";
 	}
 	
-	function baoming(id){
-		window.location.href = "${ctx}/travelquote/index.html?linedetailid=" + id;
+	function back(){
+		window.history.back();
 	}
 	
 </script>

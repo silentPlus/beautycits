@@ -4,10 +4,24 @@ public class TravelQuote {
 	private Integer id;
 	private Integer userid;
 	private Integer linedetailid;
-	private Integer iscost;
+	private Integer iscost;   // 0:未交费；1：已缴费，订单进行中；2：已结束
+	private Integer num;
 	private String remark;
 	private String createtime;
 	private String updatetime;
+	private String time;
+	public Integer getNum() {
+		return num;
+	}
+	public void setNum(Integer num) {
+		this.num = num;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -53,6 +67,7 @@ public class TravelQuote {
 	@Override
 	public String toString() {
 		return "TravelQuote [id=" + id + ", userid=" + userid + ", linedetailid=" + linedetailid + ", iscost=" + iscost
-				+ ", remark=" + remark + ", createtime=" + createtime + ", updatetime=" + updatetime + "]";
+				+ ", num=" + num + ", remark=" + remark + ", createtime=" + createtime + ", updatetime=" + updatetime
+				+ ", time=" + time + "]";
 	}
 }

@@ -110,6 +110,7 @@
     
     <div class="content">
         <div class="main-content">
+            <button onclick="lineshow();" class="btn btn-default">首页</button>
             <button onclick="back();" class="btn btn-default">返回</button>
 			<div class="btn-toolbar list-toolbar">
 				<div>
@@ -134,7 +135,8 @@
 	            			<td style="border-top:none;">
 	            			</td>
 	            			<td style="border-top:none;">
-	            				<button onclick="baoming(${lineShow.id});" class="btn btn-default">报名</button>
+	            				<button id = "addTravelUser" class="btn btn-default">添加人员</button>
+	            				<button id = "toTravelQuote" class="btn btn-default">去交费</button>
 	            			</td>
 	            		</tr>
 	            	</table>
@@ -143,51 +145,60 @@
 		  		</div>
 			</div>
 			
-			  <div id="lineShowDetailsTable">
-			  <script id="lineShowDetailsTemplateView" type="text/html">
-			  <div id="lineShow">
-				<table width="100%">
-			  {{ each listSchedule as schedule i }}
-				<tr>
-					<td style="border-bottom: 1px solid;padding-top:5px;">
-			    	  <div class="post-summary">
-						<h3 style="margin-top:0px;">
-							第{{schedule.day}}天
-						</h3>
-						<p>
-							{{ if schedule.morestaurant != null && schedule.morestaurant != '' }}
-							早饭：{{schedule.morestaurant}}<br>
-							{{/if}}
-							{{ if schedule.lurestaurant != null && schedule.lurestaurant != '' }}
-							午饭：{{schedule.lurestaurant}}<br>
-							{{/if}}
-							{{ if schedule.direstaurant != null && schedule.direstaurant != '' }}
-							晚饭：{{schedule.direstaurant}}<br>
-							{{/if}}
-						</p>
-						<p>
-							{{ if schedule.hotel != null && schedule.hotel != '' }}
-							住宿：{{schedule.hotel}}<br>
-							{{/if}}
-							{{ if schedule.bus != null && schedule.bus != '' }}
-							用车：{{schedule.bus}}
-							{{/if}}
-						</p>
-						<p>
-						{{ each mapTicket[schedule.id] as scheduleTicket }}
-							门票：{{scheduleTicket.ticket}}
-						{{/each}}
-						</p>
-					  </div>
-					</td>
-				</tr>
+			  <div id="travelUsersTable">
+			  <script id="travelUsersTemplateView" type="text/html">
+			  <table class="table" style="text-align:center;">
+			  <thead>
+			    <tr>
+			      <th style="width:3%;text-align: center;">#</th>
+			      <th style="width:20%;text-align: center;">姓名</th>
+			      <th style="width:20%;text-align: center;">年龄</th>
+			      <th style="width:20%;text-align: center;">操作</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  {{ each travelUsers as travelUser i }}
+			    <tr>
+			      <td>{{i + 1}}</td>
+			      <td>{{travelUser.name}}</td>
+			      <td>{{travelUser.age}}</td>
+				  <td><a class="delTravelUser" id="{{travelUser.id}}"><i class="fa fa-trash-o"></i></a></td>
+			    </tr>
 			  {{ /each }}
-				</table>
-			  </div>
-			
+			  </tbody>
+			</table>
 			</script>
 			</div>
-
+			
+			<div class="modal small fade" id="addTravelUserModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" >
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="myModalLabel">添加人员信息</h3>
+			        </div>
+			        <div class="modal-body">
+			            <table class="table" style="text-align:center;">
+		            		<tr>
+		            			<td align="right" style="border-top:none;">姓名</td>
+		            			<td align="left" style="border-top:none;">
+		            				<input type="text" id="name" class="form-control">
+		            			</td>
+		            			<td align="right" style="border-top:none;">年龄</td>
+		            			<td style="border-top:none;">
+		            				<input type="text" id="age" class="form-control">
+		            			</td>
+		            		</tr>
+		            	</table>
+			        </div>
+			        <div class="modal-footer">
+			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+			            <button class="btn btn-danger addTravelUserBtn" data-dismiss="modal">确定</button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
+			
         </div>
     </div>
 	<input type="hidden" id = "linedetailid" value="${lineShow.id }" />
@@ -195,20 +206,106 @@
     <script type="text/javascript">
 	    $(function(){
 			
-	    	var listSchedule = ${listSchedule};
-	    	var mapTicket = ${mapTicket};
+	    	var travelUsers = ${listTravelUser};
 	    	data = {
-	    			listSchedule : listSchedule,
-	    			mapTicket : mapTicket
+	    			travelUsers : travelUsers
 	    	};
-	    	console.log(data);
-	    	var lineShowDetailsViewHtml = template("lineShowDetailsTemplateView", data);
-	    	$("#lineShowDetailsTable").html(lineShowDetailsViewHtml);
-	    	template.helper('getTicketList', function (map,id) {
-				return	map[id];
-			});
+	    	//console.log(data);
+	    	var travelUsersViewHtml = template("travelUsersTemplateView", data);
+	    	$("#travelUsersTable").html(travelUsersViewHtml);
+	    	
         $("[rel=tooltip]").tooltip();
 	    
+        $(".delTravelUser").on("click", function(){
+        	var id = $(this).attr("id");
+			$.ajax({
+    			url : "${ctx}/traveluser/deletetravleuser.html",
+    			async : false,
+    			type : 'POST',
+    			cache:false,
+    			data : {
+    				id : id
+    			},
+    			dataType : 'json',
+    			timeout : 15000,
+    			beforeSend : function() {
+    			},
+    			complete : function(XMLHttpRequest,textStatus) {
+    			},
+    			success : function(response) {
+    				var json = eval(response);
+    				if (0===json.status){
+    					alert("删除成功");
+                    } else if (1===json.status){
+                        alert(json.message);
+                    }
+    				window.location.reload();
+    			},
+    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+    				window.location.reload();
+    			}
+    		});
+		});
+        
+        $("#addTravelUser").click(function(){
+	    	$("#addTravelUserModel").modal("show");
+    	});
+        
+        $(".addTravelUserBtn").on("click", function(){
+    		var name = $.trim($("#name").val());
+    		var age = $.trim($("#age").val());
+    		var linedetailid = $("#linedetailid").val();
+    		
+    		if (name == null || name == '') {
+    			alert("请填写游客姓名");
+    			return ;
+    		}
+    		if (age == null || age == '') {
+    			alert("请填写游客年龄");
+    			return ;
+    		} else {
+    			var partn =/^[0-9]*[1-9][0-9]*$/; 
+    			if (!partn.test(age)){
+    				alert("年龄只允许输入整数");
+	    			return ;
+    			}
+    		}
+    		
+    		$.ajax({
+    			url : "${ctx}/traveluser/addtraveluser.html",
+    			async : false,
+    			type : 'POST',
+    			cache:false,
+    			data : {
+    				name : name,
+    	    		age : age,
+    	    		linedetailid : linedetailid
+    			},
+    			dataType : 'json',
+    			timeout : 15000,
+    			beforeSend : function() {
+	    			$("#addTravelUserModel").modal('hide');
+    			},
+    			complete : function(XMLHttpRequest,textStatus) {
+    			},
+    			success : function(response) {
+    				var json = eval(response);
+    				if (0===json.status){
+    					alert("添加成功");
+                    } else if (1===json.status){
+                        alert(json.message);
+                    }
+    				window.location.reload();
+    			},
+    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
+    				window.location.reload();
+    			}
+    		});
+    		
+    	});
+        
 	    });
 		function login(){
 			window.location.href = "${ctx}/login/index.html";
@@ -219,7 +316,11 @@
 		}
 		
 		function baoming(id){
-			window.location.href = "${ctx}/traveluser/index.html?linedetailid=" + id;
+			window.location.href = "${ctx}/travelquote/index.html?linedetailid=" + id;
+		}
+		
+		function lineshow(){
+			window.location.href = "${ctx}/lineshow/index.html";
 		}
 	
 </script>

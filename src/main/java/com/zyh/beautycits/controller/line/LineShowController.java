@@ -58,8 +58,10 @@ public class LineShowController extends BaseController {
 		// 一些链接
 		String url_logout = getUrl_BizFunc("logout", "dologout.html");
 		String url_editUser = getUrl_BizFunc("admin", "edituser.html");
+		String url_dingdan = getUrl_BizFunc("travelquote", "index.html");
 		mav.addObject("url_logout", url_logout);
 		mav.addObject("url_editUser", url_editUser);
+		mav.addObject("url_dingdan", url_dingdan);
 		mav.setViewName("/line_show");
         return mav;
     }

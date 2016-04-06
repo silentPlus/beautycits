@@ -89,6 +89,7 @@
 	
 	              <ul class="dropdown-menu">
 	                <li><a tabindex="-1" href="${ url_editUser }">修改资料</a></li>
+	                <li><a tabindex="-1" href="${ url_dingdan }">订单管理</a></li>
 	                <li class="divider"></li>
 	                <li><a tabindex="-1" href="${ url_logout }">注销</a></li>
 	              </ul>
@@ -309,7 +310,7 @@
 	}
 	
 	function baoming(id){
-		window.location.href = "${ctx}/travelquote/index.html?linedetailid=" + id;
+		window.location.href = "${ctx}/traveluser/index.html?linedetailid=" + id;
 	}
 	
 </script>

@@ -1,4 +1,4 @@
-package com.zyh.beautycits.vo.quote;
+package com.zyh.beautycits.vo.travel;
 
 public class TravelQuote {
 	private Integer id;

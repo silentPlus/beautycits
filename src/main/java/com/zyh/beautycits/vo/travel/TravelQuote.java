@@ -3,6 +3,7 @@ package com.zyh.beautycits.vo.travel;
 public class TravelQuote {
 	private Integer id;
 	private Integer userid;
+	private String linename;
 	private Integer linedetailid;
 	private Integer iscost;   // 0:未交费；1：已缴费，订单进行中；2：已结束
 	private Integer num;
@@ -10,6 +11,12 @@ public class TravelQuote {
 	private String createtime;
 	private String updatetime;
 	private String time;
+	public String getLinename() {
+		return linename;
+	}
+	public void setLinename(String linename) {
+		this.linename = linename;
+	}
 	public Integer getNum() {
 		return num;
 	}
@@ -66,8 +73,8 @@ public class TravelQuote {
 	}
 	@Override
 	public String toString() {
-		return "TravelQuote [id=" + id + ", userid=" + userid + ", linedetailid=" + linedetailid + ", iscost=" + iscost
-				+ ", num=" + num + ", remark=" + remark + ", createtime=" + createtime + ", updatetime=" + updatetime
-				+ ", time=" + time + "]";
+		return "TravelQuote [id=" + id + ", userid=" + userid + ", linename=" + linename + ", linedetailid="
+				+ linedetailid + ", iscost=" + iscost + ", num=" + num + ", remark=" + remark + ", createtime="
+				+ createtime + ", updatetime=" + updatetime + ", time=" + time + "]";
 	}
 }

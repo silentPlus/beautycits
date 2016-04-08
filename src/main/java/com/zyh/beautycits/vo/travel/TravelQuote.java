@@ -11,6 +11,13 @@ public class TravelQuote {
 	private String createtime;
 	private String updatetime;
 	private String time;
+	private String state;
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public String getLinename() {
 		return linename;
 	}
@@ -52,6 +59,11 @@ public class TravelQuote {
 	}
 	public void setIscost(Integer iscost) {
 		this.iscost = iscost;
+		switch(iscost){
+		case 0 : this.state = "未交费";break;
+		case 1 : this.state = "进行中";break;
+		case 2 : this.state = "已结束";break;
+		}
 	}
 	public String getRemark() {
 		return remark;
@@ -75,6 +87,6 @@ public class TravelQuote {
 	public String toString() {
 		return "TravelQuote [id=" + id + ", userid=" + userid + ", linename=" + linename + ", linedetailid="
 				+ linedetailid + ", iscost=" + iscost + ", num=" + num + ", remark=" + remark + ", createtime="
-				+ createtime + ", updatetime=" + updatetime + ", time=" + time + "]";
+				+ createtime + ", updatetime=" + updatetime + ", time=" + time + ", state=" + state + "]";
 	}
 }

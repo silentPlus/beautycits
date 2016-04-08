@@ -315,9 +315,9 @@
 			window.history.back();
 		}
 		
-		function baoming(id){
-			window.location.href = "${ctx}/travelquote/index.html?linedetailid=" + id;
-		}
+		$("#toTravelQuote").on("click", function(){
+			window.location.href = "${ctx}/travelquote/index.html";
+		});
 		
 		function lineshow(){
 			window.location.href = "${ctx}/lineshow/index.html";

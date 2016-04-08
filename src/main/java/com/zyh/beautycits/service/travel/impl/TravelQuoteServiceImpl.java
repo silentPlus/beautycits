@@ -26,7 +26,7 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 		sql.append("where tq.userid = ? ");
 		
 		if (iscost != null) {
-			sql.append("and tq.iscost = 0 ").append(iscost);
+			sql.append("and tq.iscost = ").append(iscost);
 		}
 		sql.append(" ORDER BY tq.iscost, tq.updatetime desc");
 		PageInfo<TravelQuote> pageTravelQuote = new PageInfo<>();

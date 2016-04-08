@@ -45,21 +45,31 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 	}
 
 	@Override
-	public ResultMsg quoteTravel(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultMsg quoteTravel(Integer id, String time) {
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "UPDATE travelquote tq set tq.iscost = 1, tq.time=?, tq.updatetime=now() where tq.id=?";
+		int num = travelQuoteDao.commonUpdate(sql, time, id);
+		if (num == 1) {
+			sql = "update traveluser tu set tu.ispublish = 1 where tu.travelquoteid = ?";
+			num = travelQuoteDao.commonUpdate(sql, id);
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
 	}
 
 	@Override
 	public ResultMsg delTravelQuote(Integer id) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "delete from";
-		int num = lineDetailDao.commonUpdate(sql, id);
+		String sql = "delete from travelquote where id=?";
+		int num = travelQuoteDao.commonUpdate(sql, id);
 		if (num == 1) {
-			sql = "delete from innerquote where linedetailid = ?";
-			num = lineDetailDao.commonUpdate(sql, id);
+			sql = "delete from traveluser where travelquoteid = ?";
+			num = travelQuoteDao.commonUpdate(sql, id);
 			if (num != 1) {
-				logger.error("删除对内报价失败！sql:" + sql + ", linedetailid:" + id);
+				logger.error("删除用户报名表信息失败！sql:" + sql + ", travelquoteid:" + id);
 			}
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;

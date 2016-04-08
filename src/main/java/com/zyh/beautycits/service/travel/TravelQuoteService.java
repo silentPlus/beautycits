@@ -15,7 +15,7 @@ public interface TravelQuoteService extends BaseService{
 	 * 
 	 * quoteTravel(缴费报名)
 	 */
-	public ResultMsg quoteTravel(Integer id);
+	public ResultMsg quoteTravel(Integer id, String time);
 	
 	/**
 	 * 

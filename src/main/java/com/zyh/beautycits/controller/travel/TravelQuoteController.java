@@ -70,4 +70,47 @@ public class TravelQuoteController extends BaseController{
 		return jsonPackage;
     }
 	
+	@RequestMapping(value = "/quotetravel.html")
+    public JsonPackage quoteTravel(HttpServletRequest request, HttpServletResponse response, Integer id, 
+    		String time){
+		JsonPackage jsonPackage = new JsonPackage();
+		// 判断是否登录
+		if (!isLogin()) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage("请先登录");
+			return jsonPackage;
+		}
+		
+		ResultMsg resultMsg =  travelQuoteService.quoteTravel(id, time);
+		
+		if (resultMsg.getState() == Results.ERROR) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage(resultMsg.getMsg());
+			return jsonPackage;
+		}
+		jsonPackage.setResult(resultMsg.getMsgEntity());
+		return jsonPackage;
+    }
+	
+	@RequestMapping(value = "/deltravelquote.html")
+    public JsonPackage delTravelQuote(HttpServletRequest request, HttpServletResponse response, Integer id){
+		JsonPackage jsonPackage = new JsonPackage();
+		// 判断是否登录
+		if (!isLogin()) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage("请先登录");
+			return jsonPackage;
+		}
+		
+		ResultMsg resultMsg =  travelQuoteService.delTravelQuote(id);
+		
+		if (resultMsg.getState() == Results.ERROR) {
+			jsonPackage.setStatus(1);
+			jsonPackage.setMessage(resultMsg.getMsg());
+			return jsonPackage;
+		}
+		jsonPackage.setResult(resultMsg.getMsgEntity());
+		return jsonPackage;
+    }
+	
 }

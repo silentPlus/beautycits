@@ -54,7 +54,7 @@ public class TravelUserController extends BaseController{
 		mav.addObject("url_logout", url_logout);
 		mav.addObject("url_editUser", url_editUser);
 		mav.addObject("url_dingdan", url_dingdan);
-		mav.setViewName("/travelquote");
+		mav.setViewName("/traveluser");
         return mav;
     }
 	

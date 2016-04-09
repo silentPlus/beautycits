@@ -5,9 +5,16 @@ public class TravelUser {
 	private Integer linedetailid;
 	private Integer travelquoteid;
 	private String name;
+	private String time;
 	private Integer age;
 	private Integer ispublish;
 	private String createtime;
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -53,7 +60,7 @@ public class TravelUser {
 	@Override
 	public String toString() {
 		return "TravelUser [id=" + id + ", linedetailid=" + linedetailid + ", travelquoteid=" + travelquoteid
-				+ ", name=" + name + ", age=" + age + ", ispublish=" + ispublish + ", createtime=" + createtime + "]";
+				+ ", name=" + name + ", time=" + time + ", age=" + age + ", ispublish=" + ispublish + ", createtime="
+				+ createtime + "]";
 	}
-	
 }

@@ -94,36 +94,43 @@
     
      <div class="sidebar-nav">
 	    <ul>
-		    <li><a data-target=".vehicle-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">交通管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".hotel-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">宾馆管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
-			    <ul class="vehicle-menu nav nav-list collapse in">
-		            <li onclick="vehicle();"><a><span class="fa fa-caret-right"></span>交通信息管理</a></li>
+			    <ul class="hotel-menu nav nav-list collapse in">
+		            <li onclick="hotel();"><a><span class="fa fa-caret-right"></span>宾馆信息管理</a></li>
+		            <li onclick="hoteltype();"><a><span class="fa fa-caret-right"></span>宾馆类型管理</a></li>
 			    </ul>
 		    </li>
-		    <li><a data-target=".ticket-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">门票管理<i class="fa fa-collapse"></i></a></li>
+		    <li><a data-target=".restaurant-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">餐饮管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
-			    <ul class="ticket-menu nav nav-list collapse in">
-		            <li onclick="ticket();"><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
-		            <li onclick="tickettype();"><a><span class="fa fa-caret-right"></span>门票类型管理</a></li>
+			    <ul class="restaurant-menu nav nav-list collapse in">
+		            <li onclick="restaurant();"><a><span class="fa fa-caret-right"></span>饭店信息管理</a></li>
+		            <li onclick="restauranttype();"><a><span class="fa fa-caret-right"></span>饭店类型管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".bus-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">车辆管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="bus-menu nav nav-list collapse in">
+		            <li onclick="bus();"><a><span class="fa fa-caret-right"></span>车辆信息管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".guide-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">导游管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="guide-menu nav nav-list collapse in">
+		            <li onclick="guide();"><a><span class="fa fa-caret-right"></span>导游信息管理</a></li>
 			    </ul>
 		    </li>
 		    <li><a data-target=".line-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">线路管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="line-menu nav nav-list collapse in">
-		            <li onclick="linetype();"><a><span class="fa fa-caret-right"></span>线路类型管理</a></li>
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>线路信息管理</a></li>
-			    </ul>
-		    </li>
-		    <li><a data-target=".quote-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">报价管理<i class="fa fa-collapse"></i></a></li>
-		    <li>
-			    <ul class="quote-menu nav nav-list collapse in">
-		            <li onclick="quote();"><a><span class="fa fa-caret-right"></span>报价信息管理</a></li>
+		            <li onclick="linedetail();"><a><span class="fa fa-caret-right"></span>线路规划管理</a></li>
+		            <li onclick="innerquote();"><a><span class="fa fa-caret-right"></span>线路报价管理</a></li>
 			    </ul>
 		    </li>
 		    <li><a data-target=".order-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">订单管理<i class="fa fa-collapse"></i></a></li>
 		    <li>
 			    <ul class="order-menu nav nav-list collapse in">
-		            <li onclick=""><a><span class="fa fa-caret-right"></span>订单信息管理</a></li>
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>订单管理</a></li>
 			    </ul>
 		    </li>
 	    </ul>
@@ -139,7 +146,6 @@
 	            			<td width="40%" align="left" style="border-top:none;">
 	            				<select id="iscost" class="form-control">
 	            					  <option value="" checked="checked">请选择</option>
-	            					  <option value="1" checked="checked">审核中</option>
 	            					  <option value="2" checked="checked">进行中</option>
 	            					  <option value="3" checked="checked">已结束</option>
            					    </select>
@@ -179,11 +185,8 @@
 			      <td>{{travelQuote.time}}</td>
 			      <td>{{travelQuote.state}}</td>
 				  <td>
-					{{ if travelQuote.iscost == 1 }}
-					<button class="btn btn-default publishModelBtn" linedetailid="{{travelQuote.linedetailid}}" time="{{travelQuote.time}}">提交用户名单</button>
-					{{ /if }}
-					{{ if travelQuote.iscost == 1 }}
-					<button class="btn btn-default addTravelUser" linedetailid="{{travelQuote.linedetailid}}" time="{{travelQuote.time}}">添加游客</button>
+					{{ if travelQuote.iscost == 2 }}
+					<button class="btn btn-default publishModelBtn" linedetailid="{{travelQuote.linedetailid}}" time="{{travelQuote.time}}">行程结束</button>
 					{{ /if }}
 				  </td>
 			    </tr>
@@ -228,7 +231,7 @@
 			            <h3 id="myModalLabel">提交订单</h3>
 			        </div>
 			        <div class="modal-body">
-			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定提交该订单?<br>确定行程已安排完毕。</p>
+			            <p class="error-text"><i class="fa fa-warning modal-icon"></i>确定结束该行程?</p>
 			        </div>
 			        <div class="modal-footer">
 			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -279,7 +282,7 @@
     		var linedetailid = $("#linedetailid").val();
     		var time = $("#time").val();
 			$.ajax({
-    			url : "${ctx}/travelorder/publishorder.html",
+    			url : "${ctx}/travelorderls/finishorder.html",
     			async : false,
     			type : 'POST',
     			cache:false,
@@ -334,7 +337,7 @@
 	    		i = parseInt($("#currentPage").val())+1;
 	    	}
 	   		$.ajax({
-	   			url : "${ctx}/travelorder/search.html",
+	   			url : "${ctx}/travelorderls/search.html",
 	   			async : false,
 	   			type : 'POST',
 	   			cache:false,
@@ -394,25 +397,30 @@
 	   		});
 	   	}
 	    
-	    function tickettype(){
-			window.location.href = "${ctx}/tickettype/index.html";
+	    function hoteltype(){
+			window.location.href = "${ctx}/hoteltype/index.html";
 	    }
 		
-		function vehicle(){
-			window.location.href = "${ctx}/staff/index.html";
+		function restaurant(){
+			window.location.href = "${ctx}/restaurant/index.html";
 	    }
-
-		function linetype(){
-			window.location.href = "${ctx}/linetype/index.html";
+		function restauranttype(){
+			window.location.href = "${ctx}/restauranttype/index.html";
 	    }
-		function line(){
-			window.location.href = "${ctx}/line/index.html";
+		function bus(){
+			window.location.href = "${ctx}/bus/index.html";
 	    }
-		function quote(){
-			window.location.href = "${ctx}/outquote/index.html";
+		function guide(){
+			window.location.href = "${ctx}/guide/index.html";
 	    }
-		function ticket(){
-			window.location.href = "${ctx}/ticket/index.html";
+		function hotel(){
+			window.location.href = "${ctx}/hotel/index.html";
+	    }
+		function innerquote(){
+			window.location.href = "${ctx}/innerquote/index.html";
+	    }
+		function linedetail(){
+			window.location.href = "${ctx}/linedetail/index.html";
 	    }
 	
 </script>

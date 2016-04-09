@@ -156,6 +156,13 @@
 	            			</td>
 	            		</tr>
 	            		<tr>
+            				<td align="left" style="border-top:none;">
+            					出发时间：${time}
+            				</td>
+	            			<td align="left" style="border-top:none;">
+	            			</td>
+	            		</tr>
+	            		<tr>
 	            			<td style="border-top:none;">
 	            			</td>
 	            			<td style="border-top:none;">
@@ -242,7 +249,7 @@
         $(".delTravelUser").on("click", function(){
         	var id = $(this).attr("id");
 			$.ajax({
-    			url : "${ctx}/traveluser/deletetravleuser.html",
+    			url : "${ctx}/travelorderuser/deletetravleuser.html",
     			async : false,
     			type : 'POST',
     			cache:false,
@@ -296,14 +303,15 @@
     		}
     		
     		$.ajax({
-    			url : "${ctx}/traveluser/addtraveluser.html",
+    			url : "${ctx}/travelorderuser/addtraveluser.html",
     			async : false,
     			type : 'POST',
     			cache:false,
     			data : {
     				name : name,
     	    		age : age,
-    	    		linedetailid : linedetailid
+    	    		linedetailid : linedetailid,
+    	    		time : '${time}'
     			},
     			dataType : 'json',
     			timeout : 15000,

@@ -129,6 +129,12 @@
 		            <li onclick=""><a><span class="fa fa-caret-right"></span>线路报价管理</a></li>
 			    </ul>
 		    </li>
+		    <li><a data-target=".order-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">订单管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="order-menu nav nav-list collapse in">
+		            <li onclick="order();"><a><span class="fa fa-caret-right"></span>订单管理</a></li>
+			    </ul>
+		    </li>
 	    </ul>
     </div>
 
@@ -525,7 +531,9 @@
 	function linedetail(){
 		window.location.href = "${ctx}/linedetail/index.html";
     }
-	
+	function order(){
+		window.location.href = "${ctx}/travelorderls/index.html";
+    }
 </script>
     
   

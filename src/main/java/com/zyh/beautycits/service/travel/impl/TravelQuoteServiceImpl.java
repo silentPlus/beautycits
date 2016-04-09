@@ -68,6 +68,31 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 		resultMsg.setMsgEntity(pageTravelQuote);
 		return resultMsg;
 	}
+	
+	@Override
+	public ResultMsg getLsTravelQuotes(Integer currentPage, Integer userid, Integer iscost) {
+		ResultMsg resultMsg = new ResultMsg();
+		StringBuffer sql = new StringBuffer("select tq.*, l.name as linename from linedetail ld LEFT JOIN line l ON l.id = ld.lineid  ");
+		sql.append("LEFT JOIN travelquote tq on tq.linedetailid = ld.id  ");
+		sql.append("where ld.userid=? and tq.iscost in (2,3) and ld.deleteflg = 0  ");
+		if (iscost != null) {
+			sql.append("and tq.iscost = ").append(iscost);
+		}
+		sql.append(" GROUP BY tq.linedetailid,tq.time order by tq.iscost, tq.updatetime ");
+		PageInfo<TravelQuote> pageTravelQuote = new PageInfo<>();
+		pageTravelQuote.setPageSize(ConfigConstants.PAGESIZE);
+		pageTravelQuote.setCurrentPage(currentPage);
+		StringBuffer countsql = new StringBuffer("select count(*) from (");
+		countsql.append(sql).append(") m");
+		try{
+			pageTravelQuote = travelQuoteDao.getPageModel(pageTravelQuote, sql, countsql, TravelQuote.class, userid);
+		}catch(Exception e){
+			System.out.println(e.toString());
+		}
+		resultMsg.setState(Results.SUCCESS);
+		resultMsg.setMsgEntity(pageTravelQuote);
+		return resultMsg;
+	}
 
 	@Override
 	public ResultMsg quoteTravel(Integer id, String time) {
@@ -75,8 +100,8 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 		String sql = "UPDATE travelquote tq set tq.iscost = 1, tq.time=?, tq.updatetime=now() where tq.id=?";
 		int num = travelQuoteDao.commonUpdate(sql, time, id);
 		if (num == 1) {
-			sql = "update traveluser tu set tu.ispublish = 1 where tu.travelquoteid = ?";
-			num = travelQuoteDao.commonUpdate(sql, id);
+			sql = "update traveluser tu set tu.ispublish = 1, tu.time=?, tu.createtime=now() where tu.travelquoteid = ?";
+			num = travelQuoteDao.commonUpdate(sql, time, id);
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
 		}
@@ -109,7 +134,21 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 		ResultMsg resultMsg = new ResultMsg();
 		String sql = "UPDATE travelquote tq set tq.iscost = 2, tq.updatetime=now() where tq.linedetailid=? and tq.time=?";
 		int num = travelQuoteDao.commonUpdate(sql, linedetailid, time);
-		if (num == 1) {
+		if (num > 1) {
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+	
+	@Override
+	public ResultMsg finishTravel(Integer linedetailid, String time){
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "UPDATE travelquote tq set tq.iscost = 3, tq.updatetime=now() where tq.linedetailid=? and tq.time=?";
+		int num = travelQuoteDao.commonUpdate(sql, linedetailid, time);
+		if (num > 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
 		}

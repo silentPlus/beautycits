@@ -17,9 +17,8 @@ import com.zyh.beautycits.vo.Results;
 import com.zyh.beautycits.vo.user.User;
 
 @RestController
-@RequestMapping("travelorder")
-public class TravelOrderController extends BaseController{
-	
+@RequestMapping("travelorderls")
+public class TravelOrderLsController extends BaseController{
 	@Autowired
 	private TravelQuoteService travelQuoteService;
 	
@@ -32,11 +31,11 @@ public class TravelOrderController extends BaseController{
 			mav.setViewName("redirect:"+url_login);
 			return mav;
 		}
-		ResultMsg resultMsg = travelQuoteService.getAllTravelQuotes(1, null);
-		mav.addObject("listTravelQuotePage", JSON.toJSONString(resultMsg.getMsgEntity()));
-		
 		// 获取登录用户信息
 		User user = getSessionUser();
+		ResultMsg resultMsg = travelQuoteService.getLsTravelQuotes(1, user.getId(), null);
+		mav.addObject("listTravelQuotePage", JSON.toJSONString(resultMsg.getMsgEntity()));
+		
 		mav.addObject("user", user);
 		// 一些链接
 		String url_logout = getUrl_BizFunc("logout", "dologout.html");
@@ -45,13 +44,12 @@ public class TravelOrderController extends BaseController{
 		mav.addObject("url_logout", url_logout);
 		mav.addObject("url_editUser", url_editUser);
 		mav.addObject("url_dingdan", url_dingdan);
-		mav.setViewName("/travelorder");
+		mav.setViewName("/travelorderls");
         return mav;
     }
 	
 	@RequestMapping(value = "/search.html")
-    public JsonPackage search(HttpServletRequest request, HttpServletResponse response, Integer currentPage, 
-    		Integer iscost){
+    public JsonPackage search(HttpServletRequest request, HttpServletResponse response, Integer currentPage, Integer iscost){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
 		if (!isLogin()) {
@@ -59,8 +57,8 @@ public class TravelOrderController extends BaseController{
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		
-		ResultMsg resultMsg =  travelQuoteService.getAllTravelQuotes(currentPage, iscost);
+		User user = getSessionUser();
+		ResultMsg resultMsg =  travelQuoteService.getLsTravelQuotes(currentPage, user.getId(), iscost);
 		
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
@@ -71,8 +69,8 @@ public class TravelOrderController extends BaseController{
 		return jsonPackage;
     }
 	
-	@RequestMapping(value = "/publishorder.html")
-    public JsonPackage publishorder(HttpServletRequest request, HttpServletResponse response, Integer linedetailid, 
+	@RequestMapping(value = "/finishorder.html")
+    public JsonPackage finishOrder(HttpServletRequest request, HttpServletResponse response, Integer linedetailid, 
     		String time){
 		JsonPackage jsonPackage = new JsonPackage();
 		// 判断是否登录
@@ -82,7 +80,7 @@ public class TravelOrderController extends BaseController{
 			return jsonPackage;
 		}
 		
-		ResultMsg resultMsg =  travelQuoteService.publishTravel(linedetailid, time);
+		ResultMsg resultMsg =  travelQuoteService.finishTravel(linedetailid, time);
 		
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);

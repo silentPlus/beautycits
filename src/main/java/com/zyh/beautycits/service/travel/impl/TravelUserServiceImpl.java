@@ -42,8 +42,8 @@ public class TravelUserServiceImpl extends BaseServiceImpl implements TravelUser
 	@Override
 	public ResultMsg getTravelUsers(Integer linedetailid, String time) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuilder sql = new StringBuilder("select tu.* from traveluser tu LEFT JOIN travelquote tq on tq.id = tu.travelquoteid ");
-		sql.append("where tu.ispublish=1 and tu.linedetailid = ? and tq.time = ? order by tu.createtime");
+		StringBuilder sql = new StringBuilder("select tu.* from traveluser tu ");
+		sql.append("where tu.ispublish=1 and tu.linedetailid = ? and tu.time = ? order by tu.createtime");
 		List<TravelUser> list = travelUserDao.getList(sql.toString(), TravelUser.class, linedetailid, time);
 		resultMsg.setMsgEntity(list);
 		return resultMsg;
@@ -104,12 +104,10 @@ public class TravelUserServiceImpl extends BaseServiceImpl implements TravelUser
 	@Override
 	public ResultMsg addTravelUser(TravelUser travelUser) {
 		ResultMsg resultMsg = new ResultMsg();
-		String newsql = "INSERT INTO traveluser(linedetailid, name, age, ispublish, createtime) VALUES(?,?,?,1,0,now())";
+		String newsql = "INSERT INTO traveluser(linedetailid, name, time, age, ispublish, createtime) VALUES(?,?,?,?,1,now())";
 		
-		int num = travelUserDao.commonUpdate(newsql, travelUser.getLinedetailid(), travelUser.getTravelquoteid(), travelUser.getName(), travelUser.getAge());
+		int num = travelUserDao.commonUpdate(newsql, travelUser.getLinedetailid(), travelUser.getName(), travelUser.getTime(), travelUser.getAge());
 		if (num == 1) {
-			newsql = "update travelquote tq set tq.num = tq.num+1, tq.updatetime = now() where tq.id = ?";
-			num = travelQuoteDao.commonUpdate(newsql, travelUser.getTravelquoteid());
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
 		}

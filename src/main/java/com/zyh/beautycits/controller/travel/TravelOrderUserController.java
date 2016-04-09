@@ -44,16 +44,15 @@ public class TravelOrderUserController extends BaseController{
 		mav.addObject("lineShow", lineShow);
 		
 		User user = getSessionUser();
-		ResultMsg resultMsg = travelUserService.getTravelUsers(linedetailid, user.getId());
+		ResultMsg resultMsg = travelUserService.getTravelUsers(linedetailid, time);
 		mav.addObject("listTravelUser", JSON.toJSONString(resultMsg.getMsgEntity()));
 		mav.addObject("user", user);
 		// 一些链接
 		String url_logout = getUrl_BizFunc("logout", "dologout.html");
 		String url_editUser = getUrl_BizFunc("admin", "edituser.html");
-		String url_dingdan = getUrl_BizFunc("travelquote", "index.html");
 		mav.addObject("url_logout", url_logout);
 		mav.addObject("url_editUser", url_editUser);
-		mav.addObject("url_dingdan", url_dingdan);
+		mav.addObject("time", time);
 		mav.setViewName("/travelorder_user");
         return mav;
     }
@@ -68,8 +67,7 @@ public class TravelOrderUserController extends BaseController{
 			jsonPackage.setMessage("请先登录");
 			return jsonPackage;
 		}
-		User user = getSessionUser();
-		ResultMsg resultMsg = travelUserService.addTravelUser(travelUser, user.getId());
+		ResultMsg resultMsg = travelUserService.addTravelUser(travelUser);
 		if (resultMsg.getState() == Results.ERROR) {
 			jsonPackage.setStatus(1);
 			jsonPackage.setMessage(resultMsg.getMsg());

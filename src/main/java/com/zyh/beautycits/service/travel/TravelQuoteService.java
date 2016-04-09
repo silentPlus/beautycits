@@ -17,6 +17,8 @@ public interface TravelQuoteService extends BaseService{
 	 */
 	public ResultMsg getAllTravelQuotes(Integer currentPage, Integer iscost);
 	
+	public ResultMsg getLsTravelQuotes(Integer currentPage, Integer userid, Integer iscost);
+	
 	/**
 	 * 
 	 * quoteTravel(缴费报名)
@@ -34,4 +36,10 @@ public interface TravelQuoteService extends BaseService{
 	 * publishTravel(向旅行社提供名单)
 	 */
 	public ResultMsg publishTravel(Integer linedetailid, String time);
+	
+	/**
+	 * 
+	 * finishTravel(旅行社结束订单)
+	 */
+	public ResultMsg finishTravel(Integer linedetailid, String time);
 }

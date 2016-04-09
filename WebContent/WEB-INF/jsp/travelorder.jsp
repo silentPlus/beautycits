@@ -38,10 +38,6 @@
         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
             color: #fff;
         }
-        .content{
-        	border-left: none;
-        	margin-right: 240px;
-        }
     </style>
 
     <script type="text/javascript">
@@ -79,7 +75,6 @@
         </div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
-        	<c:if test="${user != null }">
 	          <ul id="main-menu" class="nav navbar-nav navbar-right">
 	            <li class="dropdown hidden-xs">
 	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -89,28 +84,53 @@
 	
 	              <ul class="dropdown-menu">
 	                <li><a tabindex="-1" href="${ url_editUser }">修改资料</a></li>
-	                <li><a tabindex="-1" href="${ url_dingdan }">订单管理</a></li>
 	                <li class="divider"></li>
 	                <li><a tabindex="-1" href="${ url_logout }">注销</a></li>
 	              </ul>
 	            </li>
 	          </ul>
-			</c:if>
-			<c:if test="${user == null }">
-			  <ul onclick="login();"  id="main-menu" class="nav navbar-nav navbar-right">
-	            <li class="dropdown hidden-xs">
-	                <a class="dropdown-toggle" data-toggle="dropdown">
-                   		登录
-	                </a>
-	            </li>
-	          </ul>
-			</c:if>
         </div>
+    </div>
+    
+     <div class="sidebar-nav">
+	    <ul>
+		    <li><a data-target=".vehicle-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">交通管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="vehicle-menu nav nav-list collapse in">
+		            <li onclick="vehicle();"><a><span class="fa fa-caret-right"></span>交通信息管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".ticket-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">门票管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="ticket-menu nav nav-list collapse in">
+		            <li onclick="ticket();"><a><span class="fa fa-caret-right"></span>门票信息管理</a></li>
+		            <li onclick="tickettype();"><a><span class="fa fa-caret-right"></span>门票类型管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".line-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">线路管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="line-menu nav nav-list collapse in">
+		            <li onclick="linetype();"><a><span class="fa fa-caret-right"></span>线路类型管理</a></li>
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>线路信息管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".quote-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">报价管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="quote-menu nav nav-list collapse in">
+		            <li onclick="quote();"><a><span class="fa fa-caret-right"></span>报价信息管理</a></li>
+			    </ul>
+		    </li>
+		    <li><a data-target=".order-menu" class="nav-header" data-toggle="collapse" style="padding-left: 20px;">订单管理<i class="fa fa-collapse"></i></a></li>
+		    <li>
+			    <ul class="order-menu nav nav-list collapse in">
+		            <li onclick=""><a><span class="fa fa-caret-right"></span>订单信息管理</a></li>
+			    </ul>
+		    </li>
+	    </ul>
     </div>
     
     <div class="content">
         <div class="main-content">
-            <button onclick="lineshow();" class="btn btn-default">首页</button>
 			<div class="btn-toolbar list-toolbar">
 				<div>
 	            	<table class="table" style="text-align:center;">
@@ -119,7 +139,6 @@
 	            			<td width="40%" align="left" style="border-top:none;">
 	            				<select id="iscost" class="form-control">
 	            					  <option value="" checked="checked">请选择</option>
-	            					  <option value="0" checked="checked">未交费</option>
 	            					  <option value="1" checked="checked">审核中</option>
 	            					  <option value="2" checked="checked">进行中</option>
 	            					  <option value="3" checked="checked">已结束</option>
@@ -160,11 +179,10 @@
 			      <td>{{travelQuote.time}}</td>
 			      <td>{{travelQuote.state}}</td>
 				  <td>
-					{{ if travelQuote.iscost == 0 }}
-					<a class="travelQuoteModelBtn" id="{{travelQuote.id}}" num="{{travelQuote.num}}"><i class="fa fa-pencil"></i></a>
+					{{ if travelQuote.iscost == 1 }}
+					<button class="btn btn-default publishModelBtn" linedetailid="{{travelQuote.linedetailid}}" time="{{travelQuote.time}}">提交用户名单</button>
 					{{ /if }}
-					<a class="delTravelQuote" id="{{travelQuote.id}}"><i class="fa fa-trash-o"></i></a>
-					{{ if travelQuote.iscost == 0 }}
+					{{ if travelQuote.iscost == 1 }}
 					<button class="btn btn-default addTravelUser" linedetailid="{{travelQuote.linedetailid}}">添加游客</button>
 					{{ /if }}
 				  </td>
@@ -200,31 +218,6 @@
 			</div>
 			{{/if}}
 			</script>
-			</div>
-			
-			<div class="modal small fade" id="travelQuoteModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog" >
-			    <div class="modal-content">
-			        <div class="modal-header">
-			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			            <h3 id="myModalLabel">报名交费</h3>
-			        </div>
-			        <div class="modal-body">
-			            <table class="table" style="text-align:center;">
-		            		<tr>
-		            			<td align="right" style="border-top:none;">出发时间</td>
-		            			<td align="left" style="border-top:none;">
-		            				<input type="text" id="time" value="填写格式为yyyy-mm-dd" class="form-control" onfocus="javascript:if(this.value=='填写格式为yyyy-mm-dd') this.value='';">
-		            			</td>
-		            		</tr>
-		            	</table>
-			        </div>
-			        <div class="modal-footer">
-			            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
-			            <button class="btn btn-danger travelQuoteBtn" data-dismiss="modal">确定</button>
-			        </div>
-			      </div>
-			    </div>
 			</div>
 			
 			<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -270,12 +263,18 @@
 	    	
         $("[rel=tooltip]").tooltip();
         
-        $(".delTravelQuote").click(function(){
+        $(".travelQuoteModelBtn").click(function(){
+        	var num = $(this).attr("num");
+        	if (num < 1) {
+        		alert("请先填加旅客信息！");
+        		return ;
+        	}
         	var id = $(this).attr("id");
     		$("#travelquoteid").val(id);
-	    	$("#deleteModal").modal("show");
+	    	$("#travelQuoteModel").modal("show");
     	});
-	    
+        
+        
         $("#deleteBtn").on("click", function(){
         	var id = $("#travelquoteid").val();
 			$.ajax({
@@ -309,65 +308,6 @@
     		});
 		});
         
-        $(".travelQuoteModelBtn").click(function(){
-        	var num = $(this).attr("num");
-        	if (num < 1) {
-        		alert("请先填加旅客信息！");
-        		return ;
-        	}
-        	var id = $(this).attr("id");
-    		$("#travelquoteid").val(id);
-	    	$("#travelQuoteModel").modal("show");
-    	});
-        
-        $(".travelQuoteBtn").on("click", function(){
-    		var time = $.trim($("#time").val());
-    		var id = $("#travelquoteid").val();
-    		
-    		if (time == null || time == '') {
-    			alert("请填写出发时间");
-    			return ;
-    		} else {
-    			var partn =/^(19|20)\d{2}-(0?\d|1[012])-(0?\d|[12]\d|3[01])$/;
-    			if (!partn.test(time)){
-    				alert("时间格式为yyyy-mm-dd，例如：2016-04-08");
-    				$("#time").val("填写格式为yyyy-mm-dd");
-	    			return ;
-    			}
-    		}
-    		
-    		$.ajax({
-    			url : "${ctx}/travelquote/quotetravel.html",
-    			async : false,
-    			type : 'POST',
-    			cache:false,
-    			data : {
-    				id : id,
-    	    		time : time
-    			},
-    			dataType : 'json',
-    			timeout : 15000,
-    			beforeSend : function() {
-	    			$("#travelQuoteModel").modal('hide');
-    			},
-    			complete : function(XMLHttpRequest,textStatus) {
-    			},
-    			success : function(response) {
-    				var json = eval(response);
-    				if (0===json.status){
-    					alert("报名成功");
-                    } else if (1===json.status){
-                        alert(json.message);
-                    }
-    				window.location.reload();
-    			},
-    			error : function(XMLHttpRequest, textStatus, errorThrown) {
-    				alert("系统错误！status:[" + XMLHttpRequest.status + "]errorThrown:]" + errorThrown + "]");
-    				window.location.reload();
-    			}
-    		});
-    		
-    	});
         
         $(".addTravelUser").on("click", function(){
         	var linedetailid=$(this).attr("linedetailid");
@@ -391,7 +331,7 @@
 	    		i = parseInt($("#currentPage").val())+1;
 	    	}
 	   		$.ajax({
-	   			url : "${ctx}/travelquote/search.html",
+	   			url : "${ctx}/travelorder/search.html",
 	   			async : false,
 	   			type : 'POST',
 	   			cache:false,
@@ -457,13 +397,26 @@
 	   		});
 	   	}
 	    
-		function login(){
-			window.location.href = "${ctx}/login/index.html";
-		}
+	    function tickettype(){
+			window.location.href = "${ctx}/tickettype/index.html";
+	    }
 		
-		function lineshow(){
-			window.location.href = "${ctx}/lineshow/index.html";
-		}
+		function vehicle(){
+			window.location.href = "${ctx}/staff/index.html";
+	    }
+
+		function linetype(){
+			window.location.href = "${ctx}/linetype/index.html";
+	    }
+		function line(){
+			window.location.href = "${ctx}/line/index.html";
+	    }
+		function quote(){
+			window.location.href = "${ctx}/outquote/index.html";
+	    }
+		function ticket(){
+			window.location.href = "${ctx}/ticket/index.html";
+	    }
 	
 </script>
     

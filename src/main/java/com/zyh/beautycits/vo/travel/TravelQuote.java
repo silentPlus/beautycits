@@ -5,7 +5,7 @@ public class TravelQuote {
 	private Integer userid;
 	private String linename;
 	private Integer linedetailid;
-	private Integer iscost;   // 0:未交费；1：已缴费，订单进行中；2：已结束
+	private Integer iscost;   // 0:未交费；1：已缴费，订单进行中；2：旅行社接收订单；3：结束
 	private Integer num;
 	private String remark;
 	private String createtime;
@@ -61,8 +61,9 @@ public class TravelQuote {
 		this.iscost = iscost;
 		switch(iscost){
 		case 0 : this.state = "未交费";break;
-		case 1 : this.state = "进行中";break;
-		case 2 : this.state = "已结束";break;
+		case 1 : this.state = "审核中";break;
+		case 2 : this.state = "进行中";break;
+		case 3 : this.state = "已结束";break;
 		}
 	}
 	public String getRemark() {

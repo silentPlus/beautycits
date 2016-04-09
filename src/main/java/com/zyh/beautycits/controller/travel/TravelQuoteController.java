@@ -35,7 +35,7 @@ public class TravelQuoteController extends BaseController{
 		User user = getSessionUser();
 		ResultMsg resultMsg = travelQuoteService.getTravelQuotes(1, user.getId(), null);
 		mav.addObject("listTravelQuotePage", JSON.toJSONString(resultMsg.getMsgEntity()));
-		
+		mav.addObject("user", user);
 		// 一些链接
 		String url_logout = getUrl_BizFunc("logout", "dologout.html");
 		String url_editUser = getUrl_BizFunc("admin", "edituser.html");

@@ -43,6 +43,31 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 		resultMsg.setMsgEntity(pageTravelQuote);
 		return resultMsg;
 	}
+	
+	@Override
+	public ResultMsg getAllTravelQuotes(Integer currentPage, Integer iscost) {
+		ResultMsg resultMsg = new ResultMsg();
+		StringBuffer sql = new StringBuffer("select tq.*, l.name as linename from linedetail ld LEFT JOIN line l ON l.id = ld.lineid  ");
+		sql.append("LEFT JOIN travelquote tq on tq.linedetailid = ld.id  ");
+		sql.append("where tq.iscost <> 0 and ld.deleteflg = 0  ");
+		if (iscost != null) {
+			sql.append("and tq.iscost = ").append(iscost);
+		}
+		sql.append(" GROUP BY tq.linedetailid,tq.time order by tq.iscost, tq.updatetime ");
+		PageInfo<TravelQuote> pageTravelQuote = new PageInfo<>();
+		pageTravelQuote.setPageSize(ConfigConstants.PAGESIZE);
+		pageTravelQuote.setCurrentPage(currentPage);
+		StringBuffer countsql = new StringBuffer("select count(*) from (");
+		countsql.append(sql).append(") m");
+		try{
+			pageTravelQuote = travelQuoteDao.getPageModel(pageTravelQuote, sql, countsql, TravelQuote.class);
+		}catch(Exception e){
+			System.out.println(e.toString());
+		}
+		resultMsg.setState(Results.SUCCESS);
+		resultMsg.setMsgEntity(pageTravelQuote);
+		return resultMsg;
+	}
 
 	@Override
 	public ResultMsg quoteTravel(Integer id, String time) {
@@ -71,6 +96,20 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 			if (num != 1) {
 				logger.error("删除用户报名表信息失败！sql:" + sql + ", travelquoteid:" + id);
 			}
+			resultMsg.setState(Results.SUCCESS);
+			return resultMsg;
+		}
+		resultMsg.setState(Results.ERROR);
+		resultMsg.setMsg("操作失败！");
+		return resultMsg;
+	}
+	
+	@Override
+	public ResultMsg publishTravel(Integer linedetailid, String time){
+		ResultMsg resultMsg = new ResultMsg();
+		String sql = "UPDATE travelquote tq set tq.iscost = 2, tq.updatetime=now() where tq.linedetailid=? and tq.time=?";
+		int num = travelQuoteDao.commonUpdate(sql, linedetailid, time);
+		if (num == 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
 		}

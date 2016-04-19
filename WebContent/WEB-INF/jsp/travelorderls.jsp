@@ -185,6 +185,7 @@
 			      <td>{{travelQuote.time}}</td>
 			      <td>{{travelQuote.state}}</td>
 				  <td>
+					<button class="btn btn-default downloadModelBtn" linedetailid="{{travelQuote.linedetailid}}" time="{{travelQuote.time}}">下载游客信息</button>
 					{{ if travelQuote.iscost == 2 }}
 					<button class="btn btn-default publishModelBtn" linedetailid="{{travelQuote.linedetailid}}" time="{{travelQuote.time}}">行程结束</button>
 					{{ /if }}
@@ -277,6 +278,11 @@
 	    	$("#publishModal").modal("show");
     	});
         
+        $(".downloadModelBtn").on("click", function(){
+        	var linedetailid = $(this).attr("linedetailid");
+    		var time = $(this).attr("time");
+    		window.location.href = "${ctx}/export/travelers.html?linedetailid=" + linedetailid + "&time=" + time;
+        });
         
         $("#publishBtn").on("click", function(){
     		var linedetailid = $("#linedetailid").val();
@@ -363,6 +369,12 @@
 	   		        	var time=$(this).attr("time");
 	   		        	window.location.href = "${ctx}/travelorderuser/index.html?linedetailid=" + linedetailid + "&time=" + time;
 	   		        });
+	   		        
+	   		     $(".downloadModelBtn").on("click", function(){
+	   	        	var linedetailid = $("#linedetailid").val();
+	   	    		var time = $("#time").val();
+	   	    		window.location.href = "${ctx}/export/travelers.html?linedetailid=" + linedetailid + "&time=" + time;
+	   	        });
 	   			},
 	   			success : function(response) {
 	   				var json = eval(response);

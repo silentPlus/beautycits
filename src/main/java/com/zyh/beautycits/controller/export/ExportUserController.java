@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zyh.beautycits.controller.BaseController;
+import com.zyh.beautycits.service.line.LineShowService;
+import com.zyh.beautycits.service.travel.TravelUserService;
 import com.zyh.beautycits.service.user.UserService;
 import com.zyh.beautycits.utils.DateUtil;
 import com.zyh.beautycits.vo.ResultMsg;
 import com.zyh.beautycits.vo.Results;
+import com.zyh.beautycits.vo.line.LineShow;
+import com.zyh.beautycits.vo.travel.TravelUser;
 import com.zyh.beautycits.vo.user.User;
 
 import jxl.Workbook;
@@ -33,6 +37,12 @@ public class ExportUserController extends BaseController{
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TravelUserService travelUserService;
+	
+	@Autowired
+	private LineShowService lineShowService;
 	
 	@RequestMapping(value = "users.html")
 	public void export(HttpServletRequest request, HttpServletResponse response, Integer type) throws Exception {
@@ -139,5 +149,84 @@ public class ExportUserController extends BaseController{
 		}
 	}
 	
+	@RequestMapping(value = "travelers.html")
+	public void exportTravelers(HttpServletRequest request, HttpServletResponse response, 
+			Integer linedetailid, String time) throws Exception {
+		
+		// 查询游客信息
+		ResultMsg resultMsg = travelUserService.getTravelUsers(linedetailid, time);
+		if (resultMsg.getState() == Results.ERROR) {
+			logger.error("出错");
+			return ;
+		}
+		List<TravelUser> userList = (List<TravelUser>) resultMsg.getMsgEntity();
+		// 获取线路信息
+		LineShow lineShow = lineShowService.getLineDetail(linedetailid);
+		String title = "[" + time + "]" + lineShow.getLinename() + "游客信息表";
+		try {
+			 
+			String encodeName=	dlFileNameEncode(title,response);
+			response.setHeader("Content-Disposition","attachment; filename=" + encodeName + DateUtil.getDateTime() + ".xls");
+			WritableWorkbook workbook = Workbook.createWorkbook(response.getOutputStream());	
+		    WritableSheet sheet = workbook.createSheet(title, 0);
+		    sheet.getSettings().setDefaultRowHeight(20);
+		    
+	    	// 参数最全的是         WritableFont的常量,字体的大小，字体的粗细，是否斜体，下划线 样式,颜色以及脚本
+			WritableCellFormat wcf_title04 = new WritableCellFormat(new WritableFont(WritableFont.createFont("微软雅黑"),15, WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE )); 
+			wcf_title04.setAlignment(jxl.format.Alignment.CENTRE); // 设置对齐方式  
+			// 四边边框范围   边框的粗细  边框的颜色           
+			wcf_title04.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN, jxl.format.Colour.BLACK); //设置边框  
+			wcf_title04.setWrap(true); // 自动换行
+			
+            sheet.mergeCells(0, 0, 6, 0);
+			sheet.addCell(new Label(0, 0, title,wcf_title04));
+            
+   		    // 参数最全的是         WritableFont的常量,字体的大小，字体的粗细，是否斜体，下划线 样式,颜色以及脚本
+			WritableCellFormat wcf_l = new WritableCellFormat(new WritableFont(WritableFont.TIMES,12, WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE ,Colour.BLACK)); 
+			wcf_l.setAlignment(jxl.format.Alignment.LEFT); // 设置对齐方式  
+			// 四边边框范围   边框的粗细  边框的颜色           
+			wcf_l.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN, jxl.format.Colour.BLACK); //设置边框  
+			wcf_l.setWrap(true); // 自动换行
+			
+			// 参数最全的是         WritableFont的常量,字体的大小，字体的粗细，是否斜体，下划线 样式,颜色以及脚本
+			WritableCellFormat wcf_c = new WritableCellFormat(new WritableFont(WritableFont.createFont("宋体"),12, WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE ,Colour.BLACK)); 
+			wcf_c.setAlignment(jxl.format.Alignment.CENTRE); // 设置对齐方式  
+			// 四边边框范围   边框的粗细  边框的颜色           
+			wcf_c.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN, jxl.format.Colour.BLACK); //设置边框  
+			wcf_c.setWrap(true); // 自动换行
+			
+			// 线路信息
+		    sheet.mergeCells(0, 1, 1, 1);
+			sheet.addCell(new Label(0, 1, "线路名称", wcf_c));
+		    sheet.mergeCells(2, 1, 6, 1);
+			sheet.addCell(new Label(2, 1, lineShow.getLinename(), wcf_c));
+			sheet.addCell(new Label(0, 2, "时间", wcf_c));
+		    sheet.mergeCells(1, 2, 2, 2);
+			sheet.addCell(new Label(1, 2, time, wcf_c));
+			sheet.addCell(new Label(3, 2, "天数", wcf_c));
+		    sheet.mergeCells(4, 2, 6, 2);
+		    sheet.addCell(new Label(4, 2, lineShow.getDay().toString(), wcf_c));
+			// 表头
+			sheet.addCell(new Label(0, 3, "#", wcf_c));
+		    sheet.mergeCells(1, 3, 3, 3);
+			sheet.addCell(new Label(1, 3, "姓名", wcf_c));
+		    sheet.mergeCells(4, 3, 6, 3);
+		    sheet.addCell(new Label(4, 3, "年龄", wcf_c));
+		    
+			for (int i = 0; i < userList.size(); i++) {
+				TravelUser user = userList.get(i);
+				sheet.addCell(new Number(0, i+4, i+1,wcf_c));
+			    sheet.mergeCells(1, i+4, 3, i+4);
+				sheet.addCell(new Label(1, i+4, user.getName(), wcf_c));
+			    sheet.mergeCells(4, i+4, 6, i+4);
+			    sheet.addCell(new Label(4, i+4, user.getAge().toString(), wcf_c));
+			}
+   			workbook.write();
+			workbook.close();
+			
+		} catch (Exception e) {
+			logger.error("导出游客信息表异常", e);
+		}
+	}
 	
 }

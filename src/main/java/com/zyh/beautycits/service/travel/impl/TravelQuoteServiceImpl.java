@@ -134,7 +134,7 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 		ResultMsg resultMsg = new ResultMsg();
 		String sql = "UPDATE travelquote tq set tq.iscost = 2, tq.updatetime=now() where tq.linedetailid=? and tq.time=?";
 		int num = travelQuoteDao.commonUpdate(sql, linedetailid, time);
-		if (num > 1) {
+		if (num >= 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
 		}
@@ -148,7 +148,7 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 		ResultMsg resultMsg = new ResultMsg();
 		String sql = "UPDATE travelquote tq set tq.iscost = 3, tq.updatetime=now() where tq.linedetailid=? and tq.time=?";
 		int num = travelQuoteDao.commonUpdate(sql, linedetailid, time);
-		if (num > 1) {
+		if (num >= 1) {
 			resultMsg.setState(Results.SUCCESS);
 			return resultMsg;
 		}

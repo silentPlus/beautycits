@@ -132,7 +132,7 @@
             </div>
         </div>
     </div>
-    <p class="pull-right" style=""><a href="" onclick="login();" target="blank" style="font-size: .75em; margin-top: .25em;">已有账号？登录</a></p>
+    <p class="pull-right" style=""><a href="javascript:login();" target="blank" style="font-size: .75em; margin-top: .25em;">已有账号？登录</a></p>
 </div>
 
     <script type="text/javascript">

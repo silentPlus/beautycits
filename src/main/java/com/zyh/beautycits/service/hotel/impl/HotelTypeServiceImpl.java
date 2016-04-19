@@ -42,7 +42,7 @@ public class HotelTypeServiceImpl extends BaseServiceImpl implements HotelTypeSe
 	@Override
 	public ResultMsg addHotelType(HotelType hotelType) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuilder sql = new StringBuilder("INSERT INTO hoteltype(userid, name, star, createtime) values(?,?,now())");
+		StringBuilder sql = new StringBuilder("INSERT INTO hoteltype(userid, name, star, createtime) values(?,?,?,now())");
 		sql.trimToSize();
 		int num = hotelTypeDao.commonUpdate(sql.toString(), hotelType.getUserid(), hotelType.getName(), hotelType.getStar());
 		if (num == 1) {

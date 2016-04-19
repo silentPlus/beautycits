@@ -85,9 +85,9 @@ public class LoginController extends BaseController{
 		return jsonPackage;
 	}
 	
-	@RequestMapping(value = "/test.html")
+	/*@RequestMapping(value = "/test.html")
     public JsonPackage test(HttpServletRequest request, HttpServletResponse response){
 		JsonPackage jsonPackage = new JsonPackage();
         return jsonPackage;
-    }
+    }*/
 }

@@ -159,14 +159,9 @@
 						              <option value="2">双层客车</option>
            					    </select>
             				</td>
-            				<td width="10%" style="border-top:none;">是否可用</td>
-	            			<td width="40%" style="border-top:none;">
-	            				<select id="isused" class="form-control">
-	            					  <option value="" checked="checked">请选择</option>
-						              <option value="0">不可用</option>
-						              <option value="1">可用</option>
-					        	</select>
-	            			</td>
+            				<td width="10%" align="right" style="border-top:none;"></td>
+	            			<td width="40%" align="left" style="border-top:none;">
+            				</td>
 	            		</tr>
 	            		<tr>
 	            			<td rowspan="4" align="right" style="border-top:none;">
@@ -189,7 +184,6 @@
 			      <th style="width:20%;text-align: center;">名称</th>
 			      <th style="width:15%;text-align: center;">规格</th>
 			      <th style="width:10%;text-align: center;">价格</th>
-			      <th style="width:10%;text-align: center;">是否可用</th>
 			      <th style="width:25%;text-align: center;">备注</th>
 			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
@@ -201,7 +195,6 @@
 			      <td>{{bus.name}}</td>
 			      <td>{{bus.type}}</td>
 			      <td>{{bus.cost}}元</td>
-			      <td>{{bus.used}}</td>
 			      <td>{{bus.remark}}</td>
 				  <td><a class="deleteModelBtn" busid="{{bus.id}}"><i class="fa fa-trash-o"></i></a></td>
 			    </tr>

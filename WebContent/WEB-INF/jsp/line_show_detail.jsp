@@ -174,9 +174,12 @@
 							{{/if}}
 						</p>
 						<p>
+						{{ if mapTicket[schedule.id].length > 0 }}
+							景点：
 						{{ each mapTicket[schedule.id] as scheduleTicket }}
-							门票：{{scheduleTicket.ticket}}
+							{{scheduleTicket.ticket}}&nbsp;&nbsp;&nbsp;&nbsp;
 						{{/each}}
+						{{ /if }}
 						</p>
 					  </div>
 					</td>

@@ -18,9 +18,16 @@ public class LineDetail {
 	private String gocost;
 	private String backcost;
 	private String guidecost;
+	private Integer number;
 	
 	private String createtime;
 	private String updatetime;
+	public Integer getNumber() {
+		return number;
+	}
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 	public String getGocost() {
 		return gocost;
 	}

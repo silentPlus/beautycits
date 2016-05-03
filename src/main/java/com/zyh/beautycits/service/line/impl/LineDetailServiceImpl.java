@@ -51,8 +51,8 @@ public class LineDetailServiceImpl extends BaseServiceImpl implements LineDetail
 	@Override
 	public ResultMsg saveLineDetail(LineDetail lineDetail) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuilder sql = new StringBuilder("INSERT into linedetail(userid, lineid, govehicleid, backvehicleid, insurance, guideid, gocost, backcost, guidecost, remark, createtime) ");
-		sql.append("values(:userid,:lineid,:govehicleid,:backvehicleid,:insurance,:guideid,:gocost,:backcost,:guidecost,:remark,now())");
+		StringBuilder sql = new StringBuilder("INSERT into linedetail(userid, lineid, govehicleid, backvehicleid, insurance, guideid, gocost, backcost, guidecost, remark, createtime, number) ");
+		sql.append("values(:userid,:lineid,:govehicleid,:backvehicleid,:insurance,:guideid,:gocost,:backcost,:guidecost,:remark,now(),:number)");
 		sql.trimToSize();
 		Number num = lineDetailDao.updateByBeanForkey(sql.toString(), lineDetail, "id");
 		if (num != null) {

@@ -1,5 +1,7 @@
 package com.zyh.beautycits.service.travel.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,7 +99,17 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 	@Override
 	public ResultMsg quoteTravel(Integer id, String time) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "UPDATE travelquote tq set tq.iscost = 1, tq.time=?, tq.updatetime=now() where tq.id=?";
+		String sql = "select COUNT(*) as truenumber, ld.number from traveluser tu LEFT JOIN linedetail ld on ld.id = tu.linedetailid where tu.ispublish = 1 and tu.time = ? and tu.travelquoteid = ?";
+		Map<String, Object> map = travelQuoteDao.getMap(sql, time, id);
+		Integer number = Integer.valueOf(map.get("number").toString());
+		Integer truenumber = Integer.valueOf(map.get("truenumber").toString());
+		if (truenumber >= number) {
+			resultMsg.setState(Results.ERROR);
+			resultMsg.setMsg("该日期出行人数已满，请选择其他出行日期");
+			return resultMsg;
+		}
+		
+		sql = "UPDATE travelquote tq set tq.iscost = 1, tq.time=?, tq.updatetime=now() where tq.id=?";
 		int num = travelQuoteDao.commonUpdate(sql, time, id);
 		if (num == 1) {
 			sql = "update traveluser tu set tu.ispublish = 1, tu.time=?, tu.createtime=now() where tu.travelquoteid = ?";

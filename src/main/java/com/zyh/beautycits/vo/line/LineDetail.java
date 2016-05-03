@@ -19,9 +19,16 @@ public class LineDetail {
 	private String backcost;
 	private String guidecost;
 	private Integer number;
+	private Integer truenumber;
 	
 	private String createtime;
 	private String updatetime;
+	public Integer getTruenumber() {
+		return truenumber;
+	}
+	public void setTruenumber(Integer truenumber) {
+		this.truenumber = truenumber;
+	}
 	public Integer getNumber() {
 		return number;
 	}

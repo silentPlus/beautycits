@@ -104,6 +104,16 @@ public class TravelUserServiceImpl extends BaseServiceImpl implements TravelUser
 	@Override
 	public ResultMsg addTravelUser(TravelUser travelUser) {
 		ResultMsg resultMsg = new ResultMsg();
+		String sql = "select COUNT(*) as truenumber, ld.number from traveluser tu LEFT JOIN linedetail ld on ld.id = tu.linedetailid where tu.ispublish = 1 and tu.time = ? and tu.linedetailid = ?";
+		Map<String, Object> map = travelQuoteDao.getMap(sql, travelUser.getTime(), travelUser.getLinedetailid());
+		Integer number = Integer.valueOf(map.get("number").toString());
+		Integer truenumber = Integer.valueOf(map.get("truenumber").toString());
+		if (truenumber >= number) {
+			resultMsg.setState(Results.ERROR);
+			resultMsg.setMsg("该日期出行人数已满，请选择其他出行日期");
+			return resultMsg;
+		}
+		
 		String newsql = "INSERT INTO traveluser(linedetailid, name, time, age, ispublish, createtime) VALUES(?,?,?,?,1,now())";
 		
 		int num = travelUserDao.commonUpdate(newsql, travelUser.getLinedetailid(), travelUser.getName(), travelUser.getTime(), travelUser.getAge());

@@ -249,7 +249,7 @@
 		});
         
         $("#addTravelUser").click(function(){
-	    	$("#addTravelUserModel").modal("show");
+    		$("#addTravelUserModel").modal("show");
     	});
         
         $(".addTravelUserBtn").on("click", function(){

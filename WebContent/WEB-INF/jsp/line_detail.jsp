@@ -271,11 +271,13 @@
 		            		</tr>
 		            		<tr>
 		            			<td width="10%" align="right" style="border-top:none;">保险费用（单位：元/人）</td>
-		            			<td align="left" style="border-top:none;">
+		            			<td width="40%" align="left" style="border-top:none;">
 		            				<input type="text" id="insurance" class="form-control">
 		            			</td>
-		            			<td style="border-top:none;"></td>
-		            			<td style="border-top:none;"></td>
+		            			<td width="10%" align="right" style="border-top:none;">线路人数</td>
+		            			<td width="40%" style="border-top:none;">
+		            				<input type="text" id="number" class="form-control">
+		            			</td>
 		            		</tr>
 		            		<tr>
 		            			<td align="right" style="border-top:none;">备注</td>
@@ -367,6 +369,7 @@
 	    		var govehicleid = $.trim($("#govehicleid").val());
 	    		var backvehicleid = $.trim($("#backvehicleid").val());
 	    		var insurance = $.trim($("#insurance").val());
+	    		var number = $.trim($("#number").val());
 	    		var remark = $.trim($("#remark").val());
 	    		var gocost = $("#govehicleid").find("option:selected").attr("cost");
 	    		var backcost = $("#backvehicleid").find("option:selected").attr("cost");
@@ -379,6 +382,16 @@
 	    		if (guideid == null || guideid == '') {
 	    			alert("请选则导游");
 	    			return ;
+	    		}
+	    		if (number == null || number == '') {
+	    			alert("线路人数不能为空");
+	    			return ;
+	    		} else {
+	    			var partn =/^[0-9]*[1-9][0-9]*$/; 
+	    			if (!partn.test(number)){
+	    				alert("线路人数只允许输入整数");
+		    			return ;
+	    			}
 	    		}
     			if (insurance == null || insurance == '') {
 	    			alert("保险金额不能为空");
@@ -405,7 +418,8 @@
 	    	    		remark : remark,
 	    	    		gocost : gocost,
 	    	    		backcost : backcost,
-	    	    		guidecost : guidecost
+	    	    		guidecost : guidecost,
+	    	    		number : number
 	    			},
 	    			dataType : 'json',
 	    			timeout : 15000,

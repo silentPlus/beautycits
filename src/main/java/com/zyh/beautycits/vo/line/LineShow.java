@@ -10,6 +10,13 @@ public class LineShow {
 	private String backvehicle;
 	private String publishtime;
 	private Integer day;
+	private Integer number; // 设置最大人数
+	public Integer getNumber() {
+		return number;
+	}
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 	public Integer getDay() {
 		return day;
 	}

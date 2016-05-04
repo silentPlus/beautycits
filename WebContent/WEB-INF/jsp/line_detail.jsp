@@ -182,7 +182,8 @@
 			      <th style="width:10%;text-align: center;">去时交通</th>
 			      <th style="width:10%;text-align: center;">回时交通</th>
 			      <th style="width:10%;text-align: center;">导游姓名</th>
-			      <th style="width:25%;text-align: center;">备注</th>
+			      <th style="width:10%;text-align: center;">人数</th>
+			      <th style="width:15%;text-align: center;">备注</th>
 			      <th style="width:10%;text-align: center;">操作</th>
 			    </tr>
 			  </thead>
@@ -194,6 +195,7 @@
 			      <td>{{lineDetail.govehicle}}</td>
 			      <td>{{lineDetail.backvehicle}}</td>
 			      <td>{{lineDetail.guidename}}</td>
+			      <td>{{lineDetail.number}}</td>
 			      <td>{{lineDetail.remark}}</td>
 				  <td>
 					<a class="scheduleModelBtn" lineDetailid="{{lineDetail.id}}"><i class="fa fa-pencil"></i></a>

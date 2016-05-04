@@ -35,7 +35,7 @@ public class LineShowServiceImpl extends BaseServiceImpl implements LineShowServ
 	@Override
 	public ResultMsg getLinesShow(Integer currentPage, String name, Integer lineTypeid) {
 		ResultMsg resultMsg = new ResultMsg();
-		StringBuffer sql = new StringBuffer("select ld.id as id, l.`name` as linename, l.`day` as day, lt.`name` as linetype, gv.vehicletype as govehicleid, bv.vehicletype as backvehicleid, l.updatetime as publishtime from linedetail ld ");
+		StringBuffer sql = new StringBuffer("select ld.id as id, l.`name` as linename, l.`day` as day, lt.`name` as linetype, gv.vehicletype as govehicleid, bv.vehicletype as backvehicleid, ld.createtime as publishtime from linedetail ld ");
 		sql.append("LEFT JOIN line l LEFT JOIN linetype lt on lt.id = l.linetypeid on l.id = ld.lineid ");
 		sql.append("LEFT JOIN vehicle gv on gv.id = ld.govehicleid ");
 		sql.append("LEFT JOIN vehicle bv on bv.id = ld.backvehicleid ");

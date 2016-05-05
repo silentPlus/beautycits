@@ -4,10 +4,6 @@ package com.zyh.beautycits.exception;
 /**
  * 自定义异常
  * 
- * @author 微信攻略组 2014-01-21
- * 
- * @version 1.0
- * 
  */
 
 public class MyException extends Exception {

@@ -104,11 +104,11 @@ public class TravelUserServiceImpl extends BaseServiceImpl implements TravelUser
 	@Override
 	public ResultMsg addTravelUser(TravelUser travelUser) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "select COUNT(*) as truenumber, ld.number from traveluser tu LEFT JOIN linedetail ld on ld.id = tu.linedetailid where tu.ispublish = 1 and tu.time = ? and tu.linedetailid = ?";
-		Map<String, Object> map = travelQuoteDao.getMap(sql, travelUser.getTime(), travelUser.getLinedetailid());
-		Integer number = Integer.valueOf(map.get("number").toString());
-		Integer truenumber = Integer.valueOf(map.get("truenumber").toString());
-		if (truenumber >= number) {
+		String sql = "select ld.number from linedetail ld where ld.id = ?";
+		Integer truenumber = travelQuoteDao.getJdbc().queryForObject(sql, Integer.class, travelUser.getLinedetailid());
+		sql = "select count(*) from traveluser tu where tu.ispublish = 1 and tu.time = ? and tu.linedetailid = ?";
+		long nownumber = travelQuoteDao.getCount(sql, travelUser.getTime(), travelUser.getLinedetailid());
+		if (truenumber <= nownumber) {
 			resultMsg.setState(Results.ERROR);
 			resultMsg.setMsg("该日期出行人数已满，请选择其他出行日期");
 			return resultMsg;

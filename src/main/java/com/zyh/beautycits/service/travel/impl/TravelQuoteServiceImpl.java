@@ -99,11 +99,13 @@ public class TravelQuoteServiceImpl extends BaseServiceImpl implements TravelQuo
 	@Override
 	public ResultMsg quoteTravel(Integer id, String time) {
 		ResultMsg resultMsg = new ResultMsg();
-		String sql = "select COUNT(*) as truenumber, ld.number from traveluser tu LEFT JOIN linedetail ld on ld.id = tu.linedetailid where tu.ispublish = 1 and tu.time = ? and tu.travelquoteid = ?";
-		Map<String, Object> map = travelQuoteDao.getMap(sql, time, id);
-		Integer number = Integer.valueOf(map.get("number").toString());
-		Integer truenumber = Integer.valueOf(map.get("truenumber").toString());
-		if (truenumber >= number) {
+		String sql = "select distinct ld.number, tu.linedetailid from linedetail ld LEFT JOIN traveluser tu on ld.id = tu.linedetailid where tu.travelquoteid = ?";
+		Map<String, Object> map = travelQuoteDao.getMap(sql, id);
+		Integer linedetailid = Integer.valueOf(map.get("linedetailid").toString());
+		Integer truenumber = Integer.valueOf(map.get("number").toString());
+		sql = "select count(*) from traveluser tu where tu.ispublish = 1 and tu.time = ? and tu.linedetailid = ?";
+		long nownumber = travelQuoteDao.getCount(sql, time, linedetailid);
+		if (truenumber <= nownumber) {
 			resultMsg.setState(Results.ERROR);
 			resultMsg.setMsg("该日期出行人数已满，请选择其他出行日期");
 			return resultMsg;
